@@ -1,6 +1,6 @@
 {
   "name": "lexpress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NodeJS + Express based light framework.",
   "engines": {
     "node": "8.4.0",
