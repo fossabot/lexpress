@@ -13,3 +13,9 @@ export interface Route {
 export interface LexpressOptions {
   routes: Route[]
 }
+
+import Lexpress from './Lexpress'
+export default Lexpress
+
+import BaseController from './BaseController'
+export { BaseController }
