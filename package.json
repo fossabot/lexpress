@@ -10,7 +10,7 @@
   "types": "./src/types.d.ts",
   "scripts": {
     "build": "rimraf ./build && webpack --display-error-details",
-    "dist": "rimraf ./dist && webpack --display-error-details",
+    "dist": "rimraf ./dist && npm run build && copyfiles -f ./build/index.js ./dist",
     "start": "node ./build/server.bundle.js",
     "test": "mocha -r ts-node/register server/**/test/*.ts"
   },
@@ -40,6 +40,7 @@
     "@types/mongodb": "^2.2.13",
     "@types/node": "^8.0.34",
     "@types/query-string": "^5.0.0",
+    "copyfiles": "^1.2.0",
     "mocha": "^3.5.3",
     "rimraf": "^2.6.2",
     "ts-loader": "^2.3.7",
