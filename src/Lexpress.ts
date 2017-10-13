@@ -7,6 +7,7 @@ const mustacheExpress = require('mustache-express')
 import answerError from './libs/answerError'
 import fileExists from './libs/fileExists'
 import log from './libs/helpers/log'
+import logo from './libs/media/logo'
 
 import { Express, Request, Response } from 'express'
 import { LexpressOptions } from '.'
@@ -66,6 +67,8 @@ export default class Lexpress {
   }
 
   public start(): void {
+    console.log(logo)
+
     if (process.env.NODE_ENV === 'development') {
       log.warn(`Lexpress Server will start in a development mode.`)
 
