@@ -1,5 +1,5 @@
 import Lexpress from './Lexpress'
-export default Lexpress
+export { Lexpress }
 
 import BaseController from './BaseController'
 export { BaseController }

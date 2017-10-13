@@ -6,7 +6,7 @@
     "node": "8.4.0",
     "npm": "5.3.0"
   },
-  "main": "./dist/index.js",
+  "main": "index.js",
   "types": "./src/types.d.ts",
   "scripts": {
     "build": "rimraf ./build && webpack --display-error-details",
