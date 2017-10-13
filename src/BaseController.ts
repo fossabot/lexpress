@@ -4,7 +4,7 @@ import answerError from './libs/answerError'
 import log from './libs/helpers/log'
 import Validate, { Schema } from './libs/validate'
 
-import { BaseControllerResponse } from './types'
+import { BaseControllerResponse } from '.'
 
 export default abstract class BaseController {
   protected readonly filePath = this.constructor.name

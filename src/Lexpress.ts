@@ -9,7 +9,7 @@ import fileExists from './libs/fileExists'
 import log from './libs/helpers/log'
 
 import { Express, Request, Response } from 'express'
-import { LexpressOptions } from './types'
+import { LexpressOptions } from '.'
 
 const rootPath = process.cwd()
 const filePath = path.basename(__filename)

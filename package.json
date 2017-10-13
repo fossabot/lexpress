@@ -1,17 +1,13 @@
 {
   "name": "lexpress",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "NodeJS + Express based light framework.",
   "engines": {
     "node": "8.4.0",
     "npm": "5.3.0"
   },
-  "main": "./dist/index.js",
-  "types": "./src/types.d.ts",
+  "main": "./src/index.ts",
   "scripts": {
-    "build": "rimraf ./build && webpack --display-error-details",
-    "dist": "rimraf ./dist && npm run build && copyfiles -f ./build/index.js ./dist",
-    "start": "node ./build/server.bundle.js",
     "test": "npm run dist && mocha -r ts-node/register test/*.ts"
   },
   "author": {
