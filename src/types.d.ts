@@ -1,11 +1,15 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 
 export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 
 export type BaseControllerResponse = Response | Promise<Response> | void
 
+export interface BaseControllerConstructor {
+  new (req: Request, res: Response): BaseController
+}
+
 export interface Route {
-  handler: BaseController
+  controller: BaseControllerConstructor
   method: BaseControllerMethod
   path: string
 }

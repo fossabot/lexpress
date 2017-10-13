@@ -6,10 +6,8 @@ import Validate, { Schema } from './libs/validate'
 
 import { BaseControllerResponse } from './types'
 
-export interface BaseController {}
-
-export abstract class BaseController {
-  protected filePath = this.constructor.name
+export default abstract class BaseController {
+  protected readonly filePath = this.constructor.name
 
   constructor(
     protected readonly req: Request,

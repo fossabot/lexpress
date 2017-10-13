@@ -47,12 +47,12 @@ export default class Lexpress {
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {
-    const { handler, method } = this.routes[routeIndex]
+    const { controller, method } = this.routes[routeIndex]
 
     console.log(`${filePath} > ${method.toUpperCase()} on ${req.path}`)
 
     try {
-      return handler[method]()
+      return (new controller(req, res))[method]()
     }
     catch (err) {
       return answerError({ res, filePath, err })
@@ -61,7 +61,7 @@ export default class Lexpress {
 
   private setRoutes() {
     this.routes.forEach((route, routeIndex) =>
-      this.app[route.method]('/api/sync', (req, res) => this.answer(req, res, routeIndex))
+      this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
     )
   }
 
