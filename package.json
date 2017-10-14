@@ -6,10 +6,11 @@
     "node": "8.4.0",
     "npm": "5.3.0"
   },
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "src/index.d.ts",
   "scripts": {
-    "build": "webpack --display-error-details",
-    "test": "npm run build && mocha -r ts-node/register test/*.ts"
+    "dist": "webpack --display-error-details",
+    "test": "npm run dist && mocha -r ts-node/register test/*.ts"
   },
   "author": {
     "name": "Inspired Beings EURL",
