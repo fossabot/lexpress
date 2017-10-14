@@ -1,19 +1,17 @@
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as http from 'http'
-import * as path from 'path'
 const mustacheExpress = require('mustache-express')
 
-import answerError from './libs/answerError'
-import fileExists from './libs/fileExists'
+import answerError from './libs/helpers/answerError'
+import fileExists from './libs/helpers/fileExists'
 import log from './libs/helpers/log'
 import logo from './libs/media/logo'
 
 import { Express, Request, Response } from 'express'
-import { LexpressOptions } from '.'
+import { LexpressOptions } from './types'
 
 const rootPath = process.cwd()
-const filePath = path.basename(__filename)
 
 export default class Lexpress {
   private app: Express
@@ -50,14 +48,14 @@ export default class Lexpress {
   private answer(req: Request, res: Response, routeIndex: number) {
     const { Controller, method } = this.routes[routeIndex]
 
-    console.log(`${filePath} > ${method.toUpperCase()} on ${req.path}`)
+    console.log(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
 
     try {
       const controller = new Controller(req, res)
       return controller[method]()
     }
     catch (err) {
-      return answerError({ res, filePath, err })
+      return answerError({ res, scope: `${Controller.name}.${method}()`, err })
     }
   }
 

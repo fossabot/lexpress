@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 
-import answerError from './libs/answerError'
+import answerError from './libs/helpers/answerError'
 import log from './libs/helpers/log'
 import Validate, { Schema } from './libs/validate'
 
-import { BaseControllerResponse } from '.'
+import { BaseControllerResponse } from './types'
 
 export default abstract class BaseController {
   protected readonly filePath = this.constructor.name
@@ -34,7 +34,7 @@ export default abstract class BaseController {
   protected answerError(err: string, statusCode?: number): Response {
     return answerError({
       res: this.res,
-      filePath: this.filePath,
+      scope: this.filePath,
       err,
       statusCode: statusCode || 0,
     })

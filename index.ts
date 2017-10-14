@@ -4,7 +4,7 @@ import {
   BaseControllerConstructor,
   Route,
   LexpressOptions,
-} from './src'
+} from './src/types'
 
 export {
   BaseControllerMethod,

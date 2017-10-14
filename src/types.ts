@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 
+import BaseController from './BaseController'
+
 export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 
 export type BaseControllerResponse = Response | Promise<Response> | void
@@ -18,9 +20,3 @@ export interface LexpressOptions {
   port?: number
   routes: Route[]
 }
-
-import Lexpress from './Lexpress'
-export default Lexpress
-
-import BaseController from './BaseController'
-export { BaseController }
