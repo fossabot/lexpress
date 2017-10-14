@@ -11,8 +11,6 @@
     "target": "es6"
   },
   "exclude": [
-    "build",
-    "node_modules",
-    "webpack.config.js"
+    "node_modules"
   ]
 }
