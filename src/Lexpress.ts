@@ -48,12 +48,13 @@ export default class Lexpress {
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {
-    const { controller, method } = this.routes[routeIndex]
+    const { Controller, method } = this.routes[routeIndex]
 
     console.log(`${filePath} > ${method.toUpperCase()} on ${req.path}`)
 
     try {
-      return (new controller(req, res))[method]()
+      const controller = new Controller(req, res)
+      return controller[method]()
     }
     catch (err) {
       return answerError({ res, filePath, err })

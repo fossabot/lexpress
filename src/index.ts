@@ -9,7 +9,7 @@ export interface BaseControllerConstructor {
 }
 
 export interface Route {
-  controller: BaseControllerConstructor
+  Controller: BaseControllerConstructor
   method: BaseControllerMethod
   path: string
 }
