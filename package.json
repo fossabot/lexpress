@@ -9,7 +9,7 @@
   "main": "index.ts",
   "scripts": {
     "build": "webpack --display-error-details",
-    "test": "npm run dist && mocha -r ts-node/register test/*.ts"
+    "test": "npm run build && mocha -r ts-node/register test/*.ts"
   },
   "author": {
     "name": "Inspired Beings EURL",
