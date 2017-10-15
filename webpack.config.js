@@ -1,4 +1,5 @@
 const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/index.ts',
@@ -6,6 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'index.js',
+    libraryTarget: 'commonjs',
   },
   resolve: {
     extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
@@ -15,4 +17,7 @@ module.exports = {
       { test: /.*\.ts$/, loader: 'ts-loader', exclude: /node_modules/ },
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(['build']),
+  ],
 }
