@@ -16,6 +16,12 @@ export interface Route {
   path: string
 }
 
+export type LexpressOptionsHttps = {
+  cert: string
+  key: string
+}
+
 export interface LexpressOptions {
+  https?: false | LexpressOptionsHttps
   routes: Route[]
 }

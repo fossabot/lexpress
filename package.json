@@ -4,7 +4,7 @@
   "description": "NodeJS + Express based light framework.",
   "engines": {
     "node": "8.4.0",
-    "npm": "5.3.0"
+    "npm": "5.4.2"
   },
   "main": "build/index.js",
   "types": "src/index.d.ts",
