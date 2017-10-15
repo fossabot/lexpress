@@ -20,8 +20,6 @@ export default class Lexpress {
 
   constructor(options: LexpressOptions) {
     this.routes = options.routes
-    this.port = options.port || Number(process.env.PORT) || 3000
-
     this.init()
   }
 
@@ -29,6 +27,7 @@ export default class Lexpress {
     // Check and load the local .env file (development mode)
     if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
+    this.port = Number(process.env.PORT) || 3000
 
     // Initialize the Express app
     this.app = express()

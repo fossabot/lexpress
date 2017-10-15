@@ -17,6 +17,5 @@ export interface Route {
 }
 
 export interface LexpressOptions {
-  port?: number
   routes: Route[]
 }
