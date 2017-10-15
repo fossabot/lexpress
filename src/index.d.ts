@@ -14,6 +14,5 @@ export {
   LexpressOptions,
 }
 
-import Lexpress, { BaseController } from '.'
-export default Lexpress
-export { BaseController }
+import { BaseController, Lexpress } from '.'
+export { BaseController, Lexpress }
