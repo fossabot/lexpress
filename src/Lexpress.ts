@@ -36,7 +36,7 @@ export default class Lexpress {
     // Check and load the local .env file (development mode)
     if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
-    this.port = Number(process.env.PORT) || this.https === false ? 3000 : 443
+    this.port = Number(process.env.PORT) || this.https === false ? 80 : 443
 
     // Initialize the Express app
     this.app = express()
