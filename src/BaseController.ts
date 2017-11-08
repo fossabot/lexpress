@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import answerError from './libs/helpers/answerError'
 import log from './libs/helpers/log'
-import Validate, { Schema } from './libs/validate'
+import jsonSchemaValidate, { Schema } from './libs/jsonSchemaValidate'
 
 import { BaseControllerResponse } from './types'
 
@@ -43,7 +43,7 @@ export default abstract class BaseController {
   protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): BaseControllerResponse {
     this.log(`Validating JSON Schema`)
 
-    return Validate.jsonSchema(schema, this.req.query, (err) => {
+    return jsonSchemaValidate(schema, this.req.query, (err) => {
       if (err) return this.answerError(err)
 
       return cb()
