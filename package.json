@@ -21,32 +21,32 @@
   "license": "MIT",
   "dependencies": {
     "@types/chalk": "^0.4.31",
-    "@types/dotenv": "^4.0.1",
-    "@types/express": "^4.0.37",
-    "@types/mongodb": "^2.2.13",
-    "@types/node": "^8.0.34",
-    "@types/query-string": "^5.0.0",
-    "ajv": "^5.2.3",
+    "@types/dotenv": "^4.0.2",
+    "@types/express": "^4.0.39",
+    "@types/mongodb": "^2.2.15",
+    "@types/node": "^8.0.50",
+    "@types/query-string": "^5.0.1",
+    "ajv": "^5.3.0",
     "axios": "^0.16.2",
-    "chalk": "^2.1.0",
-    "cross-env": "^5.0.5",
+    "chalk": "^2.3.0",
+    "cross-env": "^5.1.1",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.33",
     "mustache-express": "^1.2.5",
-    "query-string": "^5.0.0",
+    "query-string": "^5.0.1",
     "ts-loader": "^2.3.7",
     "ts-node": "^3.3.0",
-    "typescript": "^2.5.3",
-    "webpack": "^3.7.1"
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.43",
+    "@types/mocha": "^2.2.44",
     "clean-webpack-plugin": "^0.1.17",
     "mocha": "^3.5.3",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.1"
   },
   "contributors": [
     {
