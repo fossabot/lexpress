@@ -1,4 +1,4 @@
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 import * as fs from 'fs'
 
 // TODO https://stackoverflow.com/questions/41773168/define-prototype-function-with-typescript
