@@ -53,7 +53,7 @@ export default class Lexpress {
     this.app.set('views', `${rootPath}/server/views`)
 
     // Set the response headers
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
+    this.app.all('*', (req: Request, res: Response, next: NextFunction) => {
       let key: keyof LexpressOptions['headers']
       for (key in this.headers)
         res.header(key, this.headers[key])
