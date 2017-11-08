@@ -55,10 +55,8 @@ export default class Lexpress {
     // Set the response headers
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       let key: keyof LexpressOptions['headers']
-      for (key in this.headers) {
-        console.log(key, this.headers[key])
+      for (key in this.headers)
         res.header(key, this.headers[key])
-      }
 
       next()
     })
