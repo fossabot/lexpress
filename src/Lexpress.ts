@@ -9,10 +9,11 @@ import fileExists from './libs/helpers/fileExists'
 import log from './libs/helpers/log'
 import logo from './libs/media/logo'
 
-import { Express, Request, Response } from 'express'
+import { Express, NextFunction, Request, Response } from 'express'
 import { LexpressOptions, LexpressOptionsHttps } from './types'
 
 const lexpressOptionsDefault: LexpressOptions = {
+  headers: {},
   https: false,
   routes: [],
 }
@@ -20,6 +21,7 @@ const rootPath = process.cwd()
 
 export default class Lexpress {
   private app: Express
+  private headers: LexpressOptions['headers']
   private https: LexpressOptions['https']
   private port: number
   private routes: LexpressOptions['routes']
@@ -27,6 +29,7 @@ export default class Lexpress {
   constructor(options: LexpressOptions) {
     options = Object.assign({}, lexpressOptionsDefault, options)
 
+    this.headers = options.headers
     this.https = options.https
     this.routes = options.routes
     this.init()
@@ -51,6 +54,15 @@ export default class Lexpress {
 
     // Define 'public' directory as the static files directory
     this.app.use(express.static(`${rootPath}/public`))
+
+    // Set response headers
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      let key: keyof LexpressOptions['headers']
+      for (key in this.headers)
+        res.header(key, this.headers[key])
+
+      next()
+    })
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {

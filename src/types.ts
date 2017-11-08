@@ -16,12 +16,16 @@ export interface Route {
   path: string
 }
 
+export interface LexpressOptions {
+  headers?: LexpressOptionsHeaders
+  https?: false | LexpressOptionsHttps
+  routes: Route[]
+}
+export type LexpressOptionsHeaders = {
+  'Access-Control-Allow-Origin'?: string
+  'Access-Control-Allow-Headers'?: string
+}
 export type LexpressOptionsHttps = {
   cert: string
   key: string
-}
-
-export interface LexpressOptions {
-  https?: false | LexpressOptionsHttps
-  routes: Route[]
 }
