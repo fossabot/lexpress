@@ -52,17 +52,19 @@ export default class Lexpress {
     this.app.set('view engine', 'mst')
     this.app.set('views', `${rootPath}/server/views`)
 
-    // Define 'public' directory as the static files directory
-    this.app.use(express.static(`${rootPath}/public`))
-
-    // Set response headers
+    // Set the response headers
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       let key: keyof LexpressOptions['headers']
-      for (key in this.headers)
+      for (key in this.headers) {
+        console.log(key, this.headers[key])
         res.header(key, this.headers[key])
+      }
 
       next()
     })
+
+    // Define 'public' directory as the static files directory
+    this.app.use(express.static(`${rootPath}/public`))
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {
