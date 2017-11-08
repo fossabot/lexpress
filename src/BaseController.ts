@@ -36,7 +36,7 @@ export default abstract class BaseController {
       res: this.res,
       scope: this.filePath,
       err,
-      statusCode: statusCode || 0,
+      statusCode: statusCode || 400,
     })
   }
 
