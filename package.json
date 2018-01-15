@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "webpack --display-error-details",
-    "test": "npm run build && mocha -r ts-node/register test/*.ts"
+    "test": "mocha -r ts-node/register src/**/*.unit.spec.ts"
   },
   "dependencies": {
     "@inspired-beings/log": "^1.0.4",
