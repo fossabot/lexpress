@@ -17,6 +17,7 @@
     "@inspired-beings/log": "^1.0.4",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.11.0",
+    "@types/memory-cache": "^0.2.0",
     "@types/mongodb": "^3.0.1",
     "@types/node": "^9.3.0",
     "@types/query-string": "^5.0.1",
@@ -26,6 +27,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
+    "memory-cache": "^0.2.0",
     "mongodb": "^3.0.1",
     "mustache-express": "^1.2.5",
     "query-string": "^5.0.1"
