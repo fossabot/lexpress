@@ -1,6 +1,6 @@
 {
   "name": "lexpress",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "NodeJS + Express based light framework.",
   "license": "MIT",
   "main": "build/index.js",
