@@ -7,7 +7,7 @@ import jsonSchemaValidate, { Schema } from './libs/helpers/jsonSchemaValidate'
 import { BaseControllerResponse } from './types'
 
 export default abstract class BaseController {
-  protected readonly filePath = this.constructor.name
+  protected readonly controllerName = this.constructor.name
 
   constructor(
     protected readonly req: Request,
@@ -20,21 +20,21 @@ export default abstract class BaseController {
   public delete(): BaseControllerResponse { return this.answerError('Not Found', 404) }
 
   protected log(message: string): void {
-    log(`${this.filePath}: ${message}`)
+    log(`${this.controllerName}: ${message}`)
   }
 
   protected logError(message: string): void {
-    log.error(`${this.filePath}: ${message}`)
+    log.error(`${this.controllerName}: ${message}`)
   }
 
-  protected logWrite(filePath: string, data: {}): void {
-    log.write(filePath, data)
+  protected logWrite(controllerName: string, data: {}): void {
+    log.write(controllerName, data)
   }
 
   protected answerError(err: string, statusCode?: number): Response {
     return answerError({
       res: this.res,
-      scope: this.filePath,
+      scope: this.controllerName,
       err,
       statusCode: statusCode || 400,
     })
