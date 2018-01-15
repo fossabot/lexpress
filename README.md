@@ -66,7 +66,6 @@ export default routes
 **controllers/HelloWorldController.ts**
 
 ```typescript
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { BaseController } from 'lexpress'
 
 export default class ApiUserController extends BaseController {
