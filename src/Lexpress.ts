@@ -15,6 +15,7 @@ import { LexpressOptions, LexpressOptionsHttps } from './types'
 const lexpressOptionsDefault: LexpressOptions = {
   headers: {},
   https: false,
+  middlewares: [],
   routes: [],
 }
 const rootPath = process.cwd()
@@ -23,6 +24,7 @@ export default class Lexpress {
   private app: Express
   private headers: LexpressOptions['headers']
   private https: LexpressOptions['https']
+  private middlewares: LexpressOptions['middlewares']
   private port: number
   private routes: LexpressOptions['routes']
 
@@ -31,6 +33,7 @@ export default class Lexpress {
 
     this.headers = options.headers
     this.https = options.https
+    this.middlewares = options.middlewares
     this.routes = options.routes
     this.init()
   }
@@ -43,6 +46,9 @@ export default class Lexpress {
 
     // Initialize the Express app
     this.app = express()
+
+    // Attaches the middlewares
+    this.setMiddlewares()
 
     // Attaches the routes
     this.setRoutes()
@@ -83,7 +89,13 @@ export default class Lexpress {
     }
   }
 
-  private setRoutes() {
+  private setMiddlewares(): void {
+    this.middlewares.forEach((middleware) =>
+      this.app.use(middleware)
+    )
+  }
+
+  private setRoutes(): void {
     this.routes.forEach((route, routeIndex) =>
       this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
     )
