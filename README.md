@@ -2,6 +2,7 @@
 
 > NodeJS + Express based light framework.
 
+[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/lexpress.svg?style=flat-square)](https://www.npmjs.com/package/lexpress)
 [![Travis](https://img.shields.io/travis/InspiredBeings/lexpress.svg?style=flat-square)](https://travis-ci.org/InspiredBeings/lexpress)
 [![David](https://img.shields.io/david/InspiredBeings/lexpress.svg?style=flat-square)](https://david-dm.org/InspiredBeings/lexpress)
