@@ -2,23 +2,18 @@
   "name": "lexpress",
   "version": "0.11.4",
   "description": "NodeJS + Express based light framework.",
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "src/index.d.ts",
   "engines": {
     "node": "9.1.0",
     "npm": "5.5.1"
   },
-  "main": "build/index.js",
-  "types": "src/index.d.ts",
   "scripts": {
     "build": "webpack --display-error-details",
     "dist": "webpack --display-error-details --config webpack.prod.js",
     "test": "npm run build && mocha -r ts-node/register test/*.ts"
   },
-  "author": {
-    "name": "Inspired Beings EURL",
-    "email": "contact@inspired-beings.com",
-    "url": "https://www.inspired-beings.com"
-  },
-  "license": "MIT",
   "dependencies": {
     "@inspired-beings/log": "^1.0.4",
     "@types/dotenv": "^4.0.2",
@@ -48,6 +43,18 @@
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1"
   },
+  "keywords": [
+    "express",
+    "framework",
+    "light",
+    "microframework",
+    "node"
+  ],
+  "author": {
+    "name": "Inspired Beings EURL",
+    "email": "contact@inspired-beings.com",
+    "url": "https://www.inspired-beings.com"
+  },
   "contributors": [
     {
       "name": "Ivan Gabriele",
@@ -59,7 +66,6 @@
     "type": "git",
     "url": "git+https://github.com/InspiredBeings/lexpress.git"
   },
-  "keywords": [],
   "bugs": {
     "url": "https://github.com/InspiredBeings/lexpress/issues"
   },
