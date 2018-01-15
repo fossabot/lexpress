@@ -1,2 +1,3 @@
-!.vscode/vscode-git-add-and-commit.json
 /node_modules
+
+!.vscode/vscode-git-add-and-commit.json
