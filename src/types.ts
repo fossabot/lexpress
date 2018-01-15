@@ -1,4 +1,4 @@
-import { ApplicationRequestHandler, Request, Response } from 'express'
+import { Request, RequestHandler, Response } from 'express'
 
 import BaseController from './BaseController'
 
@@ -19,7 +19,7 @@ export interface Route {
 export interface LexpressOptions {
   headers?: LexpressOptionsHeaders
   https?: false | LexpressOptionsHttps
-  middlewares?: ApplicationRequestHandler[]
+  middlewares?: RequestHandler[]
   routes: Route[]
 }
 export type LexpressOptionsHeaders = {
