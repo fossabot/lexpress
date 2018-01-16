@@ -2,6 +2,7 @@ import {
   BaseControllerMethod,
   BaseControllerResponse,
   BaseControllerConstructor,
+  Response,
   Route,
   LexpressOptions,
 } from './types'
@@ -10,6 +11,7 @@ export {
   BaseControllerMethod,
   BaseControllerResponse,
   BaseControllerConstructor,
+  Response,
   Route,
   LexpressOptions,
 }
