@@ -15,6 +15,7 @@
 Lexpress is a featherlight microframework based on [Express](https://expressjs.com) providing a ready-to-use base controller inluding :
 
 - A JSON Schema validation for GET, POST, PUT and DELETE requests.
+- An easy-to-use cache middleware.
 - A clean JSON error response.
 
 Typescript definitions are also included.
@@ -82,10 +83,14 @@ export default class ApiUserController extends BaseController {
     }
 
     return this.validateJsonSchema(schema, () => {
-      return this.res.status(200).json({
-        message: 'Hello World !',
-        name: this.req.query.email,
-      })
+      return this.res
+        // Let's keep this response in cache for 24h
+        .cache(86400000)
+        .status(200)
+        .json({
+          message: 'Hello World !',
+          name: this.req.query.email,
+        })
     })
   }
 }
