@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 export interface Response extends express.Response {
-  cache?: (expirationInMs: number) => express.Response
+  cache?: (expirationInMs: number) => Response
 }
 
 import BaseController from './BaseController'
