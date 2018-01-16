@@ -5,6 +5,7 @@ import * as https from 'https'
 const mustacheExpress = require('mustache-express')
 
 import answerError from './libs/helpers/answerError'
+import cache from './middlewares/cache'
 import fileExists from './libs/helpers/fileExists'
 import log from './libs/helpers/log'
 import logo from './libs/media/logo'
@@ -49,6 +50,7 @@ export default class Lexpress {
 
     // Attaches the middlewares
     this.setMiddlewares()
+    this.setCustomMiddlewares()
 
     // Attaches the routes
     this.setRoutes()
@@ -90,7 +92,11 @@ export default class Lexpress {
   }
 
   private setMiddlewares(): void {
-    this.middlewares.forEach((middleware) =>
+    this.app.use(cache)
+  }
+
+  private setCustomMiddlewares(): void {
+    this.middlewares.forEach(middleware =>
       this.app.use(middleware)
     )
   }
