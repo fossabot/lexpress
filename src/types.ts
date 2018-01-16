@@ -15,7 +15,7 @@ export interface BaseControllerConstructor {
 }
 
 export interface Route {
-  Controller: BaseControllerConstructor
+  controller: BaseControllerConstructor
   method: BaseControllerMethod
   path: string
 }
