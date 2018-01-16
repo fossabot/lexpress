@@ -1,7 +1,7 @@
-import * as Express from 'express'
+import * as express from 'express'
 
-export interface Response extends Express.Response {
-  cache?: (expirationInMs: number) => Express.Response
+export interface Response extends express.Response {
+  cache?: (expirationInMs: number) => express.Response
 }
 
 import BaseController from './BaseController'
@@ -11,7 +11,7 @@ export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 export type BaseControllerResponse = Response | Promise<Response> | void
 
 export interface BaseControllerConstructor {
-  new (req: Express.Request, res: Express.Response): BaseController
+  new (req: express.Request, res: express.Response): BaseController
 }
 
 export interface Route {
@@ -23,7 +23,7 @@ export interface Route {
 export interface LexpressOptions {
   headers?: LexpressOptionsHeaders
   https?: false | LexpressOptionsHttps
-  middlewares?: Express.RequestHandler[]
+  middlewares?: express.RequestHandler[]
   routes: Route[]
 }
 export type LexpressOptionsHeaders = {
