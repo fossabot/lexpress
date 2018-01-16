@@ -74,7 +74,7 @@ export default class Lexpress {
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {
-    const { Controller, method } = this.routes[routeIndex]
+    const { controller: Controller, method } = this.routes[routeIndex]
 
     let key: keyof LexpressOptions['headers']
     for (key in this.headers)
