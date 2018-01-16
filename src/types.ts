@@ -1,10 +1,14 @@
 import * as Express from 'express'
 
+export interface Response extends Express.Response {
+  cache: (expirationInMs: number) => Express.Response
+}
+
 import BaseController from './BaseController'
 
 export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 
-export type BaseControllerResponse = Express.Response | Promise<Express.Response> | void
+export type BaseControllerResponse = Response | Promise<Response> | void
 
 export interface BaseControllerConstructor {
   new (req: Express.Request, res: Express.Response): BaseController
