@@ -11133,7 +11133,7 @@ class Lexpress {
         this.app.use(express.static(`${rootPath}/public`));
     }
     answer(req, res, routeIndex) {
-        const { Controller, method } = this.routes[routeIndex];
+        const { controller: Controller, method } = this.routes[routeIndex];
         let key;
         for (key in this.headers)
             res.header(key, this.headers[key]);
@@ -25187,7 +25187,7 @@ exports.default = chalk_1.default.gray(`
 /* 155 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"lexpress","version":"0.15.0","description":"NodeJS + Express based light framework.","license":"MIT","main":"build/index.js","types":"src/index.d.ts","engines":{"node":"9.4.0","npm":"5.6.0"},"scripts":{"build":"webpack --display-error-details","test":"mocha -r ts-node/register src/**/*.unit.spec.ts"},"dependencies":{"@inspired-beings/log":"^1.0.4","@types/dotenv":"^4.0.2","@types/express":"^4.11.0","@types/memory-cache":"^0.2.0","@types/mongodb":"^3.0.1","@types/node":"^9.3.0","@types/query-string":"^5.0.1","ajv":"^6.0.1","axios":"^0.17.1","chalk":"^2.3.0","dotenv":"^4.0.0","express":"^4.16.2","lodash":"^4.17.4","memory-cache":"^0.2.0","mongodb":"^3.0.1","mustache-express":"^1.2.5","query-string":"^5.0.1"},"devDependencies":{"@types/mocha":"^2.2.46","awesome-typescript-loader":"^3.4.1","clean-webpack-plugin":"^0.1.17","mocha":"^4.1.0","ts-loader":"^3.2.0","ts-node":"^4.1.0","typescript":"^2.6.2","webpack":"^3.10.0"},"keywords":["express","framework","light","microframework","node"],"author":{"name":"Inspired Beings EURL","email":"contact@inspired-beings.com","url":"https://www.inspired-beings.com"},"contributors":[{"name":"Ivan Gabriele","email":"ivan.gabriele@gmail.com","url":"https://www.ivangabriele.com"}],"repository":{"type":"git","url":"git+https://github.com/InspiredBeings/lexpress.git"},"bugs":{"url":"https://github.com/InspiredBeings/lexpress/issues"},"homepage":"https://github.com/InspiredBeings/lexpress#readme"}
+module.exports = {"name":"lexpress","version":"0.15.1","description":"NodeJS + Express based light framework.","license":"MIT","main":"build/index.js","types":"src/index.d.ts","engines":{"node":"9.4.0","npm":"5.6.0"},"scripts":{"build":"webpack --display-error-details","test":"mocha -r ts-node/register src/**/*.unit.spec.ts"},"dependencies":{"@inspired-beings/log":"^1.0.4","@types/dotenv":"^4.0.2","@types/express":"^4.11.0","@types/memory-cache":"^0.2.0","@types/mongodb":"^3.0.1","@types/node":"^9.3.0","@types/query-string":"^5.0.1","ajv":"^6.0.1","axios":"^0.17.1","chalk":"^2.3.0","dotenv":"^4.0.0","express":"^4.16.2","lodash":"^4.17.4","memory-cache":"^0.2.0","mongodb":"^3.0.1","mustache-express":"^1.2.5","query-string":"^5.0.1"},"devDependencies":{"@types/mocha":"^2.2.46","awesome-typescript-loader":"^3.4.1","clean-webpack-plugin":"^0.1.17","mocha":"^4.1.0","ts-loader":"^3.2.0","ts-node":"^4.1.0","typescript":"^2.6.2","webpack":"^3.10.0"},"keywords":["express","framework","light","microframework","node"],"author":{"name":"Inspired Beings EURL","email":"contact@inspired-beings.com","url":"https://www.inspired-beings.com"},"contributors":[{"name":"Ivan Gabriele","email":"ivan.gabriele@gmail.com","url":"https://www.ivangabriele.com"}],"repository":{"type":"git","url":"git+https://github.com/InspiredBeings/lexpress.git"},"bugs":{"url":"https://github.com/InspiredBeings/lexpress/issues"},"homepage":"https://github.com/InspiredBeings/lexpress#readme"}
 
 /***/ }),
 /* 156 */
