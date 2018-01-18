@@ -1,6 +1,5 @@
 import * as dotenv from 'dotenv'
 import * as express from 'express'
-import * as http from 'http'
 import * as https from 'https'
 const mustacheExpress = require('mustache-express')
 
