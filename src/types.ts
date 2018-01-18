@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { ServerOptions } from 'https'
 
 export interface Response extends express.Response {
   cache?: (expirationInMs: number) => Response
@@ -22,15 +23,11 @@ export interface Route {
 
 export interface LexpressOptions {
   headers?: LexpressOptionsHeaders
-  https?: false | LexpressOptionsHttps
+  https?: false | ServerOptions
   middlewares?: express.RequestHandler[]
   routes: Route[]
 }
 export type LexpressOptionsHeaders = {
   'Access-Control-Allow-Origin'?: string
   'Access-Control-Allow-Headers'?: string
-}
-export type LexpressOptionsHttps = {
-  cert: string
-  key: string
 }
