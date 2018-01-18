@@ -25,6 +25,11 @@
       },
       {
         "action": "update",
+        "pattern": "/^build/",
+        "state": "MODIFIED"
+      },
+      {
+        "action": "update",
         "pattern": "CHANGELOG",
         "state": "MODIFIED"
       },
