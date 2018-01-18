@@ -13,7 +13,8 @@
     "build": "webpack --display-error-details",
     "test": "mocha -r ts-node/register src/**/*.unit.spec.ts",
     "preversion": "npm run build",
-    "version": "node tasks/injectVersion && git add ."
+    "version": "node tasks/injectVersion && git add .",
+    "postversion": "npm publish"
   },
   "dependencies": {
     "@inspired-beings/log": "^1.0.4",
