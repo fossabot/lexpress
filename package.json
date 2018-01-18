@@ -12,7 +12,7 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "mocha -r ts-node/register src/**/*.unit.spec.ts",
-    "preversion": "npm run build",
+    "preversion": "npm test && npm run build",
     "version": "node tasks/injectVersion && git add .",
     "postversion": "npm publish"
   },
