@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "webpack --display-error-details",
-    "test": "mocha -r ts-node/register src/**/*.unit.spec.ts"
+    "test": "mocha -r ts-node/register src/**/*.unit.spec.ts",
+    "version": "node tasks/injectVersion"
   },
   "dependencies": {
     "@inspired-beings/log": "^1.0.4",
