@@ -12,7 +12,8 @@
       { "pattern": "package", "with": "npm" },
       { "pattern": "README", "with": "readme" },
       { "pattern": "src/", "with": "" },
-      { "pattern": "/webpack([^:]*)/", "with": "" }
+      { "pattern": "/webpack([^:]*)/", "with": "" },
+      { "pattern": "/\/index:/", "with": ":" }
     ],
     "withFileWorkspacePath": true,
     "withGuessedAction": true,
