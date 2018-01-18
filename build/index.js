@@ -25159,7 +25159,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(59);
 // Is replaced with postversion script
-const VERSION = `0.17.2`;
+const VERSION = `0.17.3`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
