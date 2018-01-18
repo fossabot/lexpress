@@ -644,9 +644,9 @@ function DeprecationError (namespace, message, stack) {
 
 var Buffer = __webpack_require__(49).Buffer
 var contentDisposition = __webpack_require__(50);
-var contentType = __webpack_require__(13);
+var contentType = __webpack_require__(12);
 var deprecate = __webpack_require__(4)('express');
-var flatten = __webpack_require__(20);
+var flatten = __webpack_require__(19);
 var mime = __webpack_require__(28).mime;
 var etag = __webpack_require__(51);
 var proxyaddr = __webpack_require__(55);
@@ -1397,7 +1397,7 @@ function parse(val) {
 
 var deprecate = __webpack_require__(4)('http-errors')
 var setPrototypeOf = __webpack_require__(77)
-var statuses = __webpack_require__(14)
+var statuses = __webpack_require__(13)
 var inherits = __webpack_require__(79)
 
 /**
@@ -2081,12 +2081,6 @@ function fresh (url, parsedUrl) {
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2315,7 +2309,7 @@ function ContentType (type) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2432,13 +2426,13 @@ function status (code) {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2458,7 +2452,7 @@ module.exports = require("util");
 var createError = __webpack_require__(8)
 var getBody = __webpack_require__(84)
 var iconv = __webpack_require__(37)
-var onFinished = __webpack_require__(17)
+var onFinished = __webpack_require__(16)
 var zlib = __webpack_require__(104)
 
 /**
@@ -2626,7 +2620,7 @@ function contentstream (req, debug, inflate) {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2829,7 +2823,7 @@ function patchAssignSocket(res, callback) {
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2896,7 +2890,7 @@ function encodeUrl (url) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2981,7 +2975,7 @@ function escapeHtml(string) {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3050,6 +3044,12 @@ function arrayFlatten (array, depth) {
   return flattenWithDepth(array, [], depth)
 }
 
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
 
 /***/ }),
 /* 21 */
@@ -3147,7 +3147,7 @@ module.exports = require("url");
  * @private
  */
 
-var http = __webpack_require__(12);
+var http = __webpack_require__(20);
 
 /**
  * Module exports.
@@ -3248,19 +3248,19 @@ var createError = __webpack_require__(8)
 var debug = __webpack_require__(0)('send')
 var deprecate = __webpack_require__(4)('send')
 var destroy = __webpack_require__(120)
-var encodeUrl = __webpack_require__(18)
-var escapeHtml = __webpack_require__(19)
+var encodeUrl = __webpack_require__(17)
+var escapeHtml = __webpack_require__(18)
 var etag = __webpack_require__(51)
 var fresh = __webpack_require__(53)
 var fs = __webpack_require__(2)
 var mime = __webpack_require__(121)
 var ms = __webpack_require__(35)
-var onFinished = __webpack_require__(17)
+var onFinished = __webpack_require__(16)
 var parseRange = __webpack_require__(54)
 var path = __webpack_require__(3)
-var statuses = __webpack_require__(14)
+var statuses = __webpack_require__(13)
 var Stream = __webpack_require__(9)
-var util = __webpack_require__(15)
+var util = __webpack_require__(14)
 
 /**
  * Path function references.
@@ -5899,7 +5899,7 @@ var methods = __webpack_require__(26);
 var mixin = __webpack_require__(21);
 var debug = __webpack_require__(0)('express:router');
 var deprecate = __webpack_require__(4)('express');
-var flatten = __webpack_require__(20);
+var flatten = __webpack_require__(19);
 var parseUrl = __webpack_require__(11);
 var setPrototypeOf = __webpack_require__(27)
 
@@ -6563,7 +6563,7 @@ function wrap(old, fn) {
  */
 
 var debug = __webpack_require__(0)('express:router:route');
-var flatten = __webpack_require__(20);
+var flatten = __webpack_require__(19);
 var Layer = __webpack_require__(47);
 var methods = __webpack_require__(26);
 
@@ -11082,7 +11082,6 @@ exports.log = log_1.default;
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __webpack_require__(70);
 const express = __webpack_require__(71);
-const http = __webpack_require__(12);
 const https = __webpack_require__(137);
 const mustacheExpress = __webpack_require__(138);
 const answerError_1 = __webpack_require__(58);
@@ -11160,23 +11159,13 @@ class Lexpress {
         return this.https === false ? this.startHttp() : this.startHttps();
     }
     startHttp() {
-        if (process.env.NODE_ENV === 'development') {
-            log_1.default.warn(`Lexpress Server will start in a development mode.`);
-            http
-                .createServer(this.app)
-                .listen(this.port, () => log_1.default.info(`Lexpress Server is listening on port ${this.port}.`));
-            return;
-        }
-        log_1.default.warn(`Lexpress Server will start in a production mode.`);
+        const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+        log_1.default.warn(`Lexpress Server will start in a ${nodeEnv} mode (non-secure).`);
         this.app.listen(this.port, () => log_1.default.info(`Lexpress Server is listening on port ${this.port}.`));
     }
     startHttps() {
-        if (process.env.NODE_ENV === 'development' || this.https === false) {
-            log_1.default.warn(`Lexpress Server will start in a development (or non-secure) mode.`);
-            this.app.listen(this.port, () => log_1.default.info(`Lexpress Server is listening on port ${this.port}.`));
-            return;
-        }
-        log_1.default.warn(`Lexpress Server will start in a production mode.`);
+        const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+        log_1.default.warn(`Lexpress Server will start in a ${nodeEnv} mode (secure).`);
         https
             .createServer(this.https, this.app)
             .listen(this.port, () => log_1.default.info(`Lexpress Server is listening on port ${this.port}.`));
@@ -11726,10 +11715,10 @@ function eventListenerCount (emitter, type) {
  */
 
 var bytes = __webpack_require__(7)
-var contentType = __webpack_require__(13)
+var contentType = __webpack_require__(12)
 var createError = __webpack_require__(8)
 var debug = __webpack_require__(0)('body-parser:json')
-var read = __webpack_require__(16)
+var read = __webpack_require__(15)
 var typeis = __webpack_require__(10)
 
 /**
@@ -11977,7 +11966,7 @@ module.exports = {"100":"Continue","101":"Switching Protocols","102":"Processing
 /***/ (function(module, exports, __webpack_require__) {
 
 try {
-  var util = __webpack_require__(15);
+  var util = __webpack_require__(14);
   if (typeof util.inherits !== 'function') throw '';
   module.exports = util.inherits;
 } catch (e) {
@@ -12214,7 +12203,7 @@ function localstorage() {
  */
 
 var tty = __webpack_require__(83);
-var util = __webpack_require__(15);
+var util = __webpack_require__(14);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -15792,7 +15781,7 @@ module.exports = {"application/1d-interleaved-parityfec":{"source":"iana"},"appl
 
 var bytes = __webpack_require__(7)
 var debug = __webpack_require__(0)('body-parser:raw')
-var read = __webpack_require__(16)
+var read = __webpack_require__(15)
 var typeis = __webpack_require__(10)
 
 /**
@@ -15899,9 +15888,9 @@ function typeChecker (type) {
  */
 
 var bytes = __webpack_require__(7)
-var contentType = __webpack_require__(13)
+var contentType = __webpack_require__(12)
 var debug = __webpack_require__(0)('body-parser:text')
-var read = __webpack_require__(16)
+var read = __webpack_require__(15)
 var typeis = __webpack_require__(10)
 
 /**
@@ -16029,11 +16018,11 @@ function typeChecker (type) {
  */
 
 var bytes = __webpack_require__(7)
-var contentType = __webpack_require__(13)
+var contentType = __webpack_require__(12)
 var createError = __webpack_require__(8)
 var debug = __webpack_require__(0)('body-parser:urlencoded')
 var deprecate = __webpack_require__(4)('body-parser')
-var read = __webpack_require__(16)
+var read = __webpack_require__(15)
 var typeis = __webpack_require__(10)
 
 /**
@@ -16792,12 +16781,12 @@ var middleware = __webpack_require__(117);
 var query = __webpack_require__(48);
 var debug = __webpack_require__(0)('express:application');
 var View = __webpack_require__(118);
-var http = __webpack_require__(12);
+var http = __webpack_require__(20);
 var compileETag = __webpack_require__(5).compileETag;
 var compileQueryParser = __webpack_require__(5).compileQueryParser;
 var compileTrust = __webpack_require__(5).compileTrust;
 var deprecate = __webpack_require__(4)('express');
-var flatten = __webpack_require__(20);
+var flatten = __webpack_require__(19);
 var merge = __webpack_require__(21);
 var resolve = __webpack_require__(3).resolve;
 var setPrototypeOf = __webpack_require__(27)
@@ -17435,11 +17424,11 @@ function tryRender(view, options, callback) {
  */
 
 var debug = __webpack_require__(0)('finalhandler')
-var encodeUrl = __webpack_require__(18)
-var escapeHtml = __webpack_require__(19)
-var onFinished = __webpack_require__(17)
+var encodeUrl = __webpack_require__(17)
+var escapeHtml = __webpack_require__(18)
+var onFinished = __webpack_require__(16)
 var parseUrl = __webpack_require__(11)
-var statuses = __webpack_require__(14)
+var statuses = __webpack_require__(13)
 var unpipe = __webpack_require__(40)
 
 /**
@@ -19117,7 +19106,7 @@ var accepts = __webpack_require__(126);
 var deprecate = __webpack_require__(4)('express');
 var isIP = __webpack_require__(36).isIP;
 var typeis = __webpack_require__(10);
-var http = __webpack_require__(12);
+var http = __webpack_require__(20);
 var fresh = __webpack_require__(53);
 var parseRange = __webpack_require__(54);
 var parse = __webpack_require__(11);
@@ -20873,13 +20862,13 @@ function splitParameters(str) {
 var Buffer = __webpack_require__(49).Buffer
 var contentDisposition = __webpack_require__(50);
 var deprecate = __webpack_require__(4)('express');
-var encodeUrl = __webpack_require__(18);
-var escapeHtml = __webpack_require__(19);
-var http = __webpack_require__(12);
+var encodeUrl = __webpack_require__(17);
+var escapeHtml = __webpack_require__(18);
+var http = __webpack_require__(20);
 var isAbsolute = __webpack_require__(5).isAbsolute;
-var onFinished = __webpack_require__(17);
+var onFinished = __webpack_require__(16);
 var path = __webpack_require__(3);
-var statuses = __webpack_require__(14)
+var statuses = __webpack_require__(13)
 var merge = __webpack_require__(21);
 var sign = __webpack_require__(133).sign;
 var normalizeType = __webpack_require__(5).normalizeType;
@@ -22430,8 +22419,8 @@ function vary (res, field) {
  * @private
  */
 
-var encodeUrl = __webpack_require__(18)
-var escapeHtml = __webpack_require__(19)
+var encodeUrl = __webpack_require__(17)
+var escapeHtml = __webpack_require__(18)
 var parseUrl = __webpack_require__(11)
 var resolve = __webpack_require__(3).resolve
 var send = __webpack_require__(28)
@@ -22649,7 +22638,7 @@ var path = __webpack_require__(3);
 // Make sure Object.assign exists. If not, default to Node's internal extend.
 var extend = Object.assign;
 if (!extend) {
-	extend = __webpack_require__(15)._extend;
+	extend = __webpack_require__(14)._extend;
 }
 
 // Load a single file, and return the data.
@@ -25170,7 +25159,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(59);
 // Is replaced with postversion script
-const VERSION = `0.17.1`;
+const VERSION = `0.17.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
