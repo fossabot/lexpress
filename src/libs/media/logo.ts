@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 
-const npmConfig = require('../../../package.json')
+// Is replaced with postversion script
+const VERSION: string = `__VERSION__`
 
 export default chalk.gray(`
 ,
@@ -10,6 +11,6 @@ export default chalk.gray(`
   "=\\=",
    "-\\-"
       \\
-       \\  ${chalk.magenta('Lexpress')} ${chalk.blue(npmConfig.version)}
+       \\  ${chalk.magenta('Lexpress')} ${chalk.blue(VERSION)}
 
 `)
