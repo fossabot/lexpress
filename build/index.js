@@ -953,7 +953,7 @@ module.exports = {
   getProperty: getProperty,
   escapeQuotes: escapeQuotes,
   equal: __webpack_require__(30),
-  ucs2length: __webpack_require__(160),
+  ucs2length: __webpack_require__(159),
   varOccurences: varOccurences,
   varReplace: varReplace,
   cleanUpCode: cleanUpCode,
@@ -4373,7 +4373,7 @@ var url = __webpack_require__(25)
   , equal = __webpack_require__(30)
   , util = __webpack_require__(6)
   , SchemaObject = __webpack_require__(61)
-  , traverse = __webpack_require__(161);
+  , traverse = __webpack_require__(160);
 
 module.exports = resolve;
 
@@ -11067,7 +11067,7 @@ module.exports = function generate__limitProperties(it, $keyword, $ruleType) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Lexpress_1 = __webpack_require__(69);
 exports.Lexpress = Lexpress_1.default;
-const BaseController_1 = __webpack_require__(156);
+const BaseController_1 = __webpack_require__(155);
 exports.BaseController = BaseController_1.default;
 const log_1 = __webpack_require__(22);
 exports.log = log_1.default;
@@ -25169,7 +25169,8 @@ exports.default = fileExists;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(59);
-const npmConfig = __webpack_require__(155);
+// Is replaced with postversion script
+const VERSION = `0.17.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -25178,19 +25179,13 @@ exports.default = chalk_1.default.gray(`
   "=\\=",
    "-\\-"
       \\
-       \\  ${chalk_1.default.magenta('Lexpress')} ${chalk_1.default.blue(npmConfig.version)}
+       \\  ${chalk_1.default.magenta('Lexpress')} ${chalk_1.default.blue(VERSION)}
 
 `);
 
 
 /***/ }),
 /* 155 */
-/***/ (function(module, exports) {
-
-module.exports = {"name":"lexpress","version":"0.16.0","description":"NodeJS + Express based light framework.","license":"MIT","main":"build/index.js","types":"src/index.d.ts","engines":{"node":"9.4.0","npm":"5.6.0"},"scripts":{"build":"webpack --display-error-details","test":"mocha -r ts-node/register src/**/*.unit.spec.ts"},"dependencies":{"@inspired-beings/log":"^1.0.4","@types/dotenv":"^4.0.2","@types/express":"^4.11.0","@types/memory-cache":"^0.2.0","@types/mongodb":"^3.0.1","@types/node":"^9.3.0","@types/query-string":"^5.0.1","ajv":"^6.0.1","axios":"^0.17.1","chalk":"^2.3.0","dotenv":"^4.0.0","express":"^4.16.2","lodash":"^4.17.4","memory-cache":"^0.2.0","mongodb":"^3.0.1","mustache-express":"^1.2.5","query-string":"^5.0.1"},"devDependencies":{"@types/mocha":"^2.2.46","awesome-typescript-loader":"^3.4.1","clean-webpack-plugin":"^0.1.17","mocha":"^4.1.0","ts-loader":"^3.2.0","ts-node":"^4.1.0","typescript":"^2.6.2","webpack":"^3.10.0"},"keywords":["express","framework","light","microframework","node"],"author":{"name":"Inspired Beings EURL","email":"contact@inspired-beings.com","url":"https://www.inspired-beings.com"},"contributors":[{"name":"Ivan Gabriele","email":"ivan.gabriele@gmail.com","url":"https://www.ivangabriele.com"}],"repository":{"type":"git","url":"git+https://github.com/InspiredBeings/lexpress.git"},"bugs":{"url":"https://github.com/InspiredBeings/lexpress/issues"},"homepage":"https://github.com/InspiredBeings/lexpress#readme"}
-
-/***/ }),
-/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25198,7 +25193,7 @@ module.exports = {"name":"lexpress","version":"0.16.0","description":"NodeJS + E
 Object.defineProperty(exports, "__esModule", { value: true });
 const answerError_1 = __webpack_require__(58);
 const log_1 = __webpack_require__(22);
-const jsonSchemaValidate_1 = __webpack_require__(157);
+const jsonSchemaValidate_1 = __webpack_require__(156);
 class BaseController {
     constructor(req, res) {
         this.req = req;
@@ -25239,13 +25234,13 @@ exports.default = BaseController;
 
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ajv = __webpack_require__(158);
+const Ajv = __webpack_require__(157);
 const ajv = new Ajv();
 function default_1(schema, data, cb) {
     cb(ajv.validate(schema, data) ? null : ajv.errorsText());
@@ -25254,20 +25249,20 @@ exports.default = default_1;
 
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var compileSchema = __webpack_require__(159)
+var compileSchema = __webpack_require__(158)
   , resolve = __webpack_require__(29)
-  , Cache = __webpack_require__(162)
+  , Cache = __webpack_require__(161)
   , SchemaObject = __webpack_require__(61)
   , stableStringify = __webpack_require__(62)
-  , formats = __webpack_require__(163)
-  , rules = __webpack_require__(164)
-  , $dataMetaSchema = __webpack_require__(185)
+  , formats = __webpack_require__(162)
+  , rules = __webpack_require__(163)
+  , $dataMetaSchema = __webpack_require__(184)
   , util = __webpack_require__(6);
 
 module.exports = Ajv;
@@ -25285,8 +25280,8 @@ Ajv.prototype.errorsText = errorsText;
 Ajv.prototype._addSchema = _addSchema;
 Ajv.prototype._compile = _compile;
 
-Ajv.prototype.compileAsync = __webpack_require__(186);
-var customKeyword = __webpack_require__(187);
+Ajv.prototype.compileAsync = __webpack_require__(185);
+var customKeyword = __webpack_require__(186);
 Ajv.prototype.addKeyword = customKeyword.add;
 Ajv.prototype.getKeyword = customKeyword.get;
 Ajv.prototype.removeKeyword = customKeyword.remove;
@@ -25700,11 +25695,11 @@ function addFormat(name, format) {
 function addDraft6MetaSchema(self) {
   var $dataSchema;
   if (self._opts.$data) {
-    $dataSchema = __webpack_require__(189);
+    $dataSchema = __webpack_require__(188);
     self.addMetaSchema($dataSchema, $dataSchema.$id, true);
   }
   if (self._opts.meta === false) return;
-  var metaSchema = __webpack_require__(190);
+  var metaSchema = __webpack_require__(189);
   if (self._opts.$data) metaSchema = $dataMetaSchema(metaSchema, META_SUPPORT_DATA);
   self.addMetaSchema(metaSchema, META_SCHEMA_ID, true);
   self._refs['http://json-schema.org/schema'] = META_SCHEMA_ID;
@@ -25758,7 +25753,7 @@ function noop() {}
 
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26142,7 +26137,7 @@ function vars(arr, statement) {
 
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26169,7 +26164,7 @@ module.exports = function ucs2length(str) {
 
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26257,7 +26252,7 @@ function escapeJsonPtr(str) {
 
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26290,7 +26285,7 @@ Cache.prototype.clear = function Cache_clear() {
 
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26446,13 +26441,13 @@ function regex(str) {
 
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ruleModules = __webpack_require__(165)
+var ruleModules = __webpack_require__(164)
   , toHash = __webpack_require__(6).toHash;
 
 module.exports = function rules() {
@@ -26519,7 +26514,7 @@ module.exports = function rules() {
 
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26527,17 +26522,17 @@ module.exports = function rules() {
 
 //all requires must be explicit because browserify won't work with dynamic requires
 module.exports = {
-  '$ref': __webpack_require__(166),
-  allOf: __webpack_require__(167),
-  anyOf: __webpack_require__(168),
-  '$comment': __webpack_require__(169),
-  const: __webpack_require__(170),
-  contains: __webpack_require__(171),
-  dependencies: __webpack_require__(172),
-  'enum': __webpack_require__(173),
-  format: __webpack_require__(174),
-  'if': __webpack_require__(175),
-  items: __webpack_require__(176),
+  '$ref': __webpack_require__(165),
+  allOf: __webpack_require__(166),
+  anyOf: __webpack_require__(167),
+  '$comment': __webpack_require__(168),
+  const: __webpack_require__(169),
+  contains: __webpack_require__(170),
+  dependencies: __webpack_require__(171),
+  'enum': __webpack_require__(172),
+  format: __webpack_require__(173),
+  'if': __webpack_require__(174),
+  items: __webpack_require__(175),
   maximum: __webpack_require__(64),
   minimum: __webpack_require__(64),
   maxItems: __webpack_require__(65),
@@ -26546,20 +26541,20 @@ module.exports = {
   minLength: __webpack_require__(66),
   maxProperties: __webpack_require__(67),
   minProperties: __webpack_require__(67),
-  multipleOf: __webpack_require__(177),
-  not: __webpack_require__(178),
-  oneOf: __webpack_require__(179),
-  pattern: __webpack_require__(180),
-  properties: __webpack_require__(181),
-  propertyNames: __webpack_require__(182),
-  required: __webpack_require__(183),
-  uniqueItems: __webpack_require__(184),
+  multipleOf: __webpack_require__(176),
+  not: __webpack_require__(177),
+  oneOf: __webpack_require__(178),
+  pattern: __webpack_require__(179),
+  properties: __webpack_require__(180),
+  propertyNames: __webpack_require__(181),
+  required: __webpack_require__(182),
+  uniqueItems: __webpack_require__(183),
   validate: __webpack_require__(63)
 };
 
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26689,7 +26684,7 @@ module.exports = function generate_ref(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26739,7 +26734,7 @@ module.exports = function generate_allOf(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26819,7 +26814,7 @@ module.exports = function generate_anyOf(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26840,7 +26835,7 @@ module.exports = function generate_comment(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26902,7 +26897,7 @@ module.exports = function generate_const(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26990,7 +26985,7 @@ module.exports = function generate_contains(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27164,7 +27159,7 @@ module.exports = function generate_dependencies(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 173 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27236,7 +27231,7 @@ module.exports = function generate_enum(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 174 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27392,7 +27387,7 @@ module.exports = function generate_format(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 175 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27502,7 +27497,7 @@ module.exports = function generate_if(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 176 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27649,7 +27644,7 @@ module.exports = function generate_items(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 177 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27732,7 +27727,7 @@ module.exports = function generate_multipleOf(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 178 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27822,7 +27817,7 @@ module.exports = function generate_not(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 179 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27901,7 +27896,7 @@ module.exports = function generate_oneOf(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 180 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27982,7 +27977,7 @@ module.exports = function generate_pattern(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 181 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28311,7 +28306,7 @@ module.exports = function generate_properties(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 182 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28399,7 +28394,7 @@ module.exports = function generate_propertyNames(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 183 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28674,7 +28669,7 @@ module.exports = function generate_required(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 184 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28759,7 +28754,7 @@ module.exports = function generate_uniqueItems(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 185 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28815,7 +28810,7 @@ module.exports = function (metaSchema, keywordsJsonPointers) {
 
 
 /***/ }),
-/* 186 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28912,14 +28907,14 @@ function compileAsync(schema, meta, callback) {
 
 
 /***/ }),
-/* 187 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var IDENTIFIER = /^[a-z_$][a-z0-9_$-]*$/i;
-var customRuleCode = __webpack_require__(188);
+var customRuleCode = __webpack_require__(187);
 
 module.exports = {
   add: addKeyword,
@@ -29054,7 +29049,7 @@ function removeKeyword(keyword) {
 
 
 /***/ }),
-/* 188 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29287,13 +29282,13 @@ module.exports = function generate_custom(it, $keyword, $ruleType) {
 
 
 /***/ }),
-/* 189 */
+/* 188 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-07/schema#","$id":"https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/data.json#","description":"Meta-schema for $data reference (JSON Schema extension proposal)","type":"object","required":["$data"],"properties":{"$data":{"type":"string","anyOf":[{"format":"relative-json-pointer"},{"format":"json-pointer"}]}},"additionalProperties":false}
 
 /***/ }),
-/* 190 */
+/* 189 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-07/schema#","$id":"http://json-schema.org/draft-07/schema#","title":"Core schema meta-schema","definitions":{"schemaArray":{"type":"array","minItems":1,"items":{"$ref":"#"}},"nonNegativeInteger":{"type":"integer","minimum":0},"nonNegativeIntegerDefault0":{"allOf":[{"$ref":"#/definitions/nonNegativeInteger"},{"default":0}]},"simpleTypes":{"enum":["array","boolean","integer","null","number","object","string"]},"stringArray":{"type":"array","items":{"type":"string"},"uniqueItems":true,"default":[]}},"type":["object","boolean"],"properties":{"$id":{"type":"string","format":"uri-reference"},"$schema":{"type":"string","format":"uri"},"$ref":{"type":"string","format":"uri-reference"},"$comment":{"type":"string"},"title":{"type":"string"},"description":{"type":"string"},"default":true,"readOnly":{"type":"boolean","default":false},"examples":{"type":"array","items":true},"multipleOf":{"type":"number","exclusiveMinimum":0},"maximum":{"type":"number"},"exclusiveMaximum":{"type":"number"},"minimum":{"type":"number"},"exclusiveMinimum":{"type":"number"},"maxLength":{"$ref":"#/definitions/nonNegativeInteger"},"minLength":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"pattern":{"type":"string","format":"regex"},"additionalItems":{"$ref":"#"},"items":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/schemaArray"}],"default":true},"maxItems":{"$ref":"#/definitions/nonNegativeInteger"},"minItems":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"uniqueItems":{"type":"boolean","default":false},"contains":{"$ref":"#"},"maxProperties":{"$ref":"#/definitions/nonNegativeInteger"},"minProperties":{"$ref":"#/definitions/nonNegativeIntegerDefault0"},"required":{"$ref":"#/definitions/stringArray"},"additionalProperties":{"$ref":"#"},"definitions":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"properties":{"type":"object","additionalProperties":{"$ref":"#"},"default":{}},"patternProperties":{"type":"object","additionalProperties":{"$ref":"#"},"propertyNames":{"format":"regex"},"default":{}},"dependencies":{"type":"object","additionalProperties":{"anyOf":[{"$ref":"#"},{"$ref":"#/definitions/stringArray"}]}},"propertyNames":{"$ref":"#"},"const":true,"enum":{"type":"array","items":true,"minItems":1,"uniqueItems":true},"type":{"anyOf":[{"$ref":"#/definitions/simpleTypes"},{"type":"array","items":{"$ref":"#/definitions/simpleTypes"},"minItems":1,"uniqueItems":true}]},"format":{"type":"string"},"contentMediaType":{"type":"string"},"contentEncoding":{"type":"string"},"if":{"$ref":"#"},"then":{"$ref":"#"},"else":{"$ref":"#"},"allOf":{"$ref":"#/definitions/schemaArray"},"anyOf":{"$ref":"#/definitions/schemaArray"},"oneOf":{"$ref":"#/definitions/schemaArray"},"not":{"$ref":"#"}},"default":true}
