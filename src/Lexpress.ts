@@ -114,30 +114,16 @@ export default class Lexpress {
   }
 
   public startHttp(): void {
-    if (process.env.NODE_ENV === 'development') {
-      log.warn(`Lexpress Server will start in a development mode.`)
+    const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 
-      http
-        .createServer(this.app)
-        .listen(this.port, () => log.info(`Lexpress Server is listening on port ${this.port}.`))
-
-      return
-    }
-
-    log.warn(`Lexpress Server will start in a production mode.`)
+    log.warn(`Lexpress Server will start in a ${nodeEnv} mode (non-secure).`)
     this.app.listen(this.port, () => log.info(`Lexpress Server is listening on port ${this.port}.`))
   }
 
   public startHttps(): void {
-    if (process.env.NODE_ENV === 'development' || this.https === false) {
-      log.warn(`Lexpress Server will start in a development (or non-secure) mode.`)
+    const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 
-      this.app.listen(this.port, () => log.info(`Lexpress Server is listening on port ${this.port}.`))
-
-      return
-    }
-
-    log.warn(`Lexpress Server will start in a production mode.`)
+    log.warn(`Lexpress Server will start in a ${nodeEnv} mode (secure).`)
 
     https
       .createServer(this.https as https.ServerOptions, this.app)
