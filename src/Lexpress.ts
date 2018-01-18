@@ -11,7 +11,7 @@ import log from './libs/helpers/log'
 import logo from './libs/media/logo'
 
 import { Express, NextFunction, Request, Response } from 'express'
-import { LexpressOptions, LexpressOptionsHttps } from './types'
+import { LexpressOptions } from './types'
 
 const lexpressOptionsDefault: LexpressOptions = {
   headers: {},
@@ -133,7 +133,7 @@ export default class Lexpress {
       log.warn(`Lexpress Server will start in a development mode.`)
 
       https
-        .createServer(this.https as LexpressOptionsHttps, this.app)
+        .createServer(this.https as https.ServerOptions, this.app)
         .listen(this.port, () => log.info(`Lexpress Server is listening on port ${this.port}.`))
 
       return
