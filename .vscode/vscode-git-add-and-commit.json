@@ -7,6 +7,7 @@
       { "pattern": ".gitignore: ", "with": "git: ignore" },
       { "pattern": ".git", "with": "git" },
       { "pattern": "CHANGELOG", "with": "changelog" },
+      { "pattern": "Lexpress", "with": "lexpress" },
       { "pattern": "LICENSE", "with": "license" },
       { "pattern": "package", "with": "npm" },
       { "pattern": "README", "with": "readme" },
