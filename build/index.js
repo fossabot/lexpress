@@ -11094,6 +11094,7 @@ const lexpressOptionsDefault = {
     https: false,
     middlewares: [],
     routes: [],
+    viewsPath: 'src',
 };
 const rootPath = process.cwd();
 class Lexpress {
@@ -11103,6 +11104,7 @@ class Lexpress {
         this.https = options.https;
         this.middlewares = options.middlewares;
         this.routes = options.routes;
+        this.viewsPath = options.viewsPath;
         this.init();
     }
     init() {
@@ -11120,7 +11122,7 @@ class Lexpress {
         // Define mustache as the template renderer
         this.app.engine('mst', mustacheExpress());
         this.app.set('view engine', 'mst');
-        this.app.set('views', `${rootPath}/server/views`);
+        this.app.set('views', `${rootPath}/${this.viewsPath}/views`);
         // Set the response headers
         this.app.all('*', (req, res, next) => {
             let key;
@@ -25159,7 +25161,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(59);
 // Is replaced with postversion script
-const VERSION = `0.17.3`;
+const VERSION = `0.18.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
