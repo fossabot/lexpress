@@ -26,7 +26,7 @@ export interface LexpressOptions {
   https?: false | ServerOptions
   middlewares?: express.RequestHandler[]
   routes: Route[]
-  viewsPath: string
+  viewsPath?: string
 }
 export type LexpressOptionsHeaders = {
   'Access-Control-Allow-Origin'?: string
