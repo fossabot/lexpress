@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as https from 'https'
 const mustacheExpress = require('mustache-express')
-const pug = require('pug')
+require('pug')
 
 import answerError from './libs/helpers/answerError'
 import cache from './middlewares/cache'
@@ -64,7 +64,7 @@ export default class Lexpress {
     // Define the template renderer
     switch (this.viewsEngine) {
       case 'pug':
-        this.app.engine('pug', pug)
+        // this.app.engine('pug', pug)
         this.app.set('view engine', 'pug')
 
       default:
