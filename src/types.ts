@@ -26,6 +26,7 @@ export interface LexpressOptions {
   https?: false | ServerOptions
   middlewares?: express.RequestHandler[]
   routes: Route[]
+  viewsEngine?: 'mustache' | 'pug'
   viewsPath?: string
 }
 export type LexpressOptionsHeaders = {
