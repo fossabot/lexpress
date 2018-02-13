@@ -17,6 +17,7 @@ const lexpressOptionsDefault: LexpressOptions = {
   https: false,
   middlewares: [],
   routes: [],
+  viewsEngine: 'mustache',
   viewsPath: 'src',
 }
 const rootPath = process.cwd()
@@ -28,6 +29,7 @@ export default class Lexpress {
   private middlewares: LexpressOptions['middlewares']
   private port: number
   private routes: LexpressOptions['routes']
+  private viewsEngine: LexpressOptions['viewsEngine']
   private viewsPath: LexpressOptions['viewsPath']
 
   constructor(options: LexpressOptions) {
@@ -37,6 +39,7 @@ export default class Lexpress {
     this.https = options.https
     this.middlewares = options.middlewares
     this.routes = options.routes
+    this.viewsEngine = options.viewsEngine
     this.viewsPath = options.viewsPath
     this.init()
   }
@@ -57,9 +60,16 @@ export default class Lexpress {
     // Attaches the routes
     this.setRoutes()
 
-    // Define mustache as the template renderer
-    this.app.engine('mst', mustacheExpress())
-    this.app.set('view engine', 'mst')
+    // Define the template renderer
+    switch (this.viewsEngine) {
+      case 'pug':
+        this.app.set('view engine', 'pug')
+
+      default:
+        this.app.engine('mst', mustacheExpress())
+        this.app.set('view engine', 'mst')
+    }
+
     this.app.set('views', `${rootPath}/${this.viewsPath}/views`)
 
     // Set the response headers
