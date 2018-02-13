@@ -19246,7 +19246,7 @@ const dotenv = __webpack_require__(205);
 const express = __webpack_require__(206);
 const https = __webpack_require__(74);
 const mustacheExpress = __webpack_require__(272);
-const pug = __webpack_require__(276);
+__webpack_require__(276);
 const answerError_1 = __webpack_require__(193);
 const cache_1 = __webpack_require__(533);
 const fileExists_1 = __webpack_require__(535);
@@ -19287,7 +19287,7 @@ class Lexpress {
         // Define the template renderer
         switch (this.viewsEngine) {
             case 'pug':
-                this.app.engine('pug', pug);
+                // this.app.engine('pug', pug)
                 this.app.set('view engine', 'pug');
             default:
                 this.app.engine('mst', mustacheExpress());
@@ -74221,7 +74221,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(194);
 // Is replaced with postversion script
-const VERSION = `0.19.1`;
+const VERSION = `0.19.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
