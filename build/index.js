@@ -11446,10 +11446,12 @@ class Lexpress {
     }
     answer(req, res, routeIndex, options = {}) {
         const { controller: Controller, method } = this.routes[routeIndex];
-        if (options.cache !== undefined) {
-            const cachedContent = this.cache(req, res, options.cache.forInSeconds);
+        if (options.isJson !== undefined) {
+            // Check if a cached content exists for this query,
+            const cachedContent = this.cache(req, res);
+            // and send it if there is one.
             if (cachedContent !== undefined) {
-                return options.cache.isJson ? res.json(cachedContent) : res.send(cachedContent);
+                return options.isJson ? res.json(cachedContent) : res.send(cachedContent);
             }
         }
         let key;
@@ -11464,7 +11466,7 @@ class Lexpress {
             return answerError_1.default({ res, scope: `${Controller.name}.${method}()`, err });
         }
     }
-    cache(req, res, forInMs) {
+    cache(req, res) {
         /*
           STEP 1: Create the cache key
         */
@@ -25175,7 +25177,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(62);
 // Is replaced with postversion script
-const VERSION = `0.21.0`;
+const VERSION = `0.21.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -25195,15 +25197,6 @@ exports.default = chalk_1.default.gray(`
 
 "use strict";
 
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(156);
 const dotenv = __webpack_require__(32);
@@ -25230,18 +25223,17 @@ function cache(req, res, next) {
         /*
           STEP 2: Augment the response methods
         */
-        const { json, render } = res, resRest = __rest(res, ["json", "render"]);
         const expirationInMs = forInSeconds * 1000;
         const jsonAugmented = (body) => {
             if (process.env.NODE_ENV === 'development') {
                 log_1.default.info(`Caching %s key for %sms`, key, expirationInMs);
             }
             memoryCache.put(key, body, expirationInMs);
-            return json(body);
+            return res.json(body);
         };
         const renderAugmented = (view, options, callback) => {
             if (options !== undefined && typeof options === 'object') {
-                return render(view, options, (err, html) => {
+                return res.render(view, options, (err, html) => {
                     if (err === null) {
                         if (process.env.NODE_ENV === 'development') {
                             log_1.default.info(`Caching %s key for %sms`, key, expirationInMs);
@@ -25251,7 +25243,10 @@ function cache(req, res, next) {
                     callback(err, html);
                 });
             }
-            return render(view, (err, html) => {
+            return res.render(view, (err, html) => {
+                if (process.env.NODE_ENV === 'development') {
+                    log_1.default.info(`Augmented res.render()`);
+                }
                 if (err === null) {
                     if (process.env.NODE_ENV === 'development') {
                         log_1.default.info(`Caching %s key for %sms`, key, expirationInMs);
@@ -25261,7 +25256,10 @@ function cache(req, res, next) {
                 callback(err, html);
             });
         };
-        return Object.assign({ json: jsonAugmented, render: renderAugmented }, resRest);
+        return {
+            json: jsonAugmented,
+            render: renderAugmented,
+        };
     };
     next();
 }
