@@ -92,11 +92,12 @@ export default class Lexpress {
   private answer(req: Request, res: Response, routeIndex: number, options: RouteOptions = {}) {
     const { controller: Controller, method } = this.routes[routeIndex]
 
-    if (options.cache !== undefined) {
-      const cachedContent = this.cache(req, res, options.cache.forInSeconds)
-
+    if (options.isJson !== undefined) {
+      // Check if a cached content exists for this query,
+      const cachedContent = this.cache(req, res)
+      // and send it if there is one.
       if (cachedContent !== undefined) {
-        return options.cache.isJson ? res.json(cachedContent) : res.send(cachedContent)
+        return options.isJson ? res.json(cachedContent) : res.send(cachedContent)
       }
     }
 
@@ -116,7 +117,7 @@ export default class Lexpress {
     }
   }
 
-  private cache(req: express.Request, res: Response, forInMs: number): any | void {
+  private cache(req: express.Request, res: Response): any | void {
     /*
       STEP 1: Create the cache key
     */
