@@ -18,7 +18,7 @@ export interface BaseControllerConstructor {
 export interface Route {
   controller: BaseControllerConstructor
   method: BaseControllerMethod
-  option?: RouteOptions
+  options?: RouteOptions
   path: string
 }
 export interface RouteOptions {
