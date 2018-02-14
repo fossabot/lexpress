@@ -1,17 +1,19 @@
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as https from 'https'
+import * as memoryCache from 'memory-cache'
 const mustacheExpress = require('mustache-express')
 // require('pug')
 
+import keyifyObject from './helpers/keyifyObject'
 import answerError from './libs/helpers/answerError'
-import cache from './middlewares/cache'
 import fileExists from './libs/helpers/fileExists'
 import log from './libs/helpers/log'
 import logo from './libs/media/logo'
+import cache from './middlewares/cache'
 
 import { Express, NextFunction, Request, Response } from 'express'
-import { LexpressOptions } from './types'
+import { LexpressOptions, RouteOptions } from './types'
 
 const lexpressOptionsDefault: LexpressOptions = {
   headers: {},
@@ -87,8 +89,16 @@ export default class Lexpress {
     this.app.use(express.static(`${rootPath}/public`))
   }
 
-  private answer(req: Request, res: Response, routeIndex: number) {
+  private answer(req: Request, res: Response, routeIndex: number, options: RouteOptions = {}) {
     const { controller: Controller, method } = this.routes[routeIndex]
+
+    if (options.cache !== undefined) {
+      const cachedContent = this.cache(req, res, options.cache.forInSeconds)
+
+      if (cachedContent !== undefined) {
+        return options.cache.isJson ? res.json(cachedContent) : res.send(cachedContent)
+      }
+    }
 
     let key: keyof LexpressOptions['headers']
     for (key in this.headers)
@@ -98,6 +108,7 @@ export default class Lexpress {
 
     try {
       const controller = new Controller(req, res)
+
       return controller[method]()
     }
     catch (err) {
@@ -105,8 +116,35 @@ export default class Lexpress {
     }
   }
 
-  private setMiddlewares(): void {
-    this.app.use(cache)
+  private cache(req: express.Request, res: Response, forInMs: number): any | void {
+    /*
+      STEP 1: Create the cache key
+    */
+    const keyChunks: string[] = [req.originalUrl.toLowerCase()]
+
+    switch(req.method) {
+      case 'GET':
+        keyChunks.push(keyifyObject(req.query))
+        break
+
+      case 'POST':
+      case 'PUT':
+      case 'DELETE':
+        keyChunks.push(keyifyObject(req.body))
+        break
+    }
+
+    const key: string = keyChunks.join('-')
+
+    /*
+      STEP 2: Retrieve the cached content
+    */
+
+    // We try to get the cache, in case it exists
+    const cacheContent: any = memoryCache.get(key)
+
+    // If the cache exists, we return its content
+    if (cacheContent !== null) return cacheContent
   }
 
   private setCustomMiddlewares(): void {
@@ -115,9 +153,13 @@ export default class Lexpress {
     )
   }
 
+  private setMiddlewares(): void {
+    this.app.use(cache)
+  }
+
   private setRoutes(): void {
     this.routes.forEach((route, routeIndex) =>
-      this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
+      this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex, route.options))
     )
   }
 
