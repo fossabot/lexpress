@@ -22,10 +22,8 @@ export interface Route {
   path: string
 }
 export interface RouteOptions {
-  cache?: {
-    forInSeconds: number
-    isJson: boolean
-  }
+  /* Mandatory if the cache is used */
+  isJson?: boolean
 }
 
 export interface LexpressOptions {
