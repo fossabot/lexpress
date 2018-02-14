@@ -5,12 +5,12 @@ import * as memoryCache from 'memory-cache'
 
 import keyifyObject from '../helpers/keyifyObject'
 
-import { Response } from '../types'
+import { CacheResponse, Response } from '../types'
 
 dotenv.config()
 
 export default function cache(req: Request, res: Response, next: NextFunction): void {
-  res.cache = (forInSeconds: number): Response => {
+  res.cache = (forInSeconds: number): CacheResponse => {
     /*
       STEP 1: Create the cache key
     */
@@ -33,7 +33,6 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
     /*
       STEP 2: Augment the response methods
     */
-    const { json, render, ...resRest } = res
     const expirationInMs: number = forInSeconds * 1000
 
     const jsonAugmented = (body?: any): Response => {
@@ -43,12 +42,12 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
 
       memoryCache.put(key, body, expirationInMs)
 
-      return json(body)
+      return res.json(body)
     }
 
     const renderAugmented = (view: string, options?: Object, callback?: (err: Error, html: string) => void): void => {
       if (options !== undefined && typeof options === 'object') {
-        return render(view, options, (err: Error, html: string) => {
+        return res.render(view, options, (err: Error, html: string) => {
           if (err === null) {
             if (process.env.NODE_ENV === 'development') {
               log.info(`Caching %s key for %sms`, key, expirationInMs)
@@ -61,7 +60,11 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
         })
       }
 
-      return render(view, (err: Error, html: string) => {
+      return res.render(view, (err: Error, html: string) => {
+        if (process.env.NODE_ENV === 'development') {
+          log.info(`Augmented res.render()`)
+        }
+
         if (err === null) {
           if (process.env.NODE_ENV === 'development') {
             log.info(`Caching %s key for %sms`, key, expirationInMs)
@@ -77,8 +80,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
     return {
       json: jsonAugmented,
       render: renderAugmented,
-      ...resRest
-    } as Response
+    }
   }
 
   next()
