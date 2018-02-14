@@ -10,7 +10,7 @@ import { Response } from '../types'
 dotenv.config()
 
 export default function cache(req: Request, res: Response, next: NextFunction): void {
-  (res as any).cache = (forInSeconds: number) => {
+  res.cache = (forInSeconds: number): Response => {
     /*
       STEP 1: Create the cache key
     */
@@ -78,7 +78,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
       json: jsonAugmented,
       render: renderAugmented,
       ...resRest
-    }
+    } as Response
   }
 
   next()
