@@ -1,6 +1,8 @@
 import * as express from 'express'
 import * as memoryCache from 'memory-cache'
 
+import keyifyObject from '../helpers/keyifyObject'
+
 import { Response } from '../types'
 
 export default function cache(
@@ -9,20 +11,17 @@ export default function cache(
   next: express.NextFunction
 ): void {
   (res as any).cache = (expirationInMs: number) => {
-    const keyChunks: string[] = [
-      req.path.toLowerCase(),
-      req.method.toLowerCase()
-    ]
+    const keyChunks: string[] = [req.originalUrl.toLowerCase()]
 
     switch(req.method) {
       case 'GET':
-        keyChunks.push(JSON.stringify(req.query))
+        keyChunks.push(keyifyObject(req.query))
         break
 
       case 'POST':
       case 'PUT':
       case 'DELETE':
-        keyChunks.push(JSON.stringify(req.body))
+        keyChunks.push(keyifyObject(req.body))
         break
     }
 
