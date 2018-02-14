@@ -2,7 +2,11 @@ import * as express from 'express'
 import { ServerOptions } from 'https'
 
 export interface Response extends express.Response {
-  cache?: (forInSeconds: number) => Response
+  cache?: (forInSeconds: number) => CacheResponse
+}
+export interface CacheResponse {
+  json: express.Response['json']
+  render: express.Response['render']
 }
 
 import BaseController from './BaseController'
