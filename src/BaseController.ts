@@ -1,10 +1,10 @@
-import { Request, Response } from 'express'
+import { Request } from 'express'
 
 import answerError from './libs/helpers/answerError'
 import log from './libs/helpers/log'
 import jsonSchemaValidate, { Schema } from './libs/helpers/jsonSchemaValidate'
 
-import { BaseControllerResponse } from './types'
+import { BaseControllerResponse, Response } from './types'
 
 export default abstract class BaseController {
   protected readonly controllerName = this.constructor.name
