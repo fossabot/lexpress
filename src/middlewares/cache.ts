@@ -1,16 +1,19 @@
-import * as express from 'express'
+import log from '@inspired-beings/log'
+import { NextFunction, Request } from 'express'
+import * as dotenv from 'dotenv'
 import * as memoryCache from 'memory-cache'
 
 import keyifyObject from '../helpers/keyifyObject'
 
 import { Response } from '../types'
 
-export default function cache(
-  req: express.Request,
-  res: Response,
-  next: express.NextFunction
-): void {
-  (res as any).cache = (expirationInMs: number) => {
+dotenv.config()
+
+export default function cache(req: Request, res: Response, next: NextFunction): void {
+  (res as any).cache = (forInSeconds: number) => {
+    /*
+      STEP 1: Create the cache key
+    */
     const keyChunks: string[] = [req.originalUrl.toLowerCase()]
 
     switch(req.method) {
@@ -27,26 +30,53 @@ export default function cache(
 
     const key: string = keyChunks.join('-')
 
-    const { json, ...resRest } = res
+    /*
+      STEP 2: Augment the response methods
+    */
+    const { json, render, ...resRest } = res
+    const expirationInMs: number = forInSeconds * 1000
 
     const jsonAugmented = (body?: any): Response => {
-      if (cache === undefined) {
-        return json()
+      if (process.env.NODE_ENV === 'development') {
+        log.info(`Caching %s key for %sms`, key, expirationInMs)
       }
 
-      const cacheBody = memoryCache.get(key)
+      memoryCache.put(key, body, expirationInMs)
 
-      if (cacheBody === null) {
-        memoryCache.put(key, body, expirationInMs)
+      return json(body)
+    }
 
-        return json(body)
-      } else {
-        return json(cacheBody)
+    const renderAugmented = (view: string, options?: Object, callback?: (err: Error, html: string) => void): void => {
+      if (options !== undefined && typeof options === 'object') {
+        return render(view, options, (err: Error, html: string) => {
+          if (err === null) {
+            if (process.env.NODE_ENV === 'development') {
+              log.info(`Caching %s key for %sms`, key, expirationInMs)
+            }
+
+            memoryCache.put(key, html, expirationInMs)
+          }
+
+          callback(err, html)
+        })
       }
+
+      return render(view, (err: Error, html: string) => {
+        if (err === null) {
+          if (process.env.NODE_ENV === 'development') {
+            log.info(`Caching %s key for %sms`, key, expirationInMs)
+          }
+
+          memoryCache.put(key, html, expirationInMs)
+        }
+
+        callback(err, html)
+      })
     }
 
     return {
       json: jsonAugmented,
+      render: renderAugmented,
       ...resRest
     }
   }
