@@ -11,7 +11,7 @@ import * as express from 'express'
 import { ServerOptions } from 'https'
 
 export interface Response extends express.Response {
-  cache?: (forInSeconds: number) => CacheResponse
+  cache(forInSeconds: number): CacheResponse
 }
 export interface CacheResponse {
   json: express.Response['json']
@@ -44,7 +44,7 @@ export interface LexpressOptions {
   viewsEngine?: 'mustache'/* | 'pug'*/
   viewsPath?: string
 }
-export type LexpressOptionsHeaders = {
+export interface LexpressOptionsHeaders {
   'Access-Control-Allow-Origin'?: string
   'Access-Control-Allow-Headers'?: string
 }
