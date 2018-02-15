@@ -4,9 +4,6 @@ export { Lexpress }
 import BaseController from './BaseController'
 export { BaseController }
 
-import log from './libs/helpers/log'
-export { log }
-
 import * as express from 'express'
 import { ServerOptions } from 'https'
 
