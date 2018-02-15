@@ -1,3 +1,4 @@
+import log from '@inspired-beings/log'
 import * as bodyParser from 'body-parser'
 import * as connectRedis from 'connect-redis'
 import * as dotenv from 'dotenv'
@@ -5,20 +6,22 @@ import * as express from 'express'
 import * as expressSession from 'express-session'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
+// import * as R from 'ramda'
 
+// tslint:disable-next-line:no-require-imports no-var-requires typedef
 const mustacheExpress = require('mustache-express')
 // require('pug')
 
+import BaseController from './BaseController'
 import keyifyRequest from './helpers/keyifyRequest'
 import answerError from './libs/helpers/answerError'
 import fileExists from './libs/helpers/fileExists'
-import log from './libs/helpers/log'
 import logo from './libs/media/logo'
 import cache from './middlewares/cache'
 
-import { LexpressOptions, Route } from '.'
+import { CacheContent, LexpressOptions, Request, Response, Route } from '.'
 
-const lexpressOptionsDefault: LexpressOptions = {
+const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
   headers: {},
   https: false,
   middlewares: [],
@@ -26,7 +29,10 @@ const lexpressOptionsDefault: LexpressOptions = {
   viewsEngine: 'mustache',
   viewsPath: 'src',
 }
-const rootPath = process.cwd()
+const PORT_DEFAULT: number = 3000
+const SESSION_SECRET_LENGTH_MIN: number = 32
+
+const rootPath: string = process.cwd()
 
 // Check and load the local .env file (development mode)
 if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
@@ -41,20 +47,20 @@ export default class Lexpress {
   private viewsEngine: LexpressOptions['viewsEngine']
   private viewsPath: LexpressOptions['viewsPath']
 
-  constructor(options: LexpressOptions) {
-    options = Object.assign({}, lexpressOptionsDefault, options)
+  public constructor(options: LexpressOptions) {
+    const optionsFull: LexpressOptions = { ...LEXPRESS_OPTIONS_DEFAULT, ...options }
 
-    this.headers = options.headers
-    this.https = options.https
-    this.middlewares = options.middlewares
-    this.routes = options.routes
-    this.viewsEngine = options.viewsEngine
-    this.viewsPath = options.viewsPath
+    this.headers = optionsFull.headers
+    this.https = optionsFull.https
+    this.middlewares = optionsFull.middlewares
+    this.routes = optionsFull.routes
+    this.viewsEngine = optionsFull.viewsEngine
+    this.viewsPath = optionsFull.viewsPath
     this.init()
   }
 
-  private init() {
-    this.port = Number(process.env.PORT) || 3000
+  private init(): void {
+    this.port = Number(process.env.PORT) || PORT_DEFAULT
 
     // Initialize the Express app
     this.app = express()
@@ -82,8 +88,9 @@ export default class Lexpress {
     // Set the response headers
     this.app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
       let key: keyof LexpressOptions['headers']
-      for (key in this.headers)
-        res.header(key, this.headers[key])
+      for (key in this.headers) {
+        if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
+      }
 
       next()
     })
@@ -92,28 +99,37 @@ export default class Lexpress {
     this.app.use(express.static(`${rootPath}/public`))
   }
 
-  private answer(req: express.Request, res: express.Response, routeIndex: number, routeSettings: Route['settings'] = {}) {
+  private answer(
+    req: Request,
+    res: Response,
+    routeIndex: number,
+    routeSettings: Route['settings'] = {}
+  ): Response | void {
+    // tslint:disable-next-line:variable-name
     const { controller: Controller, method } = this.routes[routeIndex]
 
     if (routeSettings.isCached !== false) {
       // Check if a cached content exists for this query,
-      const cachedContent = this.cache(req, res)
+      const cachedContent: CacheContent | undefined = this.cache(req, res)
       // and send it if there is one.
       if (cachedContent !== undefined) {
-        return cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body)
+        return cachedContent.isJson
+          ? res.json(cachedContent.body) as Response
+          : res.send(cachedContent.body) as Response
       }
     }
 
     let key: keyof LexpressOptions['headers']
-    for (key in this.headers)
-      res.header(key, this.headers[key])
+    for (key in this.headers) {
+      if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
+    }
 
-    console.log(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
+    log.LogFunction(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
 
     try {
-      const controller = new Controller(req, res)
+      const controller: BaseController = new Controller(req, res)
 
-      return controller[method]()
+      return controller[method]() as Response | void
     }
     catch (err) {
       return answerError({
@@ -125,7 +141,7 @@ export default class Lexpress {
     }
   }
 
-  private cache(req: express.Request, res: express.Response): any | void {
+  private cache(req: express.Request, res: express.Response): CacheContent | undefined {
     // We generate the cache key
     const key: string = keyifyRequest(req)
 
@@ -133,17 +149,18 @@ export default class Lexpress {
     const cacheContent: any = memoryCache.get(key)
 
     // If the cache exists, we return its content
-    if (cacheContent !== null) return cacheContent
+    return cacheContent !== null ? cacheContent : undefined
   }
 
   private setCustomMiddlewares(): void {
-    this.middlewares.forEach(middleware =>
-      this.app.use(middleware)
-    )
+    this.middlewares.forEach((middleware: express.RequestHandler) => this.app.use(middleware))
   }
 
   private setMiddlewares(): void {
-    if (typeof process.env.SESSION_SECRET !== 'string' || process.env.SESSION_SECRET.length < 32) {
+    if (
+      typeof process.env.SESSION_SECRET !== 'string'
+      || process.env.SESSION_SECRET.length < SESSION_SECRET_LENGTH_MIN
+    ) {
       log.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET')
     }
 
@@ -151,7 +168,8 @@ export default class Lexpress {
       log.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL')
     }
 
-    const RedisStore = connectRedis(expressSession)
+    // tslint:disable-next-line:variable-name
+    const RedisStore: connectRedis.RedisStore = connectRedis(expressSession)
 
     // Parse application/json request body
     this.app.use(bodyParser.json())
@@ -170,28 +188,29 @@ export default class Lexpress {
   }
 
   private setRoutes(): void {
-    this.routes.forEach((route, routeIndex) =>
+    this.routes.forEach((route: Route, routeIndex: number) =>
     route.call !== undefined
       ? this.app[route.method](route.path, route.call)
-      : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex, route.settings))
+      : this.app[route.method](route.path, (req: Request, res: Response) =>
+        this.answer(req, res, routeIndex, route.settings))
     )
   }
 
   public start(): void {
-    console.log(logo)
+    log.info(logo)
 
     return this.https === false ? this.startHttp() : this.startHttps()
   }
 
   public startHttp(): void {
-    const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+    const nodeEnv: string = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 
     log.warn(`Lexpress Server will start in a ${nodeEnv} mode (non-secure).`)
     this.app.listen(this.port, () => log.info(`Lexpress Server is listening on port ${this.port}.`))
   }
 
   public startHttps(): void {
-    const nodeEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+    const nodeEnv: string = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 
     log.warn(`Lexpress Server will start in a ${nodeEnv} mode (secure).`)
 
