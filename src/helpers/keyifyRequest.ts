@@ -3,21 +3,25 @@ import { Request } from 'express'
 import keyifyObject from './keyifyObject'
 
 export default function(req: Request): string {
-  const keyChunks: string[] = [req.originalUrl.substr(1).toLowerCase()]
+  let keyQuery: string = req.originalUrl
+    .toLocaleLowerCase()
+    .replace(/\//g, '$')
+
+  if (keyQuery.length > 1 ) keyQuery = keyQuery.replace(/\$$/, '')
+
+  let keyParams: string | undefined
 
   switch(req.method) {
     case 'GET':
-      keyChunks.push(keyifyObject(req.query))
+      keyParams = keyifyObject(req.query)
       break
 
     case 'POST':
     case 'PUT':
     case 'DELETE':
-      keyChunks.push(keyifyObject(req.body))
+      keyParams = keyifyObject(req.body)
       break
   }
 
-  const key: string = keyChunks.join('-')
-
-  return key.length === 1 ? '0' : key
+  return keyParams === undefined ? keyQuery : `${keyQuery}-${keyParams}`
 }
