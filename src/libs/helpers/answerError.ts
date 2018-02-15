@@ -2,7 +2,7 @@ import { Response } from 'express'
 
 import log from './log'
 
-interface AnswerErrorParams {
+export interface AnswerErrorParams {
   res: Response
   scope: string
   err: string
