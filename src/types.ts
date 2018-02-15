@@ -20,8 +20,9 @@ export interface BaseControllerConstructor {
 }
 
 export interface Route {
-  controller: BaseControllerConstructor
-  method: BaseControllerMethod
+  call?: any
+  controller?: BaseControllerConstructor
+  method?: BaseControllerMethod
   path: string
 }
 
