@@ -22,12 +22,7 @@ export interface BaseControllerConstructor {
 export interface Route {
   controller: BaseControllerConstructor
   method: BaseControllerMethod
-  options?: RouteOptions
   path: string
-}
-export interface RouteOptions {
-  /* Mandatory if the cache is used */
-  isJson?: boolean
 }
 
 export interface LexpressOptions {
