@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Response } from '../../types'
 
 import log from './log'
 
@@ -9,6 +9,8 @@ export interface AnswerErrorParams {
   scope: string
   statusCode?: number
 }
+
+const CACHE_EXPIRATION_IN_SECONDS: number = 60
 
 export default function answerError({ err, isJson, res, statusCode, scope }: AnswerErrorParams): void {
   if (statusCode && statusCode < 500)
@@ -28,7 +30,7 @@ export default function answerError({ err, isJson, res, statusCode, scope }: Ans
       return
     }
 
-    res.status(400).json({
+    (res.status(400) as Response).cache(CACHE_EXPIRATION_IN_SECONDS).json({
       error: {
         code: 400,
         message: 'Bad Request'
@@ -38,5 +40,11 @@ export default function answerError({ err, isJson, res, statusCode, scope }: Ans
     return
   }
 
-  res.render(String(statusCode))
+  if (process.env.NODE_ENV === 'development') {
+    res.render(String(statusCode))
+
+    return
+  }
+
+  res.cache(CACHE_EXPIRATION_IN_SECONDS).render(String(statusCode))
 }
