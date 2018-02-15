@@ -7,11 +7,11 @@ export default function(req: Request): string {
     .toLocaleLowerCase()
     .replace(/\//g, '$')
 
-  if (keyQuery.length > 1 ) keyQuery = keyQuery.replace(/\$$/, '')
+  if (keyQuery.length > 1) keyQuery = keyQuery.replace(/\$$/, '')
 
   let keyParams: string
 
-  switch(req.method) {
+  switch (req.method) {
     case 'GET':
       keyParams = keyifyObject(req.query)
       break
@@ -21,6 +21,8 @@ export default function(req: Request): string {
     case 'DELETE':
       keyParams = keyifyObject(req.body)
       break
+
+    default:
   }
 
   return keyParams.length === 0 ? keyQuery : `${keyQuery}-${keyParams}`
