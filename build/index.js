@@ -25189,7 +25189,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(62);
 // Is replaced with postversion script
-const VERSION = `0.21.6`;
+const VERSION = `0.22.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -25243,9 +25243,6 @@ function cache(req, res, next) {
                 });
             }
             return res.render(view, (err, html) => {
-                if (process.env.NODE_ENV === 'development') {
-                    log_1.default.info(`Augmented res.render()`);
-                }
                 if (err === null) {
                     if (process.env.NODE_ENV === 'development') {
                         log_1.default.info(`Caching %s key for %sms`, key, expirationInMs);
