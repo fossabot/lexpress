@@ -17,13 +17,17 @@ export interface CacheResponse {
   json: express.Response['json']
   render: express.Response['render']
 }
+export interface CacheContent {
+  isJson: boolean
+  body: any
+}
 
 export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 
 export type BaseControllerResponse = Response | Promise<Response> | void
 
 export interface BaseControllerConstructor {
-  new (req: express.Request, res: express.Response): BaseController
+  new (req: Request, res: Response): BaseController
 }
 
 export interface Route {
