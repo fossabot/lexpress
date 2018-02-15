@@ -1,18 +1,17 @@
 import log from '@inspired-beings/log'
-import { NextFunction, Request } from 'express'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as memoryCache from 'memory-cache'
 
 import keyifyRequest from '../helpers/keyifyRequest'
 
-import { CacheResponse, Response } from '..'
+import { CacheResponse, Request, Response } from '..'
 
 dotenv.config()
 
 const SECONDS_IN_MILLISECONDS: number = 1000
 
-export default function cache(req: Request, res: Response, next: NextFunction): void {
+export default function cache(req: Request, res: Response, next: express.NextFunction): void {
   res.cache = (forInSeconds: number): CacheResponse => {
     const expirationInMs: number = forInSeconds * SECONDS_IN_MILLISECONDS
 
