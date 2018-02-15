@@ -9,7 +9,7 @@ export interface AnswerErrorParams {
   statusCode?: number
 }
 
-export default function answerError({ res, scope, err, statusCode = 400 }: AnswerErrorParams): Response {
+export default function answerError({ res, scope, err, statusCode }: AnswerErrorParams): Response {
   if (statusCode && statusCode < 500)
     log.warn(`${scope}: ${err}`)
   else
