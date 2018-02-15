@@ -22,7 +22,7 @@ export interface BaseControllerConstructor {
 export interface Route {
   call?: any
   controller?: BaseControllerConstructor
-  method?: BaseControllerMethod
+  method: BaseControllerMethod
   path: string
 }
 
