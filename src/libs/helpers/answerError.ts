@@ -1,6 +1,6 @@
-import { Response } from '../..'
+import log from '@inspired-beings/log'
 
-import log from './log'
+import { Response } from '../..'
 
 export interface AnswerErrorParams {
   err: string
@@ -11,12 +11,15 @@ export interface AnswerErrorParams {
 }
 
 const CACHE_EXPIRATION_IN_SECONDS: number = 60
+const HTTP_STATUS_CODE_BAD_REQUEST: number = 400
+const HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR: number = 500
 
 export default function answerError({ err, isJson, res, statusCode, scope }: AnswerErrorParams): void {
-  if (statusCode && statusCode < 500)
+  if (statusCode && statusCode < HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR) {
     log.warn(`${scope}: ${err}`)
-  else
-    log.error(`${scope}: ${err}`)
+  } else {
+    log.err(`${scope}: ${err}`)
+  }
 
   if (isJson) {
     if (process.env.NODE_ENV === 'development') {
@@ -30,9 +33,9 @@ export default function answerError({ err, isJson, res, statusCode, scope }: Ans
       return
     }
 
-    (res.status(400) as Response).cache(CACHE_EXPIRATION_IN_SECONDS).json({
+    (res.status(HTTP_STATUS_CODE_BAD_REQUEST) as Response).cache(CACHE_EXPIRATION_IN_SECONDS).json({
       error: {
-        code: 400,
+        code: HTTP_STATUS_CODE_BAD_REQUEST,
         message: 'Bad Request'
       }
     })
