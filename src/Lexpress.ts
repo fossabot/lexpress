@@ -117,7 +117,12 @@ export default class Lexpress {
       return controller[method]()
     }
     catch (err) {
-      return answerError({ res, scope: `${Controller.name}.${method}()`, err })
+      return answerError({
+        err,
+        isJson: true,
+        res,
+        scope: `${Controller.name}.${method}()`,
+      })
     }
   }
 
