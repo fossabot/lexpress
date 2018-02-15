@@ -1,8 +1,13 @@
 import * as bodyParser from 'body-parser'
+import * as connectRedis from 'connect-redis'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
+import * as expressSession from 'express-session'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
+import * as passport from 'passport'
+// import * as redis from 'redis'
+
 const mustacheExpress = require('mustache-express')
 // require('pug')
 
@@ -25,6 +30,9 @@ const lexpressOptionsDefault: LexpressOptions = {
   viewsPath: 'src',
 }
 const rootPath = process.cwd()
+
+// Check and load the local .env file (development mode)
+if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
 export default class Lexpress {
   private app: Express
@@ -49,9 +57,6 @@ export default class Lexpress {
   }
 
   private init() {
-    // Check and load the local .env file (development mode)
-    if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
-
     this.port = Number(process.env.PORT) || 3000
 
     // Initialize the Express app
@@ -134,10 +139,31 @@ export default class Lexpress {
   }
 
   private setMiddlewares(): void {
+    if (typeof process.env.SESSION_SECRET !== 'string' || process.env.SESSION_SECRET.length < 32) {
+      log.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET')
+    }
+
+    if (typeof process.env.REDIS_URL !== 'string' || process.env.REDIS_URL.length === 0) {
+      log.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL')
+    }
+
+    const RedisStore = connectRedis(expressSession)
+
     // Parse application/json request body
     this.app.use(bodyParser.json())
     // Parse application/x-www-form-urlencoded request body
     this.app.use(bodyParser.urlencoded({ extended: true }))
+    this.app.use(expressSession({
+      cookie: {
+        secure: true
+      },
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.SESSION_SECRET,
+      store: new RedisStore({ url: process.env.REDIS_URL })
+    }))
+    this.app.use(passport.initialize())
+    this.app.use(passport.session())
     this.app.use(cache)
   }
 
