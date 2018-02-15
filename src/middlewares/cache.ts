@@ -73,7 +73,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
           memoryCache.put(key, html, expirationInMs)
         }
 
-        callback(err, html)
+        if (callback !== undefined) callback(err, html)
       })
     }
 
