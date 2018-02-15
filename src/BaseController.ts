@@ -19,10 +19,18 @@ export default abstract class BaseController {
     this.res = res
   }
 
-  public get(): BaseControllerResponse { return this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND) }
-  public post(): BaseControllerResponse { return this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND) }
-  public put(): BaseControllerResponse { return this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND) }
-  public delete(): BaseControllerResponse { return this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND) }
+  public get(): BaseControllerResponse {
+    this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND)
+  }
+  public post(): BaseControllerResponse {
+    this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND)
+  }
+  public put(): BaseControllerResponse {
+    this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND)
+  }
+  public delete(): BaseControllerResponse {
+    this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND)
+  }
 
   protected log(message: string): void {
     log.LogFunction(`${this.controllerName}: ${message}`)
@@ -46,13 +54,17 @@ export default abstract class BaseController {
     })
   }
 
-  protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): BaseControllerResponse {
+  protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): void {
     this.log(`Validating JSON Schema`)
 
-    return jsonSchemaValidate(schema, this.req.query, (err: string) => {
-      if (err) return this.answerError(err)
+    jsonSchemaValidate(schema, this.req.query, (err: string) => {
+      if (err !== null) {
+        this.answerError(err)
 
-      return cb()
+        return
+      }
+
+      cb()
     })
   }
 }
