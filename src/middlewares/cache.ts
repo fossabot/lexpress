@@ -44,10 +44,6 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
       }
 
       return res.render(view, (err: Error, html: string) => {
-        if (process.env.NODE_ENV === 'development') {
-          log.info(`Augmented res.render()`)
-        }
-
         if (err === null) {
           if (process.env.NODE_ENV === 'development') {
             log.info(`Caching %s key for %sms`, key, expirationInMs)
