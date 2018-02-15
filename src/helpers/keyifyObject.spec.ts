@@ -1,3 +1,5 @@
+// tslint:disable
+
 import * as assert from 'assert'
 
 import keyifyObject from './keyifyObject'
