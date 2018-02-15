@@ -39,13 +39,13 @@ if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
 export default class Lexpress {
   private app: express.Express
-  private headers: LexpressOptions['headers']
-  private https: LexpressOptions['https']
-  private middlewares: LexpressOptions['middlewares']
+  private readonly headers: LexpressOptions['headers']
+  private readonly https: LexpressOptions['https']
+  private readonly middlewares: LexpressOptions['middlewares']
   private port: number
-  private routes: LexpressOptions['routes']
-  private viewsEngine: LexpressOptions['viewsEngine']
-  private viewsPath: LexpressOptions['viewsPath']
+  private readonly routes: LexpressOptions['routes']
+  private readonly viewsEngine: LexpressOptions['viewsEngine']
+  private readonly viewsPath: LexpressOptions['viewsPath']
 
   public constructor(options: LexpressOptions) {
     const optionsFull: LexpressOptions = { ...LEXPRESS_OPTIONS_DEFAULT, ...options }
@@ -60,7 +60,7 @@ export default class Lexpress {
   }
 
   private init(): void {
-    this.port = Number(process.env.PORT) || PORT_DEFAULT
+    this.port = process.env.PORT !== undefined ? Number(process.env.PORT) : PORT_DEFAULT
 
     // Initialize the Express app
     this.app = express()
@@ -104,18 +104,18 @@ export default class Lexpress {
     res: Response,
     routeIndex: number,
     routeSettings: Route['settings'] = {}
-  ): Response | void {
+  ): void {
     // tslint:disable-next-line:variable-name
     const { controller: Controller, method } = this.routes[routeIndex]
 
-    if (routeSettings.isCached !== false) {
+    if (routeSettings.isCached === undefined || routeSettings.isCached) {
       // Check if a cached content exists for this query,
       const cachedContent: CacheContent | undefined = this.cache(req, res)
       // and send it if there is one.
       if (cachedContent !== undefined) {
-        return cachedContent.isJson
-          ? res.json(cachedContent.body) as Response
-          : res.send(cachedContent.body) as Response
+        cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body)
+
+        return
       }
     }
 
@@ -129,10 +129,10 @@ export default class Lexpress {
     try {
       const controller: BaseController = new Controller(req, res)
 
-      return controller[method]() as Response | void
+      controller[method]()
     }
     catch (err) {
-      return answerError({
+      answerError({
         err,
         isJson: true,
         res,
@@ -189,17 +189,24 @@ export default class Lexpress {
 
   private setRoutes(): void {
     this.routes.forEach((route: Route, routeIndex: number) =>
-    route.call !== undefined
-      ? this.app[route.method](route.path, route.call)
-      : this.app[route.method](route.path, (req: Request, res: Response) =>
-        this.answer(req, res, routeIndex, route.settings))
+      route.call !== undefined
+        ? this.app[route.method](route.path, route.call)
+        : this.app[route.method](route.path, (req: Request, res: Response) => {
+          this.answer(req, res, routeIndex, route.settings)
+        })
     )
   }
 
   public start(): void {
     log.info(logo)
 
-    return this.https === false ? this.startHttp() : this.startHttps()
+    if (this.https === false) {
+      this.startHttp()
+
+      return
+    }
+
+    this.startHttps()
   }
 
   public startHttp(): void {
