@@ -9,7 +9,7 @@ export default function(req: Request): string {
 
   if (keyQuery.length > 1 ) keyQuery = keyQuery.replace(/\$$/, '')
 
-  let keyParams: string | undefined
+  let keyParams: string
 
   switch(req.method) {
     case 'GET':
@@ -23,5 +23,5 @@ export default function(req: Request): string {
       break
   }
 
-  return keyParams === undefined ? keyQuery : `${keyQuery}-${keyParams}`
+  return keyParams.length !== 0 ? keyQuery : `${keyQuery}-${keyParams}`
 }
