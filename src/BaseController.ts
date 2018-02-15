@@ -8,6 +8,7 @@ import { BaseControllerResponse, Response } from './types'
 
 export default abstract class BaseController {
   protected readonly controllerName = this.constructor.name
+  protected isJson: boolean = true
 
   constructor(
     protected readonly req: Request,
@@ -31,11 +32,12 @@ export default abstract class BaseController {
     log.write(controllerName, data)
   }
 
-  protected answerError(err: string, statusCode: number = 400, isJson: boolean = true): Response {
-    return answerError({
+  protected answerError(err: string, statusCode: number = 400): void {
+    answerError({
+      err,
+      isJson: this.isJson,
       res: this.res,
       scope: this.controllerName,
-      err,
       statusCode,
     })
   }
