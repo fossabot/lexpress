@@ -31,12 +31,12 @@ export default abstract class BaseController {
     log.write(controllerName, data)
   }
 
-  protected answerError(err: string, statusCode?: number): Response {
+  protected answerError(err: string, statusCode: number = 400, isJson: boolean = true): Response {
     return answerError({
       res: this.res,
       scope: this.controllerName,
       err,
-      statusCode: statusCode || 400,
+      statusCode,
     })
   }
 
