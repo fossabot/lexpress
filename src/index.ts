@@ -6,3 +6,6 @@ export { BaseController }
 
 import log from './libs/helpers/log'
 export { log }
+
+import * as Types from './types'
+export { Types }
