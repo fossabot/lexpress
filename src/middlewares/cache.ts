@@ -24,7 +24,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
 
       memoryCache.put(key, body, expirationInMs)
 
-      return res.json({ isJson: false, body })
+      return res.json({ isJson: true, body })
     }
 
     // We augment the Express render() method
