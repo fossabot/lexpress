@@ -16,8 +16,7 @@ import log from './libs/helpers/log'
 import logo from './libs/media/logo'
 import cache from './middlewares/cache'
 
-import { Express, NextFunction, Request, Response } from 'express'
-import { LexpressOptions, Route } from './types'
+import { LexpressOptions, Route } from '.'
 
 const lexpressOptionsDefault: LexpressOptions = {
   headers: {},
@@ -33,7 +32,7 @@ const rootPath = process.cwd()
 if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
 export default class Lexpress {
-  private app: Express
+  private app: express.Express
   private headers: LexpressOptions['headers']
   private https: LexpressOptions['https']
   private middlewares: LexpressOptions['middlewares']
@@ -81,7 +80,7 @@ export default class Lexpress {
     this.app.set('views', `${rootPath}/${this.viewsPath}/views`)
 
     // Set the response headers
-    this.app.all('*', (req: Request, res: Response, next: NextFunction) => {
+    this.app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
       let key: keyof LexpressOptions['headers']
       for (key in this.headers)
         res.header(key, this.headers[key])
@@ -93,7 +92,7 @@ export default class Lexpress {
     this.app.use(express.static(`${rootPath}/public`))
   }
 
-  private answer(req: Request, res: Response, routeIndex: number, routeSettings: Route['settings'] = {}) {
+  private answer(req: express.Request, res: express.Response, routeIndex: number, routeSettings: Route['settings'] = {}) {
     const { controller: Controller, method } = this.routes[routeIndex]
 
     if (routeSettings.isCached !== false) {
@@ -126,7 +125,7 @@ export default class Lexpress {
     }
   }
 
-  private cache(req: express.Request, res: Response): any | void {
+  private cache(req: express.Request, res: express.Response): any | void {
     // We generate the cache key
     const key: string = keyifyRequest(req)
 
