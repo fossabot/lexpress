@@ -5,7 +5,7 @@ import * as memoryCache from 'memory-cache'
 const mustacheExpress = require('mustache-express')
 // require('pug')
 
-import keyifyObject from './helpers/keyifyObject'
+import keyifyRequest from './helpers/keyifyRequest'
 import answerError from './libs/helpers/answerError'
 import fileExists from './libs/helpers/fileExists'
 import log from './libs/helpers/log'
@@ -118,28 +118,8 @@ export default class Lexpress {
   }
 
   private cache(req: express.Request, res: Response): any | void {
-    /*
-      STEP 1: Create the cache key
-    */
-    const keyChunks: string[] = [req.originalUrl.toLowerCase()]
-
-    switch(req.method) {
-      case 'GET':
-        keyChunks.push(keyifyObject(req.query))
-        break
-
-      case 'POST':
-      case 'PUT':
-      case 'DELETE':
-        keyChunks.push(keyifyObject(req.body))
-        break
-    }
-
-    const key: string = keyChunks.join('-')
-
-    /*
-      STEP 2: Retrieve the cached content
-    */
+    // We generate the cache key
+    const key: string = keyifyRequest(req)
 
     // We try to get the cache, in case it exists
     const cacheContent: any = memoryCache.get(key)
