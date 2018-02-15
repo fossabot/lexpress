@@ -39,7 +39,13 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
             memoryCache.put(key, html, expirationInMs)
           }
 
-          if (callback !== undefined) callback(err, html)
+          if (callback !== undefined) {
+            callback(err, html)
+
+            return
+          }
+
+          res.send(html)
         })
       }
 
@@ -52,7 +58,13 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
           memoryCache.put(key, html, expirationInMs)
         }
 
-        if (callback !== undefined) callback(err, html)
+        if (callback !== undefined) {
+          callback(err, html)
+
+          return
+        }
+
+        res.send(html)
       })
     }
 
