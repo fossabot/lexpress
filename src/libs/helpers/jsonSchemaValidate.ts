@@ -1,7 +1,7 @@
 import * as Ajv from 'ajv'
 
 export type Schema = Object | string | boolean
-type Callback = (err: string | null) => any
+export type Callback = (err: string | null) => any
 
 const ajv = new Ajv()
 
