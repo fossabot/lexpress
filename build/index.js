@@ -14751,13 +14751,15 @@ class Lexpress {
         // Define 'public' directory as the static files directory
         this.app.use(express.static(`${rootPath}/public`));
     }
-    answer(req, res, routeIndex) {
+    answer(req, res, routeIndex, routeSettings = {}) {
         const { controller: Controller, method } = this.routes[routeIndex];
-        // Check if a cached content exists for this query,
-        const cachedContent = this.cache(req, res);
-        // and send it if there is one.
-        if (cachedContent !== undefined) {
-            return cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body);
+        if (routeSettings.isCached !== false) {
+            // Check if a cached content exists for this query,
+            const cachedContent = this.cache(req, res);
+            // and send it if there is one.
+            if (cachedContent !== undefined) {
+                return cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body);
+            }
         }
         let key;
         for (key in this.headers)
@@ -14809,7 +14811,7 @@ class Lexpress {
     setRoutes() {
         this.routes.forEach((route, routeIndex) => route.call !== undefined
             ? this.app[route.method](route.path, route.call)
-            : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex)));
+            : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex, route.settings)));
     }
     start() {
         console.log(logo_1.default);
@@ -32219,7 +32221,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(88);
 // Is replaced with postversion script
-const VERSION = `0.26.0`;
+const VERSION = `0.27.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",

@@ -20,6 +20,9 @@ export interface Route {
     controller?: BaseControllerConstructor;
     method: BaseControllerMethod;
     path: string;
+    settings?: {
+        isCached?: boolean;
+    };
 }
 export interface LexpressOptions {
     headers?: LexpressOptionsHeaders;
