@@ -9268,19 +9268,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 Object.defineProperty(exports, "__esModule", { value: true });
 const keyifyObject_1 = __webpack_require__(145);
 function default_1(req) {
-    const keyChunks = [req.originalUrl.substr(1).toLowerCase()];
+    let keyQuery = req.originalUrl
+        .toLocaleLowerCase()
+        .replace(/\//g, '$');
+    if (keyQuery.length > 1)
+        keyQuery = keyQuery.replace(/\$$/, '');
+    let keyParams;
     switch (req.method) {
         case 'GET':
-            keyChunks.push(keyifyObject_1.default(req.query));
+            keyParams = keyifyObject_1.default(req.query);
             break;
         case 'POST':
         case 'PUT':
         case 'DELETE':
-            keyChunks.push(keyifyObject_1.default(req.body));
+            keyParams = keyifyObject_1.default(req.body);
             break;
     }
-    const key = keyChunks.join('-');
-    return key.length === 1 ? '0' : key;
+    return keyParams === undefined ? keyQuery : `${keyQuery}-${keyParams}`;
 }
 exports.default = default_1;
 
@@ -25189,7 +25193,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(62);
 // Is replaced with postversion script
-const VERSION = `0.22.1`;
+const VERSION = `0.22.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
