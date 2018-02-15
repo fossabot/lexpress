@@ -13,6 +13,9 @@
     "build": "webpack --display-error-details",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "preversion": "npm test && npm run build",
+    "validate": "npm run validate:lint && npm run validate:tsc",
+    "validate:lint": "tslint -p tsconfig.json",
+    "validate:tsc": "tsc --noEmit --pretty",
     "version": "node tasks/injectVersion && git add .",
     "postversion": "npm publish"
   },
