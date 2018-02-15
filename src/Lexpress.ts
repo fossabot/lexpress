@@ -91,9 +91,7 @@ export default class Lexpress {
   }
 
   private answer(req: Request, res: Response, routeIndex: number) {
-    const { call, controller: Controller, method } = this.routes[routeIndex]
-
-    if (call !== undefined) return call()
+    const { controller: Controller, method } = this.routes[routeIndex]
 
     // Check if a cached content exists for this query,
     const cachedContent = this.cache(req, res)
@@ -145,7 +143,9 @@ export default class Lexpress {
 
   private setRoutes(): void {
     this.routes.forEach((route, routeIndex) =>
-      this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
+    route.call !== undefined
+      ? this.app[route.method](route.path, route.call)
+      : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
     )
   }
 
