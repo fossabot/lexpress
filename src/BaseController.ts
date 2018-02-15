@@ -4,7 +4,7 @@ import answerError from './libs/helpers/answerError'
 import log from './libs/helpers/log'
 import jsonSchemaValidate, { Schema } from './libs/helpers/jsonSchemaValidate'
 
-import { BaseControllerResponse, Response } from './types'
+import { BaseControllerResponse, Response } from '.'
 
 export default abstract class BaseController {
   protected readonly controllerName = this.constructor.name
