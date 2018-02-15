@@ -25196,7 +25196,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(63);
 // Is replaced with postversion script
-const VERSION = `0.23.0`;
+const VERSION = `0.23.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -25233,7 +25233,7 @@ function cache(req, res, next) {
                 log_1.default.info(`Caching %s key for %sms`, key, expirationInMs);
             }
             memoryCache.put(key, body, expirationInMs);
-            return res.json({ isJson: false, body });
+            return res.json({ isJson: true, body });
         };
         // We augment the Express render() method
         const renderAugmented = (view, options, callback) => {
