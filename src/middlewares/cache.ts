@@ -5,7 +5,7 @@ import * as memoryCache from 'memory-cache'
 
 import keyifyRequest from '../helpers/keyifyRequest'
 
-import { CacheResponse, Response } from '../types'
+import { CacheResponse, Response } from '..'
 
 dotenv.config()
 
