@@ -1,5 +1,4 @@
-/// <reference types="express" />
-import { Response } from 'express';
+import { Response } from '../../types';
 export interface AnswerErrorParams {
     err: string;
     isJson: boolean;

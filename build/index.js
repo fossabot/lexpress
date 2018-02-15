@@ -12591,6 +12591,7 @@ exports.default = default_1;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(31);
+const CACHE_EXPIRATION_IN_SECONDS = 60;
 function answerError({ err, isJson, res, statusCode, scope }) {
     if (statusCode && statusCode < 500)
         log_1.default.warn(`${scope}: ${err}`);
@@ -12606,7 +12607,7 @@ function answerError({ err, isJson, res, statusCode, scope }) {
             });
             return;
         }
-        res.status(400).json({
+        res.status(400).cache(CACHE_EXPIRATION_IN_SECONDS).json({
             error: {
                 code: 400,
                 message: 'Bad Request'
@@ -12614,7 +12615,11 @@ function answerError({ err, isJson, res, statusCode, scope }) {
         });
         return;
     }
-    res.render(String(statusCode));
+    if (process.env.NODE_ENV === 'development') {
+        res.render(String(statusCode));
+        return;
+    }
+    res.cache(CACHE_EXPIRATION_IN_SECONDS).render(String(statusCode));
 }
 exports.default = answerError;
 
@@ -32231,7 +32236,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(88);
 // Is replaced with postversion script
-const VERSION = `0.28.0`;
+const VERSION = `0.28.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
