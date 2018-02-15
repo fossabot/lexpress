@@ -24,7 +24,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
 
       memoryCache.put(key, body, expirationInMs)
 
-      return res.json(body)
+      return res.json({ isJson: false, body })
     }
 
     // We augment the Express render() method
@@ -36,7 +36,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
               log.info(`Caching %s key for %sms`, key, expirationInMs)
             }
 
-            memoryCache.put(key, html, expirationInMs)
+            memoryCache.put(key, { isJson: false, body: html }, expirationInMs)
           }
 
           if (callback !== undefined) {
@@ -55,7 +55,7 @@ export default function cache(req: Request, res: Response, next: NextFunction): 
             log.info(`Caching %s key for %sms`, key, expirationInMs)
           }
 
-          memoryCache.put(key, html, expirationInMs)
+          memoryCache.put(key, { isJson: false, body: html }, expirationInMs)
         }
 
         if (callback !== undefined) {
