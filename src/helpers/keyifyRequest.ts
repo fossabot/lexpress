@@ -3,7 +3,7 @@ import { Request } from 'express'
 import keyifyObject from './keyifyObject'
 
 export default function(req: Request): string {
-  const keyChunks: string[] = [req.originalUrl.toLowerCase()]
+  const keyChunks: string[] = [req.originalUrl.substr(1).toLowerCase()]
 
   switch(req.method) {
     case 'GET':
@@ -17,5 +17,7 @@ export default function(req: Request): string {
       break
   }
 
-  return keyChunks.join('-')
+  const key: string = keyChunks.join('-')
+
+  return key.length === 1 ? '0' : key
 }
