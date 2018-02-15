@@ -6,7 +6,6 @@ import * as expressSession from 'express-session'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
 import * as passport from 'passport'
-// import * as redis from 'redis'
 
 const mustacheExpress = require('mustache-express')
 // require('pug')
