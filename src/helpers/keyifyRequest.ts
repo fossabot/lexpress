@@ -23,5 +23,5 @@ export default function(req: Request): string {
       break
   }
 
-  return keyParams.length !== 0 ? keyQuery : `${keyQuery}-${keyParams}`
+  return keyParams.length === 0 ? keyQuery : `${keyQuery}-${keyParams}`
 }
