@@ -30,6 +30,7 @@
     "@types/mongodb": "^3.0.5",
     "@types/node": "^9.4.6",
     "@types/query-string": "^5.1.0",
+    "@types/ramda": "^0.25.18",
     "ajv": "^6.1.1",
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
@@ -44,7 +45,8 @@
     "mongodb": "^3.0.2",
     "mustache-express": "^1.2.5",
     "pug": "^2.0.0-rc.4",
-    "query-string": "^5.1.0"
+    "query-string": "^5.1.0",
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.48",
