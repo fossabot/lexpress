@@ -3,31 +3,40 @@ import { Response } from 'express'
 import log from './log'
 
 export interface AnswerErrorParams {
+  err: string
+  isJson: boolean
   res: Response
   scope: string
-  err: string
   statusCode?: number
 }
 
-export default function answerError({ res, scope, err, statusCode }: AnswerErrorParams): Response {
+export default function answerError({ err, isJson, res, statusCode, scope }: AnswerErrorParams): void {
   if (statusCode && statusCode < 500)
     log.warn(`${scope}: ${err}`)
   else
     log.error(`${scope}: ${err}`)
 
-  if (process.env.NODE_ENV === 'development') {
-    return res.status(statusCode).json({
+  if (isJson) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(statusCode).json({
+        error: {
+          code: statusCode,
+          message: err
+        }
+      })
+
+      return
+    }
+
+    res.status(400).json({
       error: {
-        code: statusCode,
-        message: err
+        code: 400,
+        message: 'Bad Request'
       }
     })
+
+    return
   }
 
-  return res.status(400).json({
-    error: {
-      code: 400,
-      message: 'Bad Request'
-    }
-  })
+  res.render(String(statusCode))
 }
