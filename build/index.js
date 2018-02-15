@@ -12591,25 +12591,30 @@ exports.default = default_1;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(31);
-function answerError({ res, scope, err, statusCode = 400 }) {
+function answerError({ err, isJson, res, statusCode, scope }) {
     if (statusCode && statusCode < 500)
         log_1.default.warn(`${scope}: ${err}`);
     else
         log_1.default.error(`${scope}: ${err}`);
-    if (process.env.NODE_ENV === 'development') {
-        return res.status(statusCode).json({
+    if (isJson) {
+        if (process.env.NODE_ENV === 'development') {
+            res.status(statusCode).json({
+                error: {
+                    code: statusCode,
+                    message: err
+                }
+            });
+            return;
+        }
+        res.status(400).json({
             error: {
-                code: statusCode,
-                message: err
+                code: 400,
+                message: 'Bad Request'
             }
         });
+        return;
     }
-    return res.status(400).json({
-        error: {
-            code: 400,
-            message: 'Bad Request'
-        }
-    });
+    res.render(String(statusCode));
 }
 exports.default = answerError;
 
@@ -14770,7 +14775,12 @@ class Lexpress {
             return controller[method]();
         }
         catch (err) {
-            return answerError_1.default({ res, scope: `${Controller.name}.${method}()`, err });
+            return answerError_1.default({
+                err,
+                isJson: true,
+                res,
+                scope: `${Controller.name}.${method}()`,
+            });
         }
     }
     cache(req, res) {
@@ -32221,7 +32231,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(88);
 // Is replaced with postversion script
-const VERSION = `0.27.0`;
+const VERSION = `0.28.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -34477,6 +34487,7 @@ class BaseController {
         this.req = req;
         this.res = res;
         this.controllerName = this.constructor.name;
+        this.isJson = true;
     }
     get() { return this.answerError('Not Found', 404); }
     post() { return this.answerError('Not Found', 404); }
@@ -34491,12 +34502,13 @@ class BaseController {
     logWrite(controllerName, data) {
         log_1.default.write(controllerName, data);
     }
-    answerError(err, statusCode) {
-        return answerError_1.default({
+    answerError(err, statusCode = 400) {
+        answerError_1.default({
+            err,
+            isJson: this.isJson,
             res: this.res,
             scope: this.controllerName,
-            err,
-            statusCode: statusCode || 400,
+            statusCode,
         });
     }
     validateJsonSchema(schema, cb) {

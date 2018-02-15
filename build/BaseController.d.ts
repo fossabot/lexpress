@@ -6,6 +6,7 @@ export default abstract class BaseController {
     protected readonly req: Request;
     protected readonly res: Response;
     protected readonly controllerName: string;
+    protected isJson: boolean;
     constructor(req: Request, res: Response);
     get(): BaseControllerResponse;
     post(): BaseControllerResponse;
@@ -14,6 +15,6 @@ export default abstract class BaseController {
     protected log(message: string): void;
     protected logError(message: string): void;
     protected logWrite(controllerName: string, data: {}): void;
-    protected answerError(err: string, statusCode?: number): Response;
+    protected answerError(err: string, statusCode?: number): void;
     protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): BaseControllerResponse;
 }
