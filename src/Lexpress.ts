@@ -17,7 +17,7 @@ import logo from './libs/media/logo'
 import cache from './middlewares/cache'
 
 import { Express, NextFunction, Request, Response } from 'express'
-import { LexpressOptions } from './types'
+import { LexpressOptions, Route } from './types'
 
 const lexpressOptionsDefault: LexpressOptions = {
   headers: {},
@@ -93,14 +93,16 @@ export default class Lexpress {
     this.app.use(express.static(`${rootPath}/public`))
   }
 
-  private answer(req: Request, res: Response, routeIndex: number) {
+  private answer(req: Request, res: Response, routeIndex: number, routeSettings: Route['settings'] = {}) {
     const { controller: Controller, method } = this.routes[routeIndex]
 
-    // Check if a cached content exists for this query,
-    const cachedContent = this.cache(req, res)
-    // and send it if there is one.
-    if (cachedContent !== undefined) {
-      return cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body)
+    if (routeSettings.isCached !== false) {
+      // Check if a cached content exists for this query,
+      const cachedContent = this.cache(req, res)
+      // and send it if there is one.
+      if (cachedContent !== undefined) {
+        return cachedContent.isJson ? res.json(cachedContent.body) : res.send(cachedContent.body)
+      }
     }
 
     let key: keyof LexpressOptions['headers']
@@ -167,7 +169,7 @@ export default class Lexpress {
     this.routes.forEach((route, routeIndex) =>
     route.call !== undefined
       ? this.app[route.method](route.path, route.call)
-      : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex))
+      : this.app[route.method](route.path, (req, res) => this.answer(req, res, routeIndex, route.settings))
     )
   }
 
