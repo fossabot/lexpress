@@ -9284,7 +9284,7 @@ function default_1(req) {
             keyParams = keyifyObject_1.default(req.body);
             break;
     }
-    return keyParams.length !== 0 ? keyQuery : `${keyQuery}-${keyParams}`;
+    return keyParams.length === 0 ? keyQuery : `${keyQuery}-${keyParams}`;
 }
 exports.default = default_1;
 
@@ -25193,7 +25193,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(62);
 // Is replaced with postversion script
-const VERSION = `0.22.3`;
+const VERSION = `0.22.4`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
