@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
     "module": "commonjs",
     "noImplicitAny": true,
