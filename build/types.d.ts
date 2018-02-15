@@ -18,11 +18,7 @@ export interface BaseControllerConstructor {
 export interface Route {
     controller: BaseControllerConstructor;
     method: BaseControllerMethod;
-    options?: RouteOptions;
     path: string;
-}
-export interface RouteOptions {
-    isJson?: boolean;
 }
 export interface LexpressOptions {
     headers?: LexpressOptionsHeaders;
