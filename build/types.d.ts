@@ -16,8 +16,9 @@ export interface BaseControllerConstructor {
     new (req: express.Request, res: express.Response): BaseController;
 }
 export interface Route {
-    controller: BaseControllerConstructor;
-    method: BaseControllerMethod;
+    call?: any;
+    controller?: BaseControllerConstructor;
+    method?: BaseControllerMethod;
     path: string;
 }
 export interface LexpressOptions {

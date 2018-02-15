@@ -11626,7 +11626,9 @@ class Lexpress {
         this.app.use(express.static(`${rootPath}/public`));
     }
     answer(req, res, routeIndex) {
-        const { controller: Controller, method } = this.routes[routeIndex];
+        const { call, controller: Controller, method } = this.routes[routeIndex];
+        if (call !== undefined)
+            return call();
         // Check if a cached content exists for this query,
         const cachedContent = this.cache(req, res);
         // and send it if there is one.
@@ -25196,7 +25198,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(63);
 // Is replaced with postversion script
-const VERSION = `0.23.1`;
+const VERSION = `0.24.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
