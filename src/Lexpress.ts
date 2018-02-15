@@ -5,7 +5,6 @@ import * as express from 'express'
 import * as expressSession from 'express-session'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
-import * as passport from 'passport'
 
 const mustacheExpress = require('mustache-express')
 // require('pug')
@@ -161,8 +160,6 @@ export default class Lexpress {
       secret: process.env.SESSION_SECRET,
       store: new RedisStore({ url: process.env.REDIS_URL })
     }))
-    this.app.use(passport.initialize())
-    this.app.use(passport.session())
     this.app.use(cache)
   }
 
