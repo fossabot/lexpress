@@ -25179,7 +25179,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(62);
 // Is replaced with postversion script
-const VERSION = `0.21.3`;
+const VERSION = `0.21.4`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -25242,7 +25242,8 @@ function cache(req, res, next) {
                         }
                         memoryCache.put(key, html, expirationInMs);
                     }
-                    callback(err, html);
+                    if (callback !== undefined)
+                        callback(err, html);
                 });
             }
             return res.render(view, (err, html) => {
