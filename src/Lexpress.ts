@@ -1,3 +1,4 @@
+import * as bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as https from 'https'
@@ -133,6 +134,10 @@ export default class Lexpress {
   }
 
   private setMiddlewares(): void {
+    // Parse application/json request body
+    this.app.use(bodyParser.json())
+    // Parse application/x-www-form-urlencoded request body
+    this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(cache)
   }
 
