@@ -15,7 +15,7 @@ const HTTP_STATUS_CODE_BAD_REQUEST: number = 400
 const HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR: number = 500
 
 export default function answerError({ err, isJson, res, statusCode, scope }: AnswerErrorParams): void {
-  if (statusCode && statusCode < HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR) {
+  if (statusCode !== undefined && statusCode < HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR) {
     log.warn(`${scope}: ${err}`)
   } else {
     log.err(`${scope}: ${err}`)
