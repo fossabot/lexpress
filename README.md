@@ -26,7 +26,7 @@ Typescript definitions are also included.
 
     npm i lexpress
 
-### Example
+### Basic Web & Api Example
 
 **index.ts**
 
@@ -36,27 +36,31 @@ import { Lexpress } from 'lexpress'
 import routes from './routes'
 
 const lexpress = new Lexpress({
-  headers: {
-    'Access-Control-Allow-Origin': 'https://example.com',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-  },
-  routes
+  routes,
+  viewsEngine: 'pug',
+  viewsPath: 'src/views'
 })
 
 lexpress.start()
 ```
 
-**routes.ts**
+**src/routes.ts**
 
 ```typescript
 import { Route } from 'lexpress'
 
-import HelloWorldController from './controllers/HelloWorldController'
+import ApiHelloWorldController from './controllers/api/HelloYouController'
+import WebHelloWorldController from './controllers/web/HelloYouController'
 
 const routes: Route[] = [
   {
-    path: '/',
-    Controller: HelloWorldController,
+    path: '/:name',
+    controller: WebHelloWorldController,
+    method: 'get',
+  },
+  {
+    path: '/api/hello',
+    controller: ApiHelloWorldController,
     method: 'get',
   }
 ]
@@ -64,12 +68,12 @@ const routes: Route[] = [
 export default routes
 ```
 
-**controllers/HelloWorldController.ts**
+**src/controllers/api/HelloYouController.ts**
 
 ```typescript
 import { BaseController } from 'lexpress'
 
-export default class ApiUserController extends BaseController {
+export default class HelloYouController extends BaseController {
   public get() {
     const schema = {
       type: 'object',
@@ -82,16 +86,39 @@ export default class ApiUserController extends BaseController {
       required: ['name'],
     }
 
-    return this.validateJsonSchema(schema, () => {
-      return this.res
+    this.validateJsonSchema(schema, () => {
+      this.res
+        .status(200)
         // Let's keep this response in cache for 24h
         .cache(86400000)
-        .status(200)
         .json({
-          message: 'Hello World !',
-          name: this.req.query.email,
+          message: `Hello ${this.req.query.name} !`,
+          name: this.req.query.name,
         })
     })
   }
 }
+```
+
+**src/controllers/web/HelloYouController.ts**
+
+```typescript
+import { BaseController } from 'lexpress'
+
+export default class HelloYouController extends BaseController {
+  public get() {
+    this.res
+      // Let's keep this response in cache for 24h
+      .cache(86400000)
+      .render('hello-you', {
+        name: this.req.params.name,
+      })
+  }
+}
+```
+
+**src/views/hello-you.pug**
+
+```pug
+h1 Hello #{name} !
 ```
