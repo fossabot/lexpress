@@ -16759,11 +16759,17 @@ class Lexpress {
         this.app.use(cache_1.default);
     }
     setRoutes() {
-        this.routes.forEach((route, routeIndex) => route.call !== undefined
-            ? this.app[route.method](route.path, route.call)
-            : this.app[route.method](route.path, (req, res) => {
-                this.answer(req, res, routeIndex, route.settings);
-            }));
+        this.routes.forEach((route, routeIndex) => route.middleware !== undefined
+            ? route.call !== undefined
+                ? this.app[route.method](route.path, route.middleware, route.call)
+                : this.app[route.method](route.path, route.middleware, (req, res) => {
+                    this.answer(req, res, routeIndex, route.settings);
+                })
+            : route.call !== undefined
+                ? this.app[route.method](route.path, route.call)
+                : this.app[route.method](route.path, (req, res) => {
+                    this.answer(req, res, routeIndex, route.settings);
+                }));
     }
     start() {
         // tslint:disable-next-line:no-console
@@ -33519,7 +33525,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.30.2`;
+const VERSION = `0.31.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",

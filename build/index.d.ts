@@ -28,6 +28,7 @@ export interface Route {
     call?: any;
     controller?: BaseControllerConstructor;
     method: BaseControllerMethod;
+    middleware: express.RequestHandler;
     path: string;
     settings?: {
         isCached?: boolean;
