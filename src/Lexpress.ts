@@ -10,7 +10,6 @@ import * as memoryCache from 'memory-cache'
 
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
 const mustacheExpress = require('mustache-express')
-// require('pug')
 
 import BaseController from './BaseController'
 import keyifyRequest from './helpers/keyifyRequest'
@@ -78,9 +77,10 @@ export default class Lexpress {
 
     // Define the template renderer
     switch (this.viewsEngine) {
-      // case 'pug':
-        // this.app.engine('pug', pug)
-        // this.app.set('view engine', 'pug')
+      case 'pug':
+        // tslint:disable-next-line:no-require-imports
+        this.app.engine('pug', require('pug').__express)
+        this.app.set('view engine', 'pug')
 
       default:
         this.app.engine('mst', mustacheExpress())
