@@ -327,7 +327,7 @@ class Lexpress {
                 secure: process.env.NODE_ENV === 'production'
             },
             proxy: process.env.NODE_ENV === 'production',
-            resave: false,
+            resave: true,
             saveUninitialized: false,
             secret: process.env.SESSION_SECRET,
             store: new RedisStore({ url: process.env.REDIS_URL })
@@ -465,7 +465,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(18);
 // Is replaced with postversion script
-const VERSION = `0.34.1`;
+const VERSION = `0.34.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
