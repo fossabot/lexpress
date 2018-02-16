@@ -6,6 +6,8 @@ import BaseController from './BaseController';
 export { BaseController };
 import * as express from 'express';
 import { ServerOptions } from 'https';
+export interface NextFunction extends express.NextFunction {
+}
 export interface Request extends express.Request {
 }
 export interface Response extends express.Response {
