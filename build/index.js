@@ -88,7 +88,7 @@ module.exports = require("memory-cache");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const keyifyObject_1 = __webpack_require__(14);
+const keyifyObject_1 = __webpack_require__(13);
 function default_1(req) {
     let keyQuery = req.originalUrl
         .toLocaleLowerCase()
@@ -166,7 +166,7 @@ exports.default = answerError;
 Object.defineProperty(exports, "__esModule", { value: true });
 const Lexpress_1 = __webpack_require__(6);
 exports.Lexpress = Lexpress_1.default;
-const BaseController_1 = __webpack_require__(20);
+const BaseController_1 = __webpack_require__(19);
 exports.BaseController = BaseController_1.default;
 
 
@@ -179,22 +179,22 @@ exports.BaseController = BaseController_1.default;
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(0);
 const bodyParser = __webpack_require__(7);
-const connectRedis = __webpack_require__(8);
+// import * as connectRedis from 'connect-redis'
 const dotenv = __webpack_require__(1);
-const express = __webpack_require__(9);
-const expressSession = __webpack_require__(10);
-const https = __webpack_require__(11);
+const express = __webpack_require__(8);
+const expressSession = __webpack_require__(9);
+const https = __webpack_require__(10);
 const memoryCache = __webpack_require__(2);
 // import * as R from 'ramda'
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
-const mustacheExpress = __webpack_require__(12);
+const mustacheExpress = __webpack_require__(11);
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
-const pug = __webpack_require__(13);
+const pug = __webpack_require__(12);
 const keyifyRequest_1 = __webpack_require__(3);
 const answerError_1 = __webpack_require__(4);
-const fileExists_1 = __webpack_require__(15);
-const logo_1 = __webpack_require__(17);
-const cache_1 = __webpack_require__(19);
+const fileExists_1 = __webpack_require__(14);
+const logo_1 = __webpack_require__(16);
+const cache_1 = __webpack_require__(18);
 const LEXPRESS_OPTIONS_DEFAULT = {
     headers: {},
     https: false,
@@ -313,11 +313,11 @@ class Lexpress {
             || process.env.SESSION_SECRET.length < SESSION_SECRET_LENGTH_MIN) {
             log_1.default.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET');
         }
-        if (typeof process.env.REDIS_URL !== 'string' || process.env.REDIS_URL.length === 0) {
-            log_1.default.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL');
-        }
+        // if (typeof process.env.REDIS_URL !== 'string' || process.env.REDIS_URL.length === 0) {
+        //   log.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL')
+        // }
         // tslint:disable-next-line:variable-name
-        const RedisStore = connectRedis(expressSession);
+        // const RedisStore: connectRedis.RedisStore = connectRedis(expressSession)
         // Parse application/json request body
         this.app.use(bodyParser.json());
         // Parse application/x-www-form-urlencoded request body
@@ -330,7 +330,6 @@ class Lexpress {
             resave: true,
             saveUninitialized: false,
             secret: process.env.SESSION_SECRET,
-            store: new RedisStore({ url: process.env.REDIS_URL })
         }));
         this.app.use(cache_1.default);
     }
@@ -382,40 +381,34 @@ module.exports = require("body-parser");
 /* 8 */
 /***/ (function(module, exports) {
 
-module.exports = require("connect-redis");
+module.exports = require("express");
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
-module.exports = require("express");
+module.exports = require("express-session");
 
 /***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("express-session");
+module.exports = require("https");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("https");
+module.exports = require("mustache-express");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("mustache-express");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
 module.exports = require("pug");
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -431,13 +424,13 @@ exports.default = default_1;
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __webpack_require__(16);
+const fs = __webpack_require__(15);
 function fileExists(filePath) {
     try {
         fs.accessSync(filePath);
@@ -451,21 +444,21 @@ exports.default = fileExists;
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalk_1 = __webpack_require__(18);
+const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.34.2`;
+const VERSION = `0.34.3`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -480,13 +473,13 @@ exports.default = chalk_1.default.gray(`
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("chalk");
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -555,7 +548,7 @@ exports.default = cache;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -563,7 +556,7 @@ exports.default = cache;
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(0);
 const answerError_1 = __webpack_require__(4);
-const jsonSchemaValidate_1 = __webpack_require__(21);
+const jsonSchemaValidate_1 = __webpack_require__(20);
 const HTTP_STATUS_CODE_NOT_FOUND = 404;
 class BaseController {
     constructor(req, res) {
@@ -617,13 +610,13 @@ exports.default = BaseController;
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ajv = __webpack_require__(22);
+const Ajv = __webpack_require__(21);
 const ajv = new Ajv();
 function default_1(schema, data, cb) {
     cb(ajv.validate(schema, data) ? null : ajv.errorsText());
@@ -632,7 +625,7 @@ exports.default = default_1;
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("ajv");
