@@ -16759,7 +16759,7 @@ class Lexpress {
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(expressSession({
             cookie: {
-                secure: true
+                secure: process.env.NODE_ENV === 'production'
             },
             proxy: process.env.NODE_ENV === 'production',
             resave: false,
@@ -33536,7 +33536,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.33.0`;
+const VERSION = `0.33.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
