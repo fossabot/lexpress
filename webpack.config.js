@@ -1,4 +1,5 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const nodeExternals = require('webpack-node-externals')
 const path = require('path')
 
 module.exports = {
@@ -15,6 +16,8 @@ module.exports = {
   resolve: {
     extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
   },
+
+  externals: [nodeExternals()],
 
   module: {
     loaders: [
