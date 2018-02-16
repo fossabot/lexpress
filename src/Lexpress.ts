@@ -194,7 +194,7 @@ export default class Lexpress {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(expressSession({
       cookie: {
-        secure: true
+        secure: process.env.NODE_ENV === 'production'
       },
       proxy: process.env.NODE_ENV === 'production',
       resave: false,
