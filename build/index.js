@@ -16696,7 +16696,7 @@ class Lexpress {
             if (this.headers.hasOwnProperty(key))
                 res.header(key, this.headers[key]);
         }
-        log_1.default.LogFunction(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`);
+        log_1.default.info(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`);
         try {
             const controller = new Controller(req, res);
             controller[method]();
@@ -33506,7 +33506,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.30.0`;
+const VERSION = `0.30.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -34514,7 +34514,7 @@ class BaseController {
         this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
     }
     log(message) {
-        log_1.default.LogFunction(`${this.controllerName}: ${message}`);
+        log_1.default.info(`${this.controllerName}: ${message}`);
     }
     logError(message) {
         log_1.default.err(`${this.controllerName}: ${message}`);
