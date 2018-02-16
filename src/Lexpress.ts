@@ -190,7 +190,7 @@ export default class Lexpress {
         secure: process.env.NODE_ENV === 'production'
       },
       proxy: process.env.NODE_ENV === 'production',
-      resave: true,
+      resave: false,
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
     }))
