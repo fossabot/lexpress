@@ -43,7 +43,7 @@ export interface LexpressOptions {
     notFoundmiddleware?: express.RequestHandler;
     routes: Route[];
     staticPath?: string;
-    viewsEngine?: 'mustache';
+    viewsEngine?: 'mustache' | 'pug';
     viewsPath?: string;
 }
 export interface LexpressOptionsHeaders {
