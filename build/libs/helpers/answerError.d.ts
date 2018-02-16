@@ -1,4 +1,4 @@
-import { Response } from '../../types';
+import { Response } from '../..';
 export interface AnswerErrorParams {
     err: string;
     isJson: boolean;

@@ -1,13 +1,13 @@
-import { LexpressOptions } from './types';
+import { LexpressOptions } from '.';
 export default class Lexpress {
     private app;
-    private headers;
-    private https;
-    private middlewares;
+    private readonly headers;
+    private readonly https;
+    private readonly middlewares;
     private port;
-    private routes;
-    private viewsEngine;
-    private viewsPath;
+    private readonly routes;
+    private readonly viewsEngine;
+    private readonly viewsPath;
     constructor(options: LexpressOptions);
     private init();
     private answer(req, res, routeIndex, routeSettings?);

@@ -1,1 +1,1 @@
-export default function (value: Object): string;
+export default function (value: {}): string;
