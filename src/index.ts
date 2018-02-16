@@ -8,6 +8,9 @@ import * as express from 'express'
 import { ServerOptions } from 'https'
 
 // tslint:disable-next-line:no-empty-interface
+export interface NextFunction extends express.NextFunction {}
+
+// tslint:disable-next-line:no-empty-interface
 export interface Request extends express.Request {}
 
 export interface Response extends express.Response {
