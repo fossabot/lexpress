@@ -129,7 +129,7 @@ export default class Lexpress {
       if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
     }
 
-    log.LogFunction(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
+    log.info(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
 
     try {
       const controller: BaseController = new Controller(req, res)
