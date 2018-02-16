@@ -16653,6 +16653,7 @@ class Lexpress {
         this.middlewares = optionsFull.middlewares;
         this.notFoundmiddleware = optionsFull.notFoundmiddleware;
         this.routes = optionsFull.routes;
+        this.staticPath = optionsFull.staticPath;
         this.viewsEngine = optionsFull.viewsEngine;
         this.viewsPath = optionsFull.viewsPath;
         this.init();
@@ -16675,7 +16676,10 @@ class Lexpress {
                 this.app.engine('mst', mustacheExpress());
                 this.app.set('view engine', 'mst');
         }
-        this.app.set('views', `${rootPath}/${this.viewsPath}/views`);
+        // Set the views workspace relative path
+        this.app.set('views', `${rootPath}/${this.viewsPath}`);
+        // Set the static files workspace relative path
+        this.app.use(express.static(`${rootPath}/${this.staticPath}`));
         // Set the response headers
         this.app.all('*', (req, res, next) => {
             let key;
@@ -33525,7 +33529,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.31.2`;
+const VERSION = `0.32.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",

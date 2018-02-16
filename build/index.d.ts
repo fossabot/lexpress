@@ -42,6 +42,7 @@ export interface LexpressOptions {
     middlewares?: express.RequestHandler[];
     notFoundmiddleware?: express.RequestHandler;
     routes: Route[];
+    staticPath?: string;
     viewsEngine?: 'mustache';
     viewsPath?: string;
 }
