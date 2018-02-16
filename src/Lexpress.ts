@@ -1,12 +1,10 @@
 import log from '@inspired-beings/log'
 import * as bodyParser from 'body-parser'
-// import * as connectRedis from 'connect-redis'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as expressSession from 'express-session'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
-// import * as R from 'ramda'
 
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
 const mustacheExpress = require('mustache-express')
@@ -183,13 +181,6 @@ export default class Lexpress {
       log.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET')
     }
 
-    // if (typeof process.env.REDIS_URL !== 'string' || process.env.REDIS_URL.length === 0) {
-    //   log.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL')
-    // }
-
-    // tslint:disable-next-line:variable-name
-    // const RedisStore: connectRedis.RedisStore = connectRedis(expressSession)
-
     // Parse application/json request body
     this.app.use(bodyParser.json())
     // Parse application/x-www-form-urlencoded request body
@@ -202,7 +193,6 @@ export default class Lexpress {
       resave: true,
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
-      // store: new RedisStore({ url: process.env.REDIS_URL })
     }))
     this.app.use(cache)
   }
