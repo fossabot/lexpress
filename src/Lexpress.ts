@@ -45,6 +45,7 @@ export default class Lexpress {
   private readonly notFoundmiddleware: LexpressOptions['notFoundmiddleware']
   private port: number
   private readonly routes: LexpressOptions['routes']
+  private readonly staticPath: LexpressOptions['staticPath']
   private readonly viewsEngine: LexpressOptions['viewsEngine']
   private readonly viewsPath: LexpressOptions['viewsPath']
 
@@ -56,6 +57,7 @@ export default class Lexpress {
     this.middlewares = optionsFull.middlewares
     this.notFoundmiddleware = optionsFull.notFoundmiddleware
     this.routes = optionsFull.routes
+    this.staticPath = optionsFull.staticPath
     this.viewsEngine = optionsFull.viewsEngine
     this.viewsPath = optionsFull.viewsPath
     this.init()
@@ -85,7 +87,11 @@ export default class Lexpress {
         this.app.set('view engine', 'mst')
     }
 
-    this.app.set('views', `${rootPath}/${this.viewsPath}/views`)
+    // Set the views workspace relative path
+    this.app.set('views', `${rootPath}/${this.viewsPath}`)
+
+    // Set the static files workspace relative path
+    this.app.use(express.static(`${rootPath}/${this.staticPath}`))
 
     // Set the response headers
     this.app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
