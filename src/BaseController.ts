@@ -33,7 +33,7 @@ export default abstract class BaseController {
   }
 
   protected log(message: string): void {
-    log.info(`${this.controllerName}: ${message}`)
+    log(`${this.controllerName}: ${message}`)
   }
 
   protected logError(message: string): void {
