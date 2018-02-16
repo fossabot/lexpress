@@ -4447,7 +4447,7 @@ module.exports = (defaultColor, argColor, args) => {
 
 const escapeStringRegexp = __webpack_require__(4);
 const ansiStyles = __webpack_require__(5);
-const supportsColor = __webpack_require__(10);
+const stdoutColor = __webpack_require__(10).stdout;
 
 const template = __webpack_require__(13);
 
@@ -4465,7 +4465,7 @@ function applyOptions(obj, options) {
 	options = options || {};
 
 	// Detect level if not set manually
-	const scLevel = supportsColor ? supportsColor.level : 0;
+	const scLevel = stdoutColor ? stdoutColor.level : 0;
 	obj.level = options.level === undefined ? scLevel : options.level;
 	obj.enabled = 'enabled' in options ? options.enabled : obj.level > 0;
 }
@@ -4670,7 +4670,7 @@ function chalkTag(chalk, strings) {
 Object.defineProperties(Chalk.prototype, styles);
 
 module.exports = Chalk(); // eslint-disable-line new-cap
-module.exports.supportsColor = supportsColor;
+module.exports.supportsColor = stdoutColor;
 module.exports.default = module.exports; // For TypeScript
 
 
@@ -5237,7 +5237,22 @@ const hasFlag = __webpack_require__(12);
 
 const env = process.env;
 
-const support = level => {
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false')) {
+	forceColor = false;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = true;
+}
+if ('FORCE_COLOR' in env) {
+	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
+}
+
+function translateLevel(level) {
 	if (level === 0) {
 		return false;
 	}
@@ -5248,12 +5263,10 @@ const support = level => {
 		has256: level >= 2,
 		has16m: level >= 3
 	};
-};
+}
 
-let supportLevel = (() => {
-	if (hasFlag('no-color') ||
-		hasFlag('no-colors') ||
-		hasFlag('color=false')) {
+function supportsColor(stream) {
+	if (forceColor === false) {
 		return 0;
 	}
 
@@ -5267,30 +5280,26 @@ let supportLevel = (() => {
 		return 2;
 	}
 
-	if (hasFlag('color') ||
-		hasFlag('colors') ||
-		hasFlag('color=true') ||
-		hasFlag('color=always')) {
-		return 1;
-	}
-
-	if (process.stdout && !process.stdout.isTTY) {
+	if (stream && !stream.isTTY && forceColor !== true) {
 		return 0;
 	}
+
+	const min = forceColor ? 1 : 0;
 
 	if (process.platform === 'win32') {
 		// Node.js 7.5.0 is the first version of Node.js to include a patch to
 		// libuv that enables 256 color output on Windows. Anything earlier and it
 		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
 		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
-		// release that supports 256 colors.
+		// release that supports 256 colors. Windows 10 build 14931 is the first release
+		// that supports 16m/TrueColor.
 		const osRelease = os.release().split('.');
 		if (
 			Number(process.versions.node.split('.')[0]) >= 8 &&
 			Number(osRelease[0]) >= 10 &&
 			Number(osRelease[2]) >= 10586
 		) {
-			return 2;
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
 		}
 
 		return 1;
@@ -5301,7 +5310,7 @@ let supportLevel = (() => {
 			return 1;
 		}
 
-		return 0;
+		return min;
 	}
 
 	if ('TEAMCITY_VERSION' in env) {
@@ -5335,17 +5344,22 @@ let supportLevel = (() => {
 	}
 
 	if (env.TERM === 'dumb') {
-		return 0;
+		return min;
 	}
 
-	return 0;
-})();
-
-if ('FORCE_COLOR' in env) {
-	supportLevel = parseInt(env.FORCE_COLOR, 10) === 0 ? 0 : (supportLevel || 1);
+	return min;
 }
 
-module.exports = process && support(supportLevel);
+function getSupportLevel(stream) {
+	const level = supportsColor(stream);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: getSupportLevel(process.stdout),
+	stderr: getSupportLevel(process.stderr)
+};
 
 
 /***/ }),
@@ -5360,13 +5374,11 @@ module.exports = __webpack_require__(46);
 
 "use strict";
 
-module.exports = function (flag, argv) {
+module.exports = (flag, argv) => {
 	argv = argv || process.argv;
-
-	var terminatorPos = argv.indexOf('--');
-	var prefix = /^-{1,2}/.test(flag) ? '' : '--';
-	var pos = argv.indexOf(prefix + flag);
-
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const pos = argv.indexOf(prefix + flag);
+	const terminatorPos = argv.indexOf('--');
 	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
 };
 
@@ -16696,7 +16708,7 @@ class Lexpress {
             if (this.headers.hasOwnProperty(key))
                 res.header(key, this.headers[key]);
         }
-        log_1.default.info(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`);
+        log_1.default(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`);
         try {
             const controller = new Controller(req, res);
             controller[method]();
@@ -16754,7 +16766,8 @@ class Lexpress {
             }));
     }
     start() {
-        log_1.default.info(logo_1.default);
+        // tslint:disable-next-line:no-console
+        console.log(logo_1.default);
         if (this.https === false) {
             this.startHttp();
             return;
@@ -33506,7 +33519,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.30.1`;
+const VERSION = `0.30.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -34514,7 +34527,7 @@ class BaseController {
         this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
     }
     log(message) {
-        log_1.default.info(`${this.controllerName}: ${message}`);
+        log_1.default(`${this.controllerName}: ${message}`);
     }
     logError(message) {
         log_1.default.err(`${this.controllerName}: ${message}`);
