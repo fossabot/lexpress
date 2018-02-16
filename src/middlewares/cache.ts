@@ -36,7 +36,7 @@ export default function cache(req: Request, res: Response, next: express.NextFun
       callback?: (err: Error, html: string) => void
     ): void => {
       if (options !== undefined && typeof options === 'object') {
-        return res.render(view, options, (err: Error, html: string) => {
+        res.render(view, options, (err: Error, html: string) => {
           if (err === null) {
             if (process.env.NODE_ENV === 'development') {
               log.info(`Caching %s key for %sms`, key, expirationInMs)
@@ -53,9 +53,11 @@ export default function cache(req: Request, res: Response, next: express.NextFun
 
           res.send(html)
         })
+
+        return
       }
 
-      return res.render(view, (err: Error, html: string) => {
+      res.render(view, (err: Error, html: string) => {
         if (err === null) {
           if (process.env.NODE_ENV === 'development') {
             log.info(`Caching %s key for %sms`, key, expirationInMs)
@@ -72,6 +74,8 @@ export default function cache(req: Request, res: Response, next: express.NextFun
 
         res.send(html)
       })
+
+      return
     }
 
     return {
