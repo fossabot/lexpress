@@ -106,6 +106,12 @@ export default class Lexpress {
     // Define 'public' directory as the static files directory
     this.app.use(express.static(`${rootPath}/public`))
 
+    // Indicates the app is behind a front-facing proxy, and to use the X-Forwarded-* headers
+    // to determine the connection and the IP address of the client.
+    // NOTE: X-Forwarded-* headers are easily spoofed and the detected IP addresses are unreliable.
+    // https://expressjs.com/en/4x/api.html#app.settings.table
+    if (process.env.NODE_ENV === 'production') this.app.enable('trust proxy')
+
     // Attach the 404 error middleware
     if (this.notFoundmiddleware !== undefined) this.app.use(this.notFoundmiddleware)
   }
@@ -190,6 +196,7 @@ export default class Lexpress {
       cookie: {
         secure: true
       },
+      proxy: process.env.NODE_ENV === 'production',
       resave: false,
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
