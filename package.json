@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "webpack --display-error-details",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "test": "npm run validate && mocha -r ts-node/register src/**/*.spec.ts",
     "preversion": "npm test && npm run build",
     "validate": "npm run validate:lint && npm run validate:tsc",
     "validate:lint": "tslint -p tsconfig.json",
