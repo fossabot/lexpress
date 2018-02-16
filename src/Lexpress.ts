@@ -129,7 +129,7 @@ export default class Lexpress {
       if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
     }
 
-    log.info(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
+    log(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
 
     try {
       const controller: BaseController = new Controller(req, res)
@@ -203,7 +203,8 @@ export default class Lexpress {
   }
 
   public start(): void {
-    log.info(logo)
+    // tslint:disable-next-line:no-console
+    console.log(logo)
 
     if (this.https === false) {
       this.startHttp()
