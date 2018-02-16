@@ -42,6 +42,7 @@ export default class Lexpress {
   private readonly headers: LexpressOptions['headers']
   private readonly https: LexpressOptions['https']
   private readonly middlewares: LexpressOptions['middlewares']
+  private readonly notFoundmiddleware: LexpressOptions['notFoundmiddleware']
   private port: number
   private readonly routes: LexpressOptions['routes']
   private readonly viewsEngine: LexpressOptions['viewsEngine']
@@ -53,6 +54,7 @@ export default class Lexpress {
     this.headers = optionsFull.headers
     this.https = optionsFull.https
     this.middlewares = optionsFull.middlewares
+    this.notFoundmiddleware = optionsFull.notFoundmiddleware
     this.routes = optionsFull.routes
     this.viewsEngine = optionsFull.viewsEngine
     this.viewsPath = optionsFull.viewsPath
@@ -97,6 +99,9 @@ export default class Lexpress {
 
     // Define 'public' directory as the static files directory
     this.app.use(express.static(`${rootPath}/public`))
+
+    // Attache the 404 error middleware
+    if (this.notFoundmiddleware !== undefined) this.app.use(this.notFoundmiddleware)
   }
 
   private answer(
