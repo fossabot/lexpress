@@ -179,13 +179,11 @@ exports.BaseController = BaseController_1.default;
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(0);
 const bodyParser = __webpack_require__(7);
-// import * as connectRedis from 'connect-redis'
 const dotenv = __webpack_require__(1);
 const express = __webpack_require__(8);
 const expressSession = __webpack_require__(9);
 const https = __webpack_require__(10);
 const memoryCache = __webpack_require__(2);
-// import * as R from 'ramda'
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
 const mustacheExpress = __webpack_require__(11);
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
@@ -313,11 +311,6 @@ class Lexpress {
             || process.env.SESSION_SECRET.length < SESSION_SECRET_LENGTH_MIN) {
             log_1.default.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET');
         }
-        // if (typeof process.env.REDIS_URL !== 'string' || process.env.REDIS_URL.length === 0) {
-        //   log.err(`Lexpress#init(): You must set your %s.`, 'process.env.REDIS_URL')
-        // }
-        // tslint:disable-next-line:variable-name
-        // const RedisStore: connectRedis.RedisStore = connectRedis(expressSession)
         // Parse application/json request body
         this.app.use(bodyParser.json());
         // Parse application/x-www-form-urlencoded request body
@@ -327,7 +320,7 @@ class Lexpress {
                 secure: process.env.NODE_ENV === 'production'
             },
             proxy: process.env.NODE_ENV === 'production',
-            resave: true,
+            resave: false,
             saveUninitialized: false,
             secret: process.env.SESSION_SECRET,
         }));
@@ -458,7 +451,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.34.3`;
+const VERSION = `0.35.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
