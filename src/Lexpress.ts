@@ -67,11 +67,11 @@ export default class Lexpress {
     // Initialize the Express app
     this.app = express()
 
-    // Attaches the middlewares
+    // Attach the middlewares
     this.setMiddlewares()
     this.setCustomMiddlewares()
 
-    // Attaches the routes
+    // Attach the routes
     this.setRoutes()
 
     // Define the template renderer
@@ -100,7 +100,7 @@ export default class Lexpress {
     // Define 'public' directory as the static files directory
     this.app.use(express.static(`${rootPath}/public`))
 
-    // Attache the 404 error middleware
+    // Attach the 404 error middleware
     if (this.notFoundmiddleware !== undefined) this.app.use(this.notFoundmiddleware)
   }
 
