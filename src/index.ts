@@ -44,6 +44,7 @@ export interface LexpressOptions {
   headers?: LexpressOptionsHeaders
   https?: false | ServerOptions
   middlewares?: express.RequestHandler[]
+  notFoundmiddleware?: express.RequestHandler
   routes: Route[]
   viewsEngine?: 'mustache'/* | 'pug'*/
   viewsPath?: string
