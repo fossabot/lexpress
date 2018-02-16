@@ -20,7 +20,7 @@
     "postversion": "npm publish"
   },
   "dependencies": {
-    "@inspired-beings/log": "^1.0.7",
+    "@inspired-beings/log": "^1.0.8",
     "@types/body-parser": "^1.16.8",
     "@types/connect-redis": "0.0.7",
     "@types/dotenv": "^4.0.2",
