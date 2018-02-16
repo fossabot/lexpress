@@ -199,7 +199,7 @@ export default class Lexpress {
         secure: process.env.NODE_ENV === 'production'
       },
       proxy: process.env.NODE_ENV === 'production',
-      resave: false,
+      resave: true,
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
       store: new RedisStore({ url: process.env.REDIS_URL })
