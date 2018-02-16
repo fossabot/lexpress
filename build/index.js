@@ -16639,6 +16639,7 @@ class Lexpress {
         this.headers = optionsFull.headers;
         this.https = optionsFull.https;
         this.middlewares = optionsFull.middlewares;
+        this.notFoundmiddleware = optionsFull.notFoundmiddleware;
         this.routes = optionsFull.routes;
         this.viewsEngine = optionsFull.viewsEngine;
         this.viewsPath = optionsFull.viewsPath;
@@ -16648,10 +16649,10 @@ class Lexpress {
         this.port = process.env.PORT !== undefined ? Number(process.env.PORT) : PORT_DEFAULT;
         // Initialize the Express app
         this.app = express();
-        // Attaches the middlewares
+        // Attach the middlewares
         this.setMiddlewares();
         this.setCustomMiddlewares();
-        // Attaches the routes
+        // Attach the routes
         this.setRoutes();
         // Define the template renderer
         switch (this.viewsEngine) {
@@ -16674,6 +16675,9 @@ class Lexpress {
         });
         // Define 'public' directory as the static files directory
         this.app.use(express.static(`${rootPath}/public`));
+        // Attach the 404 error middleware
+        if (this.notFoundmiddleware !== undefined)
+            this.app.use(this.notFoundmiddleware);
     }
     answer(req, res, routeIndex, routeSettings = {}) {
         // tslint:disable-next-line:variable-name
@@ -33502,7 +33506,7 @@ exports.default = fileExists;
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(200);
 // Is replaced with postversion script
-const VERSION = `0.29.0`;
+const VERSION = `0.30.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
