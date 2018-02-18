@@ -15,6 +15,6 @@ export default abstract class BaseController {
     delete(): BaseControllerResponse;
     protected log(message: string): void;
     protected logError(message: string): void;
-    protected answerError(err: string, statusCode?: number): void;
+    protected answerError(err: Error | string, statusCode?: number): void;
     protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): void;
 }

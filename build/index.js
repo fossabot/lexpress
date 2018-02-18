@@ -451,7 +451,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.35.1`;
+const VERSION = `0.35.2`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -580,7 +580,7 @@ class BaseController {
     // }
     answerError(err, statusCode = 400) {
         answerError_1.default({
-            err,
+            err: typeof err === 'string' ? err : err.message,
             isJson: this.isJson,
             res: this.res,
             scope: this.controllerName,
