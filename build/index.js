@@ -451,7 +451,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.35.2`;
+const VERSION = `0.35.3`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -579,13 +579,18 @@ class BaseController {
     //   log.write(controllerName, data)
     // }
     answerError(err, statusCode = 400) {
-        answerError_1.default({
-            err: typeof err === 'string' ? err : err.message,
-            isJson: this.isJson,
-            res: this.res,
-            scope: this.controllerName,
-            statusCode,
-        });
+        try {
+            answerError_1.default({
+                err: typeof err === 'string' ? err : err.message,
+                isJson: this.isJson,
+                res: this.res,
+                scope: this.controllerName,
+                statusCode,
+            });
+        }
+        catch (err) {
+            log_1.default(err === 'string' ? err : err.message);
+        }
     }
     validateJsonSchema(schema, cb) {
         this.log(`Validating JSON Schema`);
