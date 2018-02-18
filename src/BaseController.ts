@@ -44,13 +44,18 @@ export default abstract class BaseController {
   // }
 
   protected answerError(err: Error | string, statusCode: number = 400): void {
-    answerError({
-      err: typeof err === 'string' ? err : err.message,
-      isJson: this.isJson,
-      res: this.res,
-      scope: this.controllerName,
-      statusCode,
-    })
+    try {
+      answerError({
+        err: typeof err === 'string' ? err : err.message,
+        isJson: this.isJson,
+        res: this.res,
+        scope: this.controllerName,
+        statusCode,
+      })
+    }
+    catch (err) {
+      log(err === 'string' ? err : err.message)
+    }
   }
 
   protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): void {
