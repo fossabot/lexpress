@@ -451,7 +451,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.35.0`;
+const VERSION = `0.35.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -550,7 +550,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(0);
 const answerError_1 = __webpack_require__(4);
 const jsonSchemaValidate_1 = __webpack_require__(20);
-const HTTP_STATUS_CODE_NOT_FOUND = 404;
 class BaseController {
     constructor(req, res) {
         this.controllerName = this.constructor.name;
@@ -559,16 +558,16 @@ class BaseController {
         this.res = res;
     }
     get() {
-        this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
+        this.method = 'get';
     }
     post() {
-        this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
+        this.method = 'post';
     }
     put() {
-        this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
+        this.method = 'put';
     }
     delete() {
-        this.answerError('Not Found', HTTP_STATUS_CODE_NOT_FOUND);
+        this.method = 'delete';
     }
     log(message) {
         log_1.default(`${this.controllerName}: ${message}`);
@@ -590,7 +589,7 @@ class BaseController {
     }
     validateJsonSchema(schema, cb) {
         this.log(`Validating JSON Schema`);
-        jsonSchemaValidate_1.default(schema, this.req.query, (err) => {
+        jsonSchemaValidate_1.default(schema, this.method === 'get' ? this.req.query : this.req.body, (err) => {
             if (err !== null) {
                 this.answerError(err);
                 return;

@@ -1,10 +1,11 @@
 /// <reference types="express" />
 import { Request } from 'express';
 import { Schema } from './libs/helpers/jsonSchemaValidate';
-import { BaseControllerResponse, Response } from '.';
+import { BaseControllerMethod, BaseControllerResponse, Response } from '.';
 export default abstract class BaseController {
     protected readonly controllerName: string;
     protected isJson: boolean;
+    protected method: BaseControllerMethod;
     protected readonly req: Request;
     protected readonly res: Response;
     constructor(req: Request, res: Response);
