@@ -43,9 +43,9 @@ export default abstract class BaseController {
   //   log.write(controllerName, data)
   // }
 
-  protected answerError(err: string, statusCode: number = 400): void {
+  protected answerError(err: Error | string, statusCode: number = 400): void {
     answerError({
-      err,
+      err: typeof err === 'string' ? err : err.message,
       isJson: this.isJson,
       res: this.res,
       scope: this.controllerName,
