@@ -18,7 +18,7 @@ import fileExists from './libs/helpers/fileExists'
 import logo from './libs/media/logo'
 import cache from './middlewares/cache'
 
-import { CacheContent, LexpressOptions, Request, Response, Route } from '.'
+import { CacheContent, LexpressOptions, NextFunction, Request, Response, Route } from '.'
 
 const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
   headers: {},
@@ -119,6 +119,7 @@ export default class Lexpress {
   private answer(
     req: Request,
     res: Response,
+    next: NextFunction,
     routeIndex: number,
     routeSettings: Route['settings'] = {}
   ): void {
@@ -144,7 +145,7 @@ export default class Lexpress {
     log(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`)
 
     try {
-      const controller: BaseController = new Controller(req, res)
+      const controller: BaseController = new Controller(req, res, next)
 
       controller[method]()
     }
@@ -202,13 +203,13 @@ export default class Lexpress {
       route.middleware !== undefined
         ? route.call !== undefined
           ? this.app[route.method](route.path, route.middleware, route.call)
-          : this.app[route.method](route.path, route.middleware, (req: Request, res: Response) => {
-            this.answer(req, res, routeIndex, route.settings)
+          : this.app[route.method](route.path, route.middleware, (req: Request, res: Response, next: NextFunction) => {
+            this.answer(req, res, next, routeIndex, route.settings)
           })
         : route.call !== undefined
           ? this.app[route.method](route.path, route.call)
-          : this.app[route.method](route.path, (req: Request, res: Response) => {
-            this.answer(req, res, routeIndex, route.settings)
+          : this.app[route.method](route.path, (req: Request, res: Response, next: NextFunction) => {
+            this.answer(req, res, next, routeIndex, route.settings)
           })
     )
   }
