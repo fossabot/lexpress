@@ -264,7 +264,7 @@ class Lexpress {
         if (this.notFoundmiddleware !== undefined)
             this.app.use(this.notFoundmiddleware);
     }
-    answer(req, res, routeIndex, routeSettings = {}) {
+    answer(req, res, next, routeIndex, routeSettings = {}) {
         // tslint:disable-next-line:variable-name
         const { controller: Controller, method } = this.routes[routeIndex];
         if (routeSettings.isCached === undefined || routeSettings.isCached) {
@@ -283,7 +283,7 @@ class Lexpress {
         }
         log_1.default(`${method.toUpperCase()} on ${req.path} > ${Controller.name}.${method}()`);
         try {
-            const controller = new Controller(req, res);
+            const controller = new Controller(req, res, next);
             controller[method]();
         }
         catch (err) {
@@ -330,13 +330,13 @@ class Lexpress {
         this.routes.forEach((route, routeIndex) => route.middleware !== undefined
             ? route.call !== undefined
                 ? this.app[route.method](route.path, route.middleware, route.call)
-                : this.app[route.method](route.path, route.middleware, (req, res) => {
-                    this.answer(req, res, routeIndex, route.settings);
+                : this.app[route.method](route.path, route.middleware, (req, res, next) => {
+                    this.answer(req, res, next, routeIndex, route.settings);
                 })
             : route.call !== undefined
                 ? this.app[route.method](route.path, route.call)
-                : this.app[route.method](route.path, (req, res) => {
-                    this.answer(req, res, routeIndex, route.settings);
+                : this.app[route.method](route.path, (req, res, next) => {
+                    this.answer(req, res, next, routeIndex, route.settings);
                 }));
     }
     start() {
@@ -451,7 +451,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.35.3`;
+const VERSION = `0.36.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -551,9 +551,10 @@ const log_1 = __webpack_require__(0);
 const answerError_1 = __webpack_require__(4);
 const jsonSchemaValidate_1 = __webpack_require__(20);
 class BaseController {
-    constructor(req, res) {
+    constructor(req, res, next) {
         this.controllerName = this.constructor.name;
         this.isJson = true;
+        this.next = next;
         this.req = req;
         this.res = res;
     }

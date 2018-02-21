@@ -12,7 +12,7 @@ export default class Lexpress {
     private readonly viewsPath;
     constructor(options: LexpressOptions);
     private init();
-    private answer(req, res, routeIndex, routeSettings?);
+    private answer(req, res, next, routeIndex, routeSettings?);
     private cache(req, res);
     private setCustomMiddlewares();
     private setMiddlewares();
