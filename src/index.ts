@@ -30,7 +30,7 @@ export type BaseControllerMethod = 'delete' | 'get' | 'post' | 'put'
 export type BaseControllerResponse = Response | Promise<Response> | void
 
 export interface BaseControllerConstructor {
-  new (req: Request, res: Response): BaseController
+  new (req: Request, res: Response, next: NextFunction): BaseController
 }
 
 export interface Route {
