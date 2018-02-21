@@ -1,19 +1,20 @@
 import log from '@inspired-beings/log'
-import { Request } from 'express'
 
 import answerError from './libs/helpers/answerError'
 import jsonSchemaValidate, { Schema } from './libs/helpers/jsonSchemaValidate'
 
-import { BaseControllerMethod, BaseControllerResponse, Response } from '.'
+import { BaseControllerMethod, BaseControllerResponse, NextFunction, Request, Response } from '.'
 
 export default abstract class BaseController {
   protected readonly controllerName: string = this.constructor.name
   protected isJson: boolean = true
   protected method: BaseControllerMethod
+  protected readonly next: NextFunction
   protected readonly req: Request
   protected readonly res: Response
 
-  public constructor(req: Request, res: Response) {
+  public constructor(req: Request, res: Response, next: NextFunction) {
+    this.next = next
     this.req = req
     this.res = res
   }
