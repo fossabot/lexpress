@@ -328,11 +328,17 @@ class Lexpress {
     }
     setRoutes() {
         this.routes.forEach((route, routeIndex) => route.middleware !== undefined
-            ? route.call !== undefined
-                ? this.app[route.method](route.path, route.middleware, route.call)
-                : this.app[route.method](route.path, route.middleware, (req, res, next) => {
-                    this.answer(req, res, next, routeIndex, route.settings);
-                })
+            ? Array.isArray(route.middleware)
+                ? route.call !== undefined
+                    ? this.app[route.method](route.path, ...route.middleware, route.call)
+                    : this.app[route.method](route.path, ...route.middleware, (req, res, next) => {
+                        this.answer(req, res, next, routeIndex, route.settings);
+                    })
+                : route.call !== undefined
+                    ? this.app[route.method](route.path, route.middleware, route.call)
+                    : this.app[route.method](route.path, route.middleware, (req, res, next) => {
+                        this.answer(req, res, next, routeIndex, route.settings);
+                    })
             : route.call !== undefined
                 ? this.app[route.method](route.path, route.call)
                 : this.app[route.method](route.path, (req, res, next) => {
@@ -451,7 +457,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.36.0`;
+const VERSION = `0.37.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
