@@ -201,11 +201,25 @@ export default class Lexpress {
   private setRoutes(): void {
     this.routes.forEach((route: Route, routeIndex: number) =>
       route.middleware !== undefined
-        ? route.call !== undefined
-          ? this.app[route.method](route.path, route.middleware, route.call)
-          : this.app[route.method](route.path, route.middleware, (req: Request, res: Response, next: NextFunction) => {
-            this.answer(req, res, next, routeIndex, route.settings)
-          })
+        ? Array.isArray(route.middleware)
+          ? route.call !== undefined
+            ? this.app[route.method](route.path, ...route.middleware, route.call)
+            : this.app[route.method](
+              route.path,
+              ...route.middleware,
+              (req: Request, res: Response, next: NextFunction) => {
+                this.answer(req, res, next, routeIndex, route.settings)
+              }
+            )
+          : route.call !== undefined
+            ? this.app[route.method](route.path, route.middleware, route.call)
+            : this.app[route.method](
+              route.path,
+              route.middleware,
+              (req: Request, res: Response, next: NextFunction) => {
+                this.answer(req, res, next, routeIndex, route.settings)
+              }
+            )
         : route.call !== undefined
           ? this.app[route.method](route.path, route.call)
           : this.app[route.method](route.path, (req: Request, res: Response, next: NextFunction) => {
