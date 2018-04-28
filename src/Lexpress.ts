@@ -40,6 +40,7 @@ export default class Lexpress {
   private app: express.Express
   private readonly headers: LexpressOptions['headers']
   private readonly https: LexpressOptions['https']
+  private readonly locals: LexpressOptions['locals']
   private readonly middlewares: LexpressOptions['middlewares']
   private readonly notFoundmiddleware: LexpressOptions['notFoundmiddleware']
   private port: number
@@ -53,6 +54,7 @@ export default class Lexpress {
 
     this.headers = optionsFull.headers
     this.https = optionsFull.https
+    this.locals = optionsFull.locals
     this.middlewares = optionsFull.middlewares
     this.notFoundmiddleware = optionsFull.notFoundmiddleware
     this.routes = optionsFull.routes
@@ -67,6 +69,9 @@ export default class Lexpress {
 
     // Initialize the Express app
     this.app = express()
+
+    // Attach local variables
+    this.app.locals = this.locals
 
     // Attach the middlewares
     this.setMiddlewares()
