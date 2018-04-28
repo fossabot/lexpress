@@ -39,7 +39,9 @@ export interface Route {
 export interface LexpressOptions {
     headers?: LexpressOptionsHeaders;
     https?: false | ServerOptions;
-    locals?: any[];
+    locals?: {
+        [key: string]: any;
+    };
     middlewares?: express.RequestHandler[];
     notFoundmiddleware?: express.RequestHandler;
     routes: Route[];
