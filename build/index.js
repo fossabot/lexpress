@@ -212,6 +212,7 @@ class Lexpress {
         const optionsFull = Object.assign({}, LEXPRESS_OPTIONS_DEFAULT, options);
         this.headers = optionsFull.headers;
         this.https = optionsFull.https;
+        this.locals = optionsFull.locals;
         this.middlewares = optionsFull.middlewares;
         this.notFoundmiddleware = optionsFull.notFoundmiddleware;
         this.routes = optionsFull.routes;
@@ -224,6 +225,8 @@ class Lexpress {
         this.port = process.env.PORT !== undefined ? Number(process.env.PORT) : PORT_DEFAULT;
         // Initialize the Express app
         this.app = express();
+        // Attach local variables
+        this.app.locals = this.locals;
         // Attach the middlewares
         this.setMiddlewares();
         this.setCustomMiddlewares();
@@ -457,7 +460,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(17);
 // Is replaced with postversion script
-const VERSION = `0.37.0`;
+const VERSION = `0.38.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",

@@ -3,6 +3,7 @@ export default class Lexpress {
     private app;
     private readonly headers;
     private readonly https;
+    private readonly locals;
     private readonly middlewares;
     private readonly notFoundmiddleware;
     private port;
