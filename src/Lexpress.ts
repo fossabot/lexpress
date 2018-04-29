@@ -25,6 +25,7 @@ const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
   headers: {},
   helmet: {},
   https: false,
+  locals: {},
   middlewares: [],
   routes: [],
   viewsEngine: 'mustache',
