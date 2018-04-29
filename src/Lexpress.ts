@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
 import * as express from 'express'
 import * as expressSession from 'express-session'
+import * as helmet from 'helmet'
 import * as https from 'https'
 import * as memoryCache from 'memory-cache'
 
@@ -22,6 +23,7 @@ import { CacheContent, LexpressOptions, NextFunction, Request, Response, Route }
 
 const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
   headers: {},
+  helmet: {},
   https: false,
   middlewares: [],
   routes: [],
@@ -39,6 +41,7 @@ if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 export default class Lexpress {
   private app: express.Express
   private readonly headers: LexpressOptions['headers']
+  private readonly helmet: LexpressOptions['helmet']
   private readonly https: LexpressOptions['https']
   private readonly locals: LexpressOptions['locals']
   private readonly middlewares: LexpressOptions['middlewares']
@@ -53,6 +56,7 @@ export default class Lexpress {
     const optionsFull: LexpressOptions = { ...LEXPRESS_OPTIONS_DEFAULT, ...options }
 
     this.headers = optionsFull.headers
+    this.helmet = optionsFull.helmet
     this.https = optionsFull.https
     this.locals = optionsFull.locals
     this.middlewares = optionsFull.middlewares
@@ -76,6 +80,10 @@ export default class Lexpress {
     // Attach the middlewares
     this.setMiddlewares()
     this.setCustomMiddlewares()
+
+    // Attach Helmet
+    // @see https://helmetjs.github.io/docs/
+    this.app.use(helmet(this.helmet))
 
     // Attach the routes
     this.setRoutes()
