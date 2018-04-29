@@ -2,6 +2,7 @@ import { LexpressOptions } from '.';
 export default class Lexpress {
     private app;
     private readonly headers;
+    private readonly helmet;
     private readonly https;
     private readonly locals;
     private readonly middlewares;

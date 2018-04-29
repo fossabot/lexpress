@@ -88,7 +88,7 @@ module.exports = require("memory-cache");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const keyifyObject_1 = __webpack_require__(13);
+const keyifyObject_1 = __webpack_require__(14);
 function default_1(req) {
     let keyQuery = req.originalUrl
         .toLocaleLowerCase()
@@ -166,7 +166,7 @@ exports.default = answerError;
 Object.defineProperty(exports, "__esModule", { value: true });
 const Lexpress_1 = __webpack_require__(6);
 exports.Lexpress = Lexpress_1.default;
-const BaseController_1 = __webpack_require__(19);
+const BaseController_1 = __webpack_require__(20);
 exports.BaseController = BaseController_1.default;
 
 
@@ -182,20 +182,23 @@ const bodyParser = __webpack_require__(7);
 const dotenv = __webpack_require__(1);
 const express = __webpack_require__(8);
 const expressSession = __webpack_require__(9);
-const https = __webpack_require__(10);
+const helmet = __webpack_require__(10);
+const https = __webpack_require__(11);
 const memoryCache = __webpack_require__(2);
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
-const mustacheExpress = __webpack_require__(11);
+const mustacheExpress = __webpack_require__(12);
 // tslint:disable-next-line:no-require-imports no-var-requires typedef
-const pug = __webpack_require__(12);
+const pug = __webpack_require__(13);
 const keyifyRequest_1 = __webpack_require__(3);
 const answerError_1 = __webpack_require__(4);
-const fileExists_1 = __webpack_require__(14);
-const logo_1 = __webpack_require__(16);
-const cache_1 = __webpack_require__(18);
+const fileExists_1 = __webpack_require__(15);
+const logo_1 = __webpack_require__(17);
+const cache_1 = __webpack_require__(19);
 const LEXPRESS_OPTIONS_DEFAULT = {
     headers: {},
+    helmet: {},
     https: false,
+    locals: {},
     middlewares: [],
     routes: [],
     viewsEngine: 'mustache',
@@ -211,6 +214,7 @@ class Lexpress {
     constructor(options) {
         const optionsFull = Object.assign({}, LEXPRESS_OPTIONS_DEFAULT, options);
         this.headers = optionsFull.headers;
+        this.helmet = optionsFull.helmet;
         this.https = optionsFull.https;
         this.locals = optionsFull.locals;
         this.middlewares = optionsFull.middlewares;
@@ -230,6 +234,9 @@ class Lexpress {
         // Attach the middlewares
         this.setMiddlewares();
         this.setCustomMiddlewares();
+        // Attach Helmet
+        // @see https://helmetjs.github.io/docs/
+        this.app.use(helmet(this.helmet));
         // Attach the routes
         this.setRoutes();
         // Define the template renderer
@@ -316,12 +323,15 @@ class Lexpress {
         }
         // Parse application/json request body
         this.app.use(bodyParser.json());
+        // Trust first proxy
+        this.app.set('trust proxy', 1);
         // Parse application/x-www-form-urlencoded request body
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(expressSession({
             cookie: {
                 secure: process.env.NODE_ENV === 'production'
             },
+            name: 'sessionId',
             proxy: process.env.NODE_ENV === 'production',
             resave: false,
             saveUninitialized: false,
@@ -395,22 +405,28 @@ module.exports = require("express-session");
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = require("https");
+module.exports = require("helmet");
 
 /***/ }),
 /* 11 */
 /***/ (function(module, exports) {
 
-module.exports = require("mustache-express");
+module.exports = require("https");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = require("pug");
+module.exports = require("mustache-express");
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+module.exports = require("pug");
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -426,13 +442,13 @@ exports.default = default_1;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __webpack_require__(15);
+const fs = __webpack_require__(16);
 function fileExists(filePath) {
     try {
         fs.accessSync(filePath);
@@ -446,21 +462,21 @@ exports.default = fileExists;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalk_1 = __webpack_require__(17);
+const chalk_1 = __webpack_require__(18);
 // Is replaced with postversion script
-const VERSION = `0.38.1`;
+const VERSION = `0.39.0`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
@@ -475,13 +491,13 @@ exports.default = chalk_1.default.gray(`
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("chalk");
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -550,7 +566,7 @@ exports.default = cache;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -558,7 +574,7 @@ exports.default = cache;
 Object.defineProperty(exports, "__esModule", { value: true });
 const log_1 = __webpack_require__(0);
 const answerError_1 = __webpack_require__(4);
-const jsonSchemaValidate_1 = __webpack_require__(20);
+const jsonSchemaValidate_1 = __webpack_require__(21);
 class BaseController {
     constructor(req, res, next) {
         this.controllerName = this.constructor.name;
@@ -617,13 +633,13 @@ exports.default = BaseController;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ajv = __webpack_require__(21);
+const Ajv = __webpack_require__(22);
 const ajv = new Ajv();
 function default_1(schema, data, cb) {
     cb(ajv.validate(schema, data) ? null : ajv.errorsText());
@@ -632,7 +648,7 @@ exports.default = default_1;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require("ajv");

@@ -1,10 +1,12 @@
 /// <reference types="express" />
+/// <reference types="helmet" />
 /// <reference types="node" />
 import Lexpress from './Lexpress';
 export { Lexpress };
 import BaseController from './BaseController';
 export { BaseController };
 import * as express from 'express';
+import { IHelmetConfiguration } from 'helmet';
 import { ServerOptions } from 'https';
 export interface NextFunction extends express.NextFunction {
 }
@@ -38,6 +40,7 @@ export interface Route {
 }
 export interface LexpressOptions {
     headers?: LexpressOptionsHeaders;
+    helmet?: IHelmetConfiguration;
     https?: false | ServerOptions;
     locals?: {
         [key: string]: any;
