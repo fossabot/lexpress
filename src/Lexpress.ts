@@ -198,12 +198,15 @@ export default class Lexpress {
 
     // Parse application/json request body
     this.app.use(bodyParser.json())
+    // Trust first proxy
+    this.app.set('trust proxy', 1)
     // Parse application/x-www-form-urlencoded request body
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(expressSession({
       cookie: {
         secure: process.env.NODE_ENV === 'production'
       },
+      name: 'sessionId',
       proxy: process.env.NODE_ENV === 'production',
       resave: false,
       saveUninitialized: false,
