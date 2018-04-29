@@ -9,6 +9,7 @@
 [![David](https://img.shields.io/david/dev/InspiredBeings/lexpress.svg?style=flat-square)](https://david-dm.org/InspiredBeings/lexpress)
 
 [![NSP Status](https://nodesecurity.io/orgs/ivan-gabriele/projects/d43ea4d7-eb03-488b-9f01-a84911ead2fe/badge)](https://nodesecurity.io/orgs/ivan-gabriele/projects/d43ea4d7-eb03-488b-9f01-a84911ead2fe)
+[![Known Vulnerabilities](https://snyk.io/test/github/inspiredbeings/lexpress/badge.svg?targetFile=package.json)](https://snyk.io/test/github/inspiredbeings/lexpress?targetFile=package.json)
 
 ## Description
 
