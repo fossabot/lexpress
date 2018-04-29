@@ -5,6 +5,7 @@ import BaseController from './BaseController'
 export { BaseController }
 
 import * as express from 'express'
+import { IHelmetConfiguration } from 'helmet'
 import { ServerOptions } from 'https'
 
 // tslint:disable-next-line:no-empty-interface
@@ -46,6 +47,7 @@ export interface Route {
 
 export interface LexpressOptions {
   headers?: LexpressOptionsHeaders
+  helmet?: IHelmetConfiguration
   https?: false | ServerOptions
   locals?: { [key: string]: any }
   middlewares?: express.RequestHandler[]
