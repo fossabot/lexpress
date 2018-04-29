@@ -476,7 +476,7 @@ module.exports = require("fs");
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __webpack_require__(18);
 // Is replaced with postversion script
-const VERSION = `0.39.0`;
+const VERSION = `0.39.1`;
 exports.default = chalk_1.default.gray(`
 ,
 "\\",
