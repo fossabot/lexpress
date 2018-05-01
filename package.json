@@ -42,7 +42,8 @@
     "mustache-express": "^1.2.5",
     "pug": "^2.0.3",
     "query-string": "^6.0.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "serve-static": "^1.13.2"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.0",
