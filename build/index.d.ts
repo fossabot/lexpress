@@ -1,13 +1,15 @@
 /// <reference types="express" />
 /// <reference types="helmet" />
 /// <reference types="node" />
+/// <reference types="serve-static" />
+import * as express from 'express';
+import { IHelmetConfiguration } from 'helmet';
+import { ServerOptions } from 'https';
+import { ServeStaticOptions } from 'serve-static';
 import Lexpress from './Lexpress';
 export { Lexpress };
 import BaseController from './BaseController';
 export { BaseController };
-import * as express from 'express';
-import { IHelmetConfiguration } from 'helmet';
-import { ServerOptions } from 'https';
 export interface NextFunction extends express.NextFunction {
 }
 export interface Request extends express.Request {
@@ -48,6 +50,7 @@ export interface LexpressOptions {
     middlewares?: express.RequestHandler[];
     notFoundmiddleware?: express.RequestHandler;
     routes: Route[];
+    staticOptions?: ServeStaticOptions;
     staticPath?: string;
     viewsEngine?: 'mustache' | 'pug';
     viewsPath?: string;

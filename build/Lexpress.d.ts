@@ -9,6 +9,7 @@ export default class Lexpress {
     private readonly notFoundmiddleware;
     private port;
     private readonly routes;
+    private readonly staticOptions;
     private readonly staticPath;
     private readonly viewsEngine;
     private readonly viewsPath;
