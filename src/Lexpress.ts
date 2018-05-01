@@ -28,6 +28,7 @@ const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
   locals: {},
   middlewares: [],
   routes: [],
+  staticOptions: {},
   viewsEngine: 'mustache',
   viewsPath: 'src',
 }
@@ -49,6 +50,7 @@ export default class Lexpress {
   private readonly notFoundmiddleware: LexpressOptions['notFoundmiddleware']
   private port: number
   private readonly routes: LexpressOptions['routes']
+  private readonly staticOptions: LexpressOptions['staticOptions']
   private readonly staticPath: LexpressOptions['staticPath']
   private readonly viewsEngine: LexpressOptions['viewsEngine']
   private readonly viewsPath: LexpressOptions['viewsPath']
@@ -63,6 +65,7 @@ export default class Lexpress {
     this.middlewares = optionsFull.middlewares
     this.notFoundmiddleware = optionsFull.notFoundmiddleware
     this.routes = optionsFull.routes
+    this.staticOptions = optionsFull.staticOptions
     this.staticPath = optionsFull.staticPath
     this.viewsEngine = optionsFull.viewsEngine
     this.viewsPath = optionsFull.viewsPath
@@ -105,7 +108,7 @@ export default class Lexpress {
     this.app.set('views', `${rootPath}/${this.viewsPath}`)
 
     // Set the static files workspace relative path
-    this.app.use(express.static(`${rootPath}/${this.staticPath}`))
+    this.app.use(express.static(`${rootPath}/${this.staticPath}`, this.staticOptions))
 
     // Set the response headers
     this.app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -116,9 +119,6 @@ export default class Lexpress {
 
       next()
     })
-
-    // Define 'public' directory as the static files directory
-    this.app.use(express.static(`${rootPath}/public`))
 
     // Indicates the app is behind a front-facing proxy, and to use the X-Forwarded-* headers
     // to determine the connection and the IP address of the client.
@@ -198,8 +198,6 @@ export default class Lexpress {
 
     // Parse application/json request body
     this.app.use(bodyParser.json())
-    // Trust first proxy
-    this.app.set('trust proxy', 1)
     // Parse application/x-www-form-urlencoded request body
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(expressSession({

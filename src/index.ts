@@ -1,12 +1,13 @@
+import * as express from 'express'
+import { IHelmetConfiguration } from 'helmet'
+import { ServerOptions } from 'https'
+import { ServeStaticOptions } from 'serve-static'
+
 import Lexpress from './Lexpress'
 export { Lexpress }
 
 import BaseController from './BaseController'
 export { BaseController }
-
-import * as express from 'express'
-import { IHelmetConfiguration } from 'helmet'
-import { ServerOptions } from 'https'
 
 // tslint:disable-next-line:no-empty-interface
 export interface NextFunction extends express.NextFunction {}
@@ -53,6 +54,7 @@ export interface LexpressOptions {
   middlewares?: express.RequestHandler[]
   notFoundmiddleware?: express.RequestHandler
   routes: Route[]
+  staticOptions?: ServeStaticOptions
   staticPath?: string
   viewsEngine?: 'mustache' | 'pug'
   viewsPath?: string
