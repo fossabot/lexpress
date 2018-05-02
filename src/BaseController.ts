@@ -44,10 +44,15 @@ export default abstract class BaseController {
   //   log.write(controllerName, data)
   // }
 
-  protected answerError(err: Error | string, statusCode: number = 400): void {
+  protected answerError(err: any, statusCode: number = 400): void {
+    let errorMessage: string
+    if (typeof err === 'string') errorMessage = err
+    else if (typeof err === 'object' && err.name === 'Error') errorMessage = err.message
+    else errorMessage = `err`
+
     try {
       answerError({
-        err: typeof err === 'string' ? err : err.message,
+        err: errorMessage,
         isJson: this.isJson,
         res: this.res,
         scope: this.controllerName,
@@ -55,7 +60,12 @@ export default abstract class BaseController {
       })
     }
     catch (err) {
-      log(err === 'string' ? err : err.message)
+      let errorMessage: string
+      if (typeof err === 'string') errorMessage = err
+      else if (typeof err === 'object' && err.name === 'Error') errorMessage = err.message
+      else errorMessage = `err`
+
+      log.err(errorMessage)
     }
   }
 
