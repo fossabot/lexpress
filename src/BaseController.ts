@@ -48,7 +48,7 @@ export default abstract class BaseController {
     let errorMessage: string
     if (typeof err === 'string') errorMessage = err
     else if (typeof err === 'object' && err.name === 'Error') errorMessage = err.message
-    else errorMessage = `err`
+    else errorMessage = `${err}`
 
     try {
       answerError({
@@ -63,7 +63,7 @@ export default abstract class BaseController {
       let errorMessage: string
       if (typeof err === 'string') errorMessage = err
       else if (typeof err === 'object' && err.name === 'Error') errorMessage = err.message
-      else errorMessage = `err`
+      else errorMessage = `${err}`
 
       log.err(errorMessage)
     }
