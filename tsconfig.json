@@ -12,6 +12,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "target": "es6"
   },
   "exclude": [
