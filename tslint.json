@@ -4,6 +4,7 @@
     "comment-format": [true, "check-space"],
     "completed-docs": [false],
     "curly": [true, "ignore-same-line"],
+    "file-name-casing": [false],
     "interface-name": [true, "never-prefix"],
     "linebreak-style": [false],
     "max-line-length": [true, 120],
