@@ -72,7 +72,7 @@ export default abstract class BaseController {
   protected validateJsonSchema(schema: Schema, cb: () => BaseControllerResponse): void {
     this.log(`Validating JSON Schema`)
 
-    jsonSchemaValidate(schema, this.method === 'get' ? this.req.query : this.req.body, (err: string) => {
+    jsonSchemaValidate(schema, this.method === 'get' ? this.req.query : this.req.body, (err: string | null) => {
       if (err !== null) {
         this.answerError(err)
 
