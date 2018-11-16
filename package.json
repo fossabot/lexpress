@@ -3,8 +3,8 @@
   "version": "0.39.6",
   "description": "NodeJS + Express based light framework.",
   "license": "MIT",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "npm run validate && mocha -r ts-node/register src/**/*.spec.ts",
