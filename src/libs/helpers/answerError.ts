@@ -21,6 +21,9 @@ export default function answerError({ err, isJson, res, statusCode, scope }: Ans
     log.err(`${scope}: ${err}`)
   }
 
+  // tslint:disable-next-line:no-parameter-reassignment
+  if (statusCode === undefined) statusCode = HTTP_STATUS_CODE_BAD_REQUEST
+
   if (isJson) {
     if (process.env.NODE_ENV === 'development') {
       res.status(statusCode).json({
