@@ -8,13 +8,13 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "test": "npm run validate && mocha -r ts-node/register src/**/*.spec.ts",
-    "preversion": "npm test && npm run build",
     "validate": "npm run validate:lint && npm run validate:tsc && npm run validate:sec",
     "validate:lint": "tslint -p tsconfig.json",
     "validate:sec": "npm audit",
     "validate:tsc": "tsc --noEmit --pretty",
+    "preversion": "npm test && npm run build",
     "version": "node tasks/injectVersion && git add .",
-    "postversion": "npm publish"
+    "postversion": "npm publish && git push origin head && git push --tags"
   },
   "dependencies": {
     "@inspired-beings/log": "^1.2.0",
