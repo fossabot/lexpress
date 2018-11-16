@@ -42,7 +42,7 @@
     "pug": "^2.0.3",
     "query-string": "^6.2.0",
     "ramda": "^0.25.0",
-    "rorre": "^1.0.0-beta.3",
+    "rorre": "^1.0.0-beta.4",
     "serve-static": "^1.13.2"
   },
   "devDependencies": {
