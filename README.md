@@ -7,6 +7,7 @@
 [![Travis](https://img.shields.io/travis/InspiredBeings/lexpress.svg?style=flat-square)](https://travis-ci.org/InspiredBeings/lexpress)
 [![David](https://img.shields.io/david/InspiredBeings/lexpress.svg?style=flat-square)](https://david-dm.org/InspiredBeings/lexpress)
 [![David](https://img.shields.io/david/dev/InspiredBeings/lexpress.svg?style=flat-square)](https://david-dm.org/InspiredBeings/lexpress)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FInspiredBeings%2Flexpress.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FInspiredBeings%2Flexpress?ref=badge_shield)
 
 [![NSP Status](https://nodesecurity.io/orgs/ivan-gabriele/projects/d43ea4d7-eb03-488b-9f01-a84911ead2fe/badge)](https://nodesecurity.io/orgs/ivan-gabriele/projects/d43ea4d7-eb03-488b-9f01-a84911ead2fe)
 [![Known Vulnerabilities](https://snyk.io/test/github/inspiredbeings/lexpress/badge.svg?targetFile=package.json)](https://snyk.io/test/github/inspiredbeings/lexpress?targetFile=package.json)
@@ -123,3 +124,7 @@ export default class HelloYouController extends BaseController {
 ```pug
 h1 Hello #{name} !
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FInspiredBeings%2Flexpress.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FInspiredBeings%2Flexpress?ref=badge_large)
