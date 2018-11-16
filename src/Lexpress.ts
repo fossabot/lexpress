@@ -13,15 +13,16 @@ const mustacheExpress = require('mustache-express')
 const pug = require('pug')
 
 import BaseController from './BaseController'
+import errors from './errors'
 import keyifyRequest from './helpers/keyifyRequest'
 import answerError from './libs/helpers/answerError'
 import fileExists from './libs/helpers/fileExists'
 import logo from './libs/media/logo'
 import cache from './middlewares/cache'
 
-import { CacheContent, LexpressOptions, NextFunction, Request, Response, Route } from '.'
+import { CacheContent, LexpressCustomProps, LexpressOptions, NextFunction, Request, Response, Route } from '.'
 
-const LEXPRESS_OPTIONS_DEFAULT: LexpressOptions = {
+const LEXPRESS_OPTIONS_DEFAULT: LexpressCustomProps = {
   headers: {},
   helmet: {},
   https: false,
@@ -42,21 +43,21 @@ if (fileExists(`${rootPath}/.env`)) dotenv.config({ path: `${rootPath}/.env` })
 
 export default class Lexpress {
   private app: express.Express
-  private readonly headers: LexpressOptions['headers']
-  private readonly helmet: LexpressOptions['helmet']
-  private readonly https: LexpressOptions['https']
-  private readonly locals: LexpressOptions['locals']
-  private readonly middlewares: LexpressOptions['middlewares']
-  private readonly notFoundmiddleware: LexpressOptions['notFoundmiddleware']
+  private readonly headers: LexpressCustomProps['headers']
+  private readonly helmet: LexpressCustomProps['helmet']
+  private readonly https: LexpressCustomProps['https']
+  private readonly locals: LexpressCustomProps['locals']
+  private readonly middlewares: LexpressCustomProps['middlewares']
+  private readonly notFoundmiddleware: LexpressCustomProps['notFoundmiddleware']
   private port: number
-  private readonly routes: LexpressOptions['routes']
-  private readonly staticOptions: LexpressOptions['staticOptions']
-  private readonly staticPath: LexpressOptions['staticPath']
-  private readonly viewsEngine: LexpressOptions['viewsEngine']
-  private readonly viewsPath: LexpressOptions['viewsPath']
+  private readonly routes: LexpressCustomProps['routes']
+  private readonly staticOptions: LexpressCustomProps['staticOptions']
+  private readonly staticPath: LexpressCustomProps['staticPath']
+  private readonly viewsEngine: LexpressCustomProps['viewsEngine']
+  private readonly viewsPath: LexpressCustomProps['viewsPath']
 
   public constructor(options: LexpressOptions) {
-    const optionsFull: LexpressOptions = { ...LEXPRESS_OPTIONS_DEFAULT, ...options }
+    const optionsFull: LexpressCustomProps = { ...LEXPRESS_OPTIONS_DEFAULT, ...options }
 
     this.headers = optionsFull.headers
     this.helmet = optionsFull.helmet
@@ -108,11 +109,13 @@ export default class Lexpress {
     this.app.set('views', `${rootPath}/${this.viewsPath}`)
 
     // Set the static files workspace relative path
-    this.app.use(express.static(`${rootPath}/${this.staticPath}`, this.staticOptions))
+    if (this.staticPath !== undefined) {
+      this.app.use(express.static(`${rootPath}/${this.staticPath}`, this.staticOptions))
+    }
 
     // Set the response headers
     this.app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      let key: keyof LexpressOptions['headers']
+      let key: keyof LexpressCustomProps['headers']
       for (key in this.headers) {
         if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
       }
@@ -140,6 +143,8 @@ export default class Lexpress {
     // tslint:disable-next-line:variable-name
     const { controller: Controller, method } = this.routes[routeIndex]
 
+    if (Controller === undefined) throw errors.error.ERR_LEXPRESS_ANSWER_CONTROLLER_UNDEFINED
+
     if (routeSettings.isCached === undefined || routeSettings.isCached) {
       // Check if a cached content exists for this query,
       const cachedContent: CacheContent | undefined = this.cache(req, res)
@@ -151,7 +156,7 @@ export default class Lexpress {
       }
     }
 
-    let key: keyof LexpressOptions['headers']
+    let key: keyof LexpressCustomProps['headers']
     for (key in this.headers) {
       if (this.headers.hasOwnProperty(key)) res.header(key, this.headers[key])
     }
@@ -194,6 +199,8 @@ export default class Lexpress {
       || process.env.SESSION_SECRET.length < SESSION_SECRET_LENGTH_MIN
     ) {
       log.err(`Lexpress#setMiddlewares(): Your %s must contain at least 32 characters.`, 'process.env.SESSION_SECRET')
+
+      return
     }
 
     // Parse application/json request body
