@@ -46,7 +46,7 @@ export interface Route {
   }
 }
 
-interface LexpressCustomProps {
+export interface LexpressCustomProps {
   headers: LexpressCustomPropsHeaders
   helmet: IHelmetConfiguration
   https: false | ServerOptions
