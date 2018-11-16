@@ -33,7 +33,7 @@ export default function cache(req: Request, res: Response, next: express.NextFun
     const renderAugmented: express.Response['render'] = (
       view: string,
       options?: {},
-      callback?: (err: Error, html: string) => void
+      callback?: (err: Error | null, html: string) => void
     ): void => {
       if (options !== undefined && typeof options === 'object') {
         res.render(view, options, (err: Error | null, html: string) => {
