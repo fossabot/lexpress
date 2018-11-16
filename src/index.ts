@@ -46,20 +46,22 @@ export interface Route {
   }
 }
 
-export interface LexpressOptions {
-  headers?: LexpressOptionsHeaders
-  helmet?: IHelmetConfiguration
-  https?: false | ServerOptions
-  locals?: { [key: string]: any }
-  middlewares?: express.RequestHandler[]
+interface LexpressCustomProps {
+  headers: LexpressCustomPropsHeaders
+  helmet: IHelmetConfiguration
+  https: false | ServerOptions
+  locals: { [key: string]: any }
+  middlewares: express.RequestHandler[]
   notFoundmiddleware?: express.RequestHandler
   routes: Route[]
-  staticOptions?: ServeStaticOptions
+  staticOptions: ServeStaticOptions
   staticPath?: string
-  viewsEngine?: 'mustache' | 'pug'
-  viewsPath?: string
+  viewsEngine: 'mustache' | 'pug'
+  viewsPath: string
 }
-export interface LexpressOptionsHeaders {
+export interface LexpressCustomPropsHeaders {
   'Access-Control-Allow-Origin'?: string
   'Access-Control-Allow-Headers'?: string
 }
+
+export type LexpressOptions = Partial<LexpressCustomProps>
